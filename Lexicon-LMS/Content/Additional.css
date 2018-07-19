@@ -12,6 +12,29 @@
     transform: translate(-50%, -50%)
 }
 
+body {
+    background-image: url('Pir_ServerRoom1.png');
+    margin: 0;
+}
+
+#wrap {
+  height: 100%;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    background-color: black;
+    opacity: .9;
+    width: 100%;
+    
+}
+footer p {
+   color: snow;  
+   opacity: .66;
+   }
+
+
 .form-2 {
     /* Size and position */
     width: 340px;
@@ -23,6 +46,7 @@
     border-radius: 4px;
     color: #7e7975;
     box-shadow: 0 2px 2px rgba(0,0,0,0.2), 0 1px 5px rgba(0,0,0,0.2), 0 0 0 12px rgba(255,255,255,0.4);
+    opacity: 0.85;
 }
 
 .form-2 h1 {
@@ -113,8 +137,7 @@
 }
 
 
-.form-2 input[type=submit],
-.form-2 .log-twitter {
+.form-2 input[type=submit] {
     /* Size and position */
     width: 49%;
     height: 38px;
