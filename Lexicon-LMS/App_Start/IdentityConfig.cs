@@ -1,25 +1,52 @@
 ﻿using System;
+using SendGrid;
+using System.Net;
+using System.Configuration;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Web;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Lexicon_LMS.Models;
+using SendGrid.Helpers.Mail;
 
 namespace Lexicon_LMS
 {
     public class EmailService : IIdentityMessageService
     {
-        public Task SendAsync(IdentityMessage message)
+        public async Task SendAsync(IdentityMessage message)
         {
-            // Plug in your email service here to send an email.
-            return Task.FromResult(0);
+            await configSendGridasync(message);
+        }
+
+        private async Task configSendGridasync(IdentityMessage message)
+        {
+            string apiKey = "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";//Environment.GetEnvironmentVariable("NAME_OF_THE_ENVIRONMENT_VARIABLE_FOR_YOUR_SENDGRID_KEY");
+            var client = new SendGridClient(apiKey);
+            var from = new EmailAddress("administrator@shit.se", "Mr Administrator");
+            var subject = message.Subject;
+            var to = new EmailAddress(message.Destination, message.Destination);
+            var plainTextContent = message.Body;
+            var htmlContent = message.Body;
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+            var response = await client.SendEmailAsync(msg);
+
+            // Send the email.
+            if (client != null)
+            {
+                await client.SendEmailAsync(msg);
+            }
+            else
+            {
+                Trace.TraceError("Failed to create Web transport.");
+                await Task.FromResult(0);
+            }
         }
     }
 
