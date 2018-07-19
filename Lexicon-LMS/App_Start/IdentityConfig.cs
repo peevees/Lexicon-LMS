@@ -27,7 +27,9 @@ namespace Lexicon_LMS
 
         private async Task configSendGridasync(IdentityMessage message)
         {
-            string apiKey = "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";//Environment.GetEnvironmentVariable("NAME_OF_THE_ENVIRONMENT_VARIABLE_FOR_YOUR_SENDGRID_KEY");
+            //HACK: You must manually add the "SendGridApiKey" in "Edit the system environment variables"
+            //Aquire api key from Fredrik
+            var apiKey = Environment.GetEnvironmentVariable("SendGridApiKey",EnvironmentVariableTarget.User);
             var client = new SendGridClient(apiKey);
             var from = new EmailAddress("administrator@shit.se", "Mr Administrator");
             var subject = message.Subject;
