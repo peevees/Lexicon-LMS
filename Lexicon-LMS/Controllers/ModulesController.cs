@@ -85,6 +85,7 @@ namespace Lexicon_LMS.Controllers
         {
             if (ModelState.IsValid)
             {
+                module.Course.CourseModules.Add(module);
                 db.Entry(module).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

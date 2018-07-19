@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Lexicon_LMS.Models
 {
@@ -14,6 +15,7 @@ namespace Lexicon_LMS.Models
         public ICollection<Activity> ModuleActivities { get; set; }
         public ICollection<Document> ModuleDocuments { get; set; }
 
+        [ForeignKey("ID")]
         public Course Course { get; set; }
     }
 }
