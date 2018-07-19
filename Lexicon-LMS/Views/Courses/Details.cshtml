@@ -50,9 +50,17 @@
             @Html.DisplayFor(model => model.Description)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model=>model.CourseModules)
+        </dt>
+            <dd>
+                @Html.DisplayFor(model=>model.CourseModules)
+            </dd>
+
     </dl>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
     @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Add Module", "Create", new {Controller ="Modules", action = "Create", id = Model.ID }) |
 </p>

@@ -36,9 +36,11 @@ namespace Lexicon_LMS.Controllers
         }
 
         // GET: Modules/Create
-        public ActionResult Create()
+        public ActionResult Create(int? id)
         {
-            return View();
+            var model = new Module();
+            model.Course = db.Courses.Where(c => c.ID == id).FirstOrDefault();
+            return View(model);
         }
 
         // POST: Modules/Create
@@ -50,6 +52,7 @@ namespace Lexicon_LMS.Controllers
         {
             if (ModelState.IsValid)
             {
+                
                 db.Modules.Add(module);
                 db.SaveChanges();
                 return RedirectToAction("Index");
