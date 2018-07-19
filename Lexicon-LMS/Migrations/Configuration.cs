@@ -55,7 +55,7 @@ namespace Lexicon_LMS.Migrations
             foreach (var userEmail in usersEmail)
             {
                 if (db.Users.Any(u => u.UserName == userEmail)) continue;
-                var user = new ApplicationUser { UserName = userEmail, Email = userEmail };
+                var user = new ApplicationUser { UserName = userEmail, Email = userEmail, TimeOfRegistration = new DateTime(2000, 01, 01, 00, 00, 00) };
                 var result = userManager.Create(user, "P@$$w0rd");
                 if (!result.Succeeded)
                 {
