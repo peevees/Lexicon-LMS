@@ -29,5 +29,15 @@ namespace Lexicon_LMS.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<Lexicon_LMS.Models.Course> Courses { get; set; }
+
+        public System.Data.Entity.DbSet<Lexicon_LMS.Models.Module> Modules { get; set; }
+
+        public System.Data.Entity.DbSet<Lexicon_LMS.Models.Activity> Activities { get; set; }
+
+        public System.Data.Entity.DbSet<Lexicon_LMS.Models.Notification> Notifications { get; set; }
+
+        public System.Data.Entity.DbSet<Lexicon_LMS.Models.Document> Documents { get; set; }
     }
 }
