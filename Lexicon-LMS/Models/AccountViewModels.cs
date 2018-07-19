@@ -64,6 +64,26 @@ namespace Lexicon_LMS.Models
 
     public class RegisterViewModel
     {
+        //TODO: 
+        //[Required]
+        public string Forename { get; set; }
+
+        //TODO: 
+        //[Required]
+        public string Surname { get; set; }
+
+        [Phone]
+        [Display(Name = "Phone number")]
+        public string PhoneNumber { get; set; }
+
+        [Display(Name = "Street name and number")]
+        public string Street { get; set; }
+
+        [Display(Name = "Post code")]
+        public string PostCode { get; set; }
+
+        public string City { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
