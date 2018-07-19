@@ -17,23 +17,6 @@ body {
     margin: 0;
 }
 
-#wrap {
-  height: 100%;
-}
-
-footer {
-    position: fixed;
-    bottom: 0;
-    background-color: black;
-    opacity: .9;
-    width: 100%;
-    
-}
-footer p {
-   color: snow;  
-   opacity: .66;
-   }
-
 
 .form-2 {
     /* Size and position */
