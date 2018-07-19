@@ -15,6 +15,9 @@ namespace Lexicon_LMS.Models
         public ICollection<Activity> ModuleActivities { get; set; }
         public ICollection<Document> ModuleDocuments { get; set; }
 
-        public Course Course { get; set; }
+        [ForeignKey("Course")]
+        public int CourseID { get; set; }
+
+        public virtual Course Course { get; set; }
     }
 }

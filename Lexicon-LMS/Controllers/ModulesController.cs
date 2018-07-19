@@ -48,11 +48,11 @@ namespace Lexicon_LMS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,StartDate,EndDate,Description")] Module module)
+        public ActionResult Create([Bind(Include = "ID,StartDate,EndDate,Description,Course")] Module module)
         {
             if (ModelState.IsValid)
             {
-                
+                module.Course.CourseModules.Add(module);
                 db.Modules.Add(module);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -85,7 +85,6 @@ namespace Lexicon_LMS.Controllers
         {
             if (ModelState.IsValid)
             {
-                module.Course.CourseModules.Add(module);
                 db.Entry(module).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
