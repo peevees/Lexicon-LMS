@@ -33,8 +33,7 @@ namespace Lexicon_LMS.Migrations
         {
             var roleStore = new RoleStore<IdentityRole>(db);
             var roleManager = new RoleManager<IdentityRole>(roleStore);
-
-
+            
             foreach (var roleName in roles)
             {
                 if (db.Roles.Any(i => i.Name == roleName)) continue;
