@@ -217,6 +217,10 @@
     <Compile Include="Migrations\201807191243067_nonvirtual.Designer.cs">
       <DependentUpon>201807191243067_nonvirtual.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807191312232_fkey.cs" />
+    <Compile Include="Migrations\201807191312232_fkey.Designer.cs">
+      <DependentUpon>201807191312232_fkey.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Activity.cs" />
@@ -340,6 +344,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807191243067_nonvirtual.resx">
       <DependentUpon>201807191243067_nonvirtual.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807191312232_fkey.resx">
+      <DependentUpon>201807191312232_fkey.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -86,6 +86,7 @@ namespace Lexicon_LMS.Migrations
                 new Module
                 {
                     Course = context.Courses.Where(c => c.CourseCode == "DN-18").FirstOrDefault(),
+                    CourseID = context.Courses.Where(c => c.CourseCode == "DN-18").FirstOrDefault().ID,
                     Description = "Basics of C#",
                     StartDate = new DateTime(2018, 7, 19),
                     EndDate = new DateTime(2018, 8, 6)
