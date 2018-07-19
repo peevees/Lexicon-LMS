@@ -6,7 +6,7 @@
 	<title>@ViewBag.Title - South-Hammond Institute of Technology</title>
 	@Styles.Render("~/Content/css")
 	@Scripts.Render("~/bundles/modernizr")
-
+	<link href="~/Content/Footer.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -34,11 +34,10 @@
 	}
 <div class="container body-content">
 	@RenderBody()
-	<hr />
-	<footer>
-		<p>&copy; @DateTime.Now.Year - S.H.I.T</p>
-	</footer>
 </div>
+	<footer>
+		<p>&copy; @DateTime.Now.Year - S.H.I.T - South-Hammond Institute of Technology. &copy; Back-End Solutions Table.</p>
+	</footer>
 
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/bootstrap")
