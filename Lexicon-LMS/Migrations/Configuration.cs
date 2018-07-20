@@ -22,6 +22,11 @@ namespace Lexicon_LMS.Migrations
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method
             //  to avoid creating duplicate seed data.
+
+            //TODO: SEED DEBUGGER
+            //if (!System.Diagnostics.Debugger.IsAttached)
+            //    System.Diagnostics.Debugger.Launch();
+
             var roleNames = new[] { "Teacher" };//REMINDER: add roles here!
             AddRoles(context, roleNames);
 
@@ -80,6 +85,7 @@ namespace Lexicon_LMS.Migrations
                     CourseCode = "DN-18"
                 });
 
+            context.SaveChanges();
             Course seededCourse = context.Courses.Where(c => c.CourseCode == "DN-18").FirstOrDefault();
 
             context.Modules.AddOrUpdate(
@@ -93,6 +99,7 @@ namespace Lexicon_LMS.Migrations
                     CourseID = seededCourse.ID
                 });
 
+            context.SaveChanges();
             Module seededModule = context.Modules.Where(c => c.CourseID == seededCourse.ID).FirstOrDefault();
             seededCourse.CourseModules.Add(seededModule);
 
@@ -105,7 +112,7 @@ namespace Lexicon_LMS.Migrations
                     Module = seededModule,
                     ModuleID = seededModule.ID
                 });
-
+            context.SaveChanges();
             Activity seededActivity = context.Activities.Where(c => c.ModuleID == seededModule.ID).FirstOrDefault();
             seededModule.ModuleActivities.Add(seededActivity);
         }
