@@ -14,13 +14,13 @@
     <div class="form-horizontal">
         <h4>Activity</h4>
         <hr />
+
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
         <div class="form-group">
-            @Html.LabelFor(model => model.Module, "Module", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("Module", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextBoxFor(m => m.Module.Description, new { @Value = ViewBag.ModuleLabel, @class = "form-control", @readonly = "readonly" })
-                @Html.HiddenFor(model => model.ModuleID, htmlAttributes: new { value = Html.ValueFor(model => model.Module.ID), id = "ModuleID", @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.ModuleID, "", new { @class = "text-danger" })
+                <span>@ViewBag.ModuleLabel</span>
             </div>
         </div>
 
@@ -35,7 +35,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Deadline, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Deadline, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Deadline, new { htmlAttributes = new { @class = "form-control", type ="date" } })
                 @Html.ValidationMessageFor(model => model.Deadline, "", new { @class = "text-danger" })
             </div>
         </div>
