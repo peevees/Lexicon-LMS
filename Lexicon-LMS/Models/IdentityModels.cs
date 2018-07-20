@@ -53,5 +53,7 @@ namespace Lexicon_LMS.Models
         public System.Data.Entity.DbSet<Lexicon_LMS.Models.Notification> Notifications { get; set; }
 
         public System.Data.Entity.DbSet<Lexicon_LMS.Models.Document> Documents { get; set; }
+
+        //public System.Data.Entity.DbSet<Lexicon_LMS.Models.ApplicationUser> ApplicationUsers { get; set; }
     }
 }
