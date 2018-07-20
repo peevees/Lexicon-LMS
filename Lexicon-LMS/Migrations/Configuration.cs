@@ -7,6 +7,8 @@ namespace Lexicon_LMS.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
     using Lexicon_LMS.Models;
+    using System.Web.UI.WebControls;
+    using System.Collections.Generic;
 
     internal sealed class Configuration : DbMigrationsConfiguration<ApplicationDbContext>
     {
@@ -23,7 +25,7 @@ namespace Lexicon_LMS.Migrations
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method
             //  to avoid creating duplicate seed data.
 
-            //TODO: SEED DEBUGGER
+            //HACK: SEED DEBUGGER
             //if (!System.Diagnostics.Debugger.IsAttached)
             //    System.Diagnostics.Debugger.Launch();
 
@@ -40,7 +42,7 @@ namespace Lexicon_LMS.Migrations
         {
             var roleStore = new RoleStore<IdentityRole>(db);
             var roleManager = new RoleManager<IdentityRole>(roleStore);
-            
+
             foreach (var roleName in roles)
             {
                 if (db.Roles.Any(i => i.Name == roleName)) continue;
@@ -60,16 +62,47 @@ namespace Lexicon_LMS.Migrations
 
             foreach (var userEmail in usersEmail)
             {
-                if (db.Users.Any(u => u.UserName == userEmail)) continue;
+                if (db.Users.Any(u => u.UserName == userEmail))
+                {
+                    if (db.Users.Any(u => u.EmailConfirmed == false))
+                    {
+                        List<ApplicationUser> usersUnconfirmed = new List<ApplicationUser>(db.Users.Where(u => u.EmailConfirmed == false));
+                        foreach (var usertoConfirmed in usersUnconfirmed)
+                        {
+                            //get validation token to set confirmEmail
+                            SetConfirmEmailForSeedUsers(userManager, usertoConfirmed);
+                        }
+                    }
+                    continue;
+                }
+
                 var user = new ApplicationUser { UserName = userEmail, Email = userEmail, TimeOfRegistration = new DateTime(2000, 01, 01, 00, 00, 00) };
                 var result = userManager.Create(user, "P@$$w0rd");
                 if (!result.Succeeded)
                 {
                     throw new Exception(string.Join("/n", result.Errors));
                 }
+                db.SaveChanges();
+                SetConfirmEmailForSeedUsers(userManager, user);
             }
-            var teacherUser = userManager.FindByName("teacher@shit.se");
+
+            //give Teacher user seed it's teacher role
+            var teacherUser = userManager.FindByName(usersEmail[0]);
             userManager.AddToRole(teacherUser.Id, "Teacher");
+
+        }
+
+        private static void SetConfirmEmailForSeedUsers(UserManager<ApplicationUser> userManager, ApplicationUser user)
+        {
+            var provider = new Microsoft.Owin.Security.DataProtection.DpapiDataProtectionProvider("Lexicon-LMS");
+            userManager.UserTokenProvider = new Microsoft.AspNet.Identity.Owin.DataProtectorTokenProvider<ApplicationUser>(provider.Create("EmailConfirmation"));
+            var token = userManager.GenerateEmailConfirmationToken(user.Id);
+
+            var confirmResult = userManager.ConfirmEmail(user.Id, token);
+            if (!confirmResult.Succeeded)
+            {
+                throw new Exception(string.Join("/n", confirmResult.Errors));
+            }
         }
 
         private void AddCourse(ApplicationDbContext context)
