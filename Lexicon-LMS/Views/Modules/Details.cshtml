@@ -47,12 +47,14 @@
         </dt>
         @foreach(var activity in Model.ModuleActivities)
         {
-            <dd>@activity.Name</dd>
+            <dd>
+                @Html.ActionLink(activity.Name, "Details", new { Controller="Activities", action = "Details", id = activity.ID})
+            </dd>
         }
     </dl>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-    @Html.ActionLink("Add Activity", "Create", new { Controller = "Activities", action = "Create", id = Model.ID }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+@Html.ActionLink("Add Activity", "Create", new { Controller = "Activities", action = "Create", id = Model.ID, @class= "btn btn-default" }, new { @class = "btn btn-default" })

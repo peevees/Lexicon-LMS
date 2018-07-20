@@ -212,17 +212,9 @@
     <Compile Include="Migrations\201807181412555_Init.Designer.cs">
       <DependentUpon>201807181412555_Init.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201807190726256_models.cs" />
-    <Compile Include="Migrations\201807190726256_models.Designer.cs">
-      <DependentUpon>201807190726256_models.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807191243067_nonvirtual.cs" />
-    <Compile Include="Migrations\201807191243067_nonvirtual.Designer.cs">
-      <DependentUpon>201807191243067_nonvirtual.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807191312232_fkey.cs" />
-    <Compile Include="Migrations\201807191312232_fkey.Designer.cs">
-      <DependentUpon>201807191312232_fkey.cs</DependentUpon>
+    <Compile Include="Migrations\201807200918456_111.cs" />
+    <Compile Include="Migrations\201807200918456_111.Designer.cs">
+      <DependentUpon>201807200918456_111.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -348,14 +340,8 @@
     <EmbeddedResource Include="Migrations\201807181412555_Init.resx">
       <DependentUpon>201807181412555_Init.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807190726256_models.resx">
-      <DependentUpon>201807190726256_models.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807191243067_nonvirtual.resx">
-      <DependentUpon>201807191243067_nonvirtual.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807191312232_fkey.resx">
-      <DependentUpon>201807191312232_fkey.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201807200918456_111.resx">
+      <DependentUpon>201807200918456_111.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

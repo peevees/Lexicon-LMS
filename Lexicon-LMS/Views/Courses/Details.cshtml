@@ -51,17 +51,19 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model=>model.CourseModules)
+            @Html.DisplayNameFor(model => model.CourseModules)
         </dt>
-        @foreach(var module in Model.CourseModules)
+        @foreach (var module in Model.CourseModules)
         {
-            <dd>@module.Description</dd>
+        <dd>
+            @Html.ActionLink(module.Description, "Details", new { Controller = "Modules", action = "Details", id = module.ID })
+        </dd>
         }
 
     </dl>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-    @Html.ActionLink("Back to List", "Index") |
-    @Html.ActionLink("Add Module", "Create", new { Controller = "Modules", action = "Create", id = Model.ID })
+    @Html.ActionLink("Back to List", "Index")
 </p>
+@Html.ActionLink("Add Module", "Create", new { Controller = "Modules", action = "Create", id = Model.ID }, new { @class = "btn btn-default" })
