@@ -83,12 +83,12 @@ namespace Lexicon_LMS.Migrations
             Course seededCourse = context.Courses.Where(c => c.CourseCode == "DN-18").FirstOrDefault();
 
             context.Modules.AddOrUpdate(
-                m=> m.Description,
+                m => m.Description,
                 new Module
                 {
                     Description = "C# Basics",
-                    StartDate = new DateTime(2018,7,19),
-                    EndDate = new DateTime(2018,7,31),
+                    StartDate = new DateTime(2018, 7, 19),
+                    EndDate = new DateTime(2018, 7, 31),
                     Course = seededCourse,
                     CourseID = seededCourse.ID
                 });
@@ -97,11 +97,11 @@ namespace Lexicon_LMS.Migrations
             seededCourse.CourseModules.Add(seededModule);
 
             context.Activities.AddOrUpdate(
-                a=> a.Name,
+                a => a.Name,
                 new Activity
                 {
                     Name = "Hello World!",
-                    Deadline = new DateTime(2018,7,20),
+                    Deadline = new DateTime(2018, 7, 20),
                     Module = seededModule,
                     ModuleID = seededModule.ID
                 });
