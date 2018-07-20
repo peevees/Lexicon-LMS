@@ -12,7 +12,7 @@ namespace Lexicon_LMS.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
             ContextKey = "Lexicon-LMS.Models.ApplicationDbContext";
         }
 
