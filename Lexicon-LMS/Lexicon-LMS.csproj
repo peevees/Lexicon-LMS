@@ -221,6 +221,10 @@
     <Compile Include="Migrations\201807191312232_fkey.Designer.cs">
       <DependentUpon>201807191312232_fkey.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807200749201_modules-activities.cs" />
+    <Compile Include="Migrations\201807200749201_modules-activities.Designer.cs">
+      <DependentUpon>201807200749201_modules-activities.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Activity.cs" />
@@ -347,6 +351,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807191312232_fkey.resx">
       <DependentUpon>201807191312232_fkey.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807200749201_modules-activities.resx">
+      <DependentUpon>201807200749201_modules-activities.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

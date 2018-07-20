@@ -44,6 +44,7 @@ namespace Lexicon_LMS.Controllers
             if (id != null)
             {
                 model.Module = targetModule;
+                model.ModuleID = targetModule.ID;
             }
             return View(model);
         }
