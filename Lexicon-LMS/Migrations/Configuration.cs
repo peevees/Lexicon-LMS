@@ -80,34 +80,34 @@ namespace Lexicon_LMS.Migrations
                     CourseCode = "DN-18"
                 });
 
-            //Course seededCourse = context.Courses.Where(c => c.CourseCode == "DN-18").FirstOrDefault();
+            Course seededCourse = context.Courses.Where(c => c.CourseCode == "DN-18").FirstOrDefault();
 
-            //context.Modules.AddOrUpdate(
-            //    m=> m.Description,
-            //    new Module
-            //    {
-            //        Description = "C# Basics",
-            //        StartDate = new DateTime(2018,7,19),
-            //        EndDate = new DateTime(2018,7,31),
-            //        Course = seededCourse,
-            //        CourseID = seededCourse.ID
-            //    });
+            context.Modules.AddOrUpdate(
+                m=> m.Description,
+                new Module
+                {
+                    Description = "C# Basics",
+                    StartDate = new DateTime(2018,7,19),
+                    EndDate = new DateTime(2018,7,31),
+                    Course = seededCourse,
+                    CourseID = seededCourse.ID
+                });
 
-            //Module seededModule = context.Modules.Where(c => c.CourseID == seededCourse.ID).FirstOrDefault();
-            //seededCourse.CourseModules.Add(seededModule);
+            Module seededModule = context.Modules.Where(c => c.CourseID == seededCourse.ID).FirstOrDefault();
+            seededCourse.CourseModules.Add(seededModule);
 
-            //context.Activities.AddOrUpdate(
-            //    a=> a.Name,
-            //    new Activity
-            //    {
-            //        Name = "Hello World!",
-            //        Deadline = new DateTime(2018,7,20),
-            //        Module = seededModule,
-            //        ModuleID = seededModule.ID
-            //    });
+            context.Activities.AddOrUpdate(
+                a=> a.Name,
+                new Activity
+                {
+                    Name = "Hello World!",
+                    Deadline = new DateTime(2018,7,20),
+                    Module = seededModule,
+                    ModuleID = seededModule.ID
+                });
 
-            //Activity seededActivity = context.Activities.Where(c => c.ModuleID == seededModule.ID).FirstOrDefault();
-            //seededModule.ModuleActivities.Add(seededActivity);
+            Activity seededActivity = context.Activities.Where(c => c.ModuleID == seededModule.ID).FirstOrDefault();
+            seededModule.ModuleActivities.Add(seededActivity);
         }
     }
 }
