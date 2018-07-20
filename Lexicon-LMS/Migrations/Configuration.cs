@@ -94,7 +94,7 @@ namespace Lexicon_LMS.Migrations
                 });
 
             Module seededModule = context.Modules.Where(c => c.CourseID == seededCourse.ID).FirstOrDefault();
-            seededCourse.CourseModules.Add(context.Modules.Where(m => m.CourseID == seededCourse.ID).FirstOrDefault());
+            seededCourse.CourseModules.Add(seededModule);
 
             context.Activities.AddOrUpdate(
                 a=> a.Name,
@@ -106,7 +106,8 @@ namespace Lexicon_LMS.Migrations
                     ModuleID = seededModule.ID
                 });
 
-            seededModule.ModuleActivities.Add(context.Activities.Where(a => a.ModuleID == seededModule.ID).FirstOrDefault());
+            Activity seededActivity = context.Activities.Where(c => c.ModuleID == seededModule.ID).FirstOrDefault();
+            seededModule.ModuleActivities.Add(seededActivity);
         }
     }
 }
