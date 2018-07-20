@@ -11,6 +11,14 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
+            @Html.DisplayNameFor(model => model.Course.CourseCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Course.CourseCode)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.StartDate)
         </dt>
 
@@ -35,16 +43,16 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Course.CourseName)
+            @Html.DisplayNameFor(model=>model.ModuleActivities)
         </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Course.CourseName)
-        </dd>
-
+        @foreach(var activity in Model.ModuleActivities)
+        {
+            <dd>@activity.Name</dd>
+        }
     </dl>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Add Activity", "Create", new { Controller = "Activities", action = "Create", id = Model.ID }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

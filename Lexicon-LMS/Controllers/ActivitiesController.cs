@@ -36,9 +36,16 @@ namespace Lexicon_LMS.Controllers
         }
 
         // GET: Activities/Create
-        public ActionResult Create()
+        public ActionResult Create(int? id)
         {
-            return View();
+            Module targetModule = db.Modules.Where(module => module.ID == id).FirstOrDefault();
+            ViewBag.ModuleLabel = targetModule.Course.CourseName + " (" + targetModule.Course.CourseCode + ") - " + targetModule.Description;
+            Activity model = new Activity();
+            if (id != null)
+            {
+                model.Module = targetModule;
+            }
+            return View(model);
         }
 
         // POST: Activities/Create
@@ -46,10 +53,12 @@ namespace Lexicon_LMS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Name,Deadline")] Activity activity)
+        public ActionResult Create([Bind(Include = "ID,Name,Deadline,ModuleID")] Activity activity)
         {
             if (ModelState.IsValid)
             {
+                Module targetModule = db.Modules.Where(module => module.ID == activity.ModuleID).FirstOrDefault();
+                targetModule.ModuleActivities.Add(activity);
                 db.Activities.Add(activity);
                 db.SaveChanges();
                 return RedirectToAction("Index");
