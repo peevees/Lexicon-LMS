@@ -23,7 +23,7 @@ namespace Lexicon_LMS.Migrations
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method
             //  to avoid creating duplicate seed data.
 
-            //TODO: SEED DEBUGGER
+            //HACK: SEED DEBUGGER
             //if (!System.Diagnostics.Debugger.IsAttached)
             //    System.Diagnostics.Debugger.Launch();
 
