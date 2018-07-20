@@ -27,6 +27,8 @@ namespace Lexicon_LMS.Migrations
 
             var users = new[] { "teacher@shit.se", "student@shit.se" };//REMINDER: add users here!
             AddUsers(context, users);
+
+            AddCourse(context);
         }
 
         private void AddRoles(ApplicationDbContext db, string[] roles)
@@ -63,6 +65,42 @@ namespace Lexicon_LMS.Migrations
             }
             var teacherUser = userManager.FindByName("teacher@shit.se");
             userManager.AddToRole(teacherUser.Id, "Teacher");
+        }
+
+        private void AddCourse(ApplicationDbContext context)
+        {
+            context.Courses.AddOrUpdate(
+                c => c.CourseName,
+                new Course
+                {
+                    CourseName = ".NET Development",
+                    StartDate = new DateTime(2018, 7, 19),
+                    EndDate = new DateTime(2019, 7, 19),
+                    Description = "A course in .NET Development",
+                    CourseCode = "DN-18"
+                }
+                );
+
+            //context.Modules.AddOrUpdate(
+            //    m => m.Description,
+            //    new Module
+            //    {
+            //        Course = context.Courses.Where(c => c.CourseCode == "DN-18").FirstOrDefault(),
+            //        CourseID = context.Courses.Where(c => c.CourseCode == "DN-18").FirstOrDefault().ID,
+            //        Description = "Basics of C#",
+            //        StartDate = new DateTime(2018, 7, 19),
+            //        EndDate = new DateTime(2018, 8, 6)
+            //    }
+            //    );
+
+            //context.Activities.AddOrUpdate(
+            //    a => a.Name,
+            //    new Activity
+            //    {
+            //        Name = "Hello World!",
+            //        Deadline = new DateTime(2018, 7, 20)
+            //    }
+            //    );
         }
     }
 }

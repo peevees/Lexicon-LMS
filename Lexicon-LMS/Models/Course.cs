@@ -14,8 +14,8 @@ namespace Lexicon_LMS.Models
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string Description { get; set; }
-        public ICollection<Module> CourseModules { get; set; }
-        public ICollection<Document> CourseDocuments { get; set; }
+        public virtual ICollection<Module> CourseModules { get; set; }
+        public virtual ICollection<Document> CourseDocuments { get; set; }
 
         public ApplicationUser Teacher { get; set; }
         public ICollection<ApplicationUser> CourseParticipants { get; set; }
