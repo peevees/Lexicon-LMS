@@ -9,6 +9,7 @@
             <div class="logoContainer">
                 <img class="center" src="~/Content/logo.png" />
             </div>
+
             <section id="loginForm">
                 @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-2", role = "form" }))
                 {
@@ -24,32 +25,26 @@
                         <label for="password">Password</label>
                         @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-
-                        @Html.CheckBoxFor(m => m.RememberMe)
-                        @Html.LabelFor(m => m.RememberMe)
+                      <h1>
+                   
+                            @Html.CheckBoxFor(m => m.RememberMe)
+                            @Html.LabelFor(m => m.RememberMe) <br>
+                            @Html.ActionLink("FORGOT YOUR PASSWORD?", "ForgotPassword", null, new { @class = "forgot h6" })
+                      </h1>
                     </p>
                     <p class="clearfix">
                         <input type="submit" name="submit" value="Log in">
                     </p>
                 }
             </section>
+
             <div class="col-md-4">
-
-
                 @*@Html.ActionLink("Register as a new user", "Register")*@
-
-                @* Enable this once you have account confirmation enabled for password reset functionality
-                            <p>
-                                @Html.ActionLink("Forgot your password?", "ForgotPassword")
-                            </p>
-                    }
-                *@
             </div>
         </div>
 
     </div>
 </div>
-
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
