@@ -11,15 +11,19 @@ namespace Lexicon_LMS.Models
     {
         public int ID { get; set; }
 
+        [Required]
         [Display(Name = "Course code")]
         public string CourseCode { get; set; }
 
+        [Required]
         [Display(Name = "Course name")]
         public string CourseName { get; set; }
 
+        [Required]
         [Display(Name = "Start date")]
         public DateTime StartDate { get; set; }
 
+        [Required]
         [Display(Name = "End date")]
         public DateTime EndDate { get; set; }
 

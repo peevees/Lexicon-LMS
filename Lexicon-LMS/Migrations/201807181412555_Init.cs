@@ -39,7 +39,7 @@ namespace Lexicon_LMS.Migrations
                         Surname = c.String(),
                         TimeOfRegistration = c.DateTime(nullable: false),
                         Street = c.String(),
-                        PostCode = c.String(),
+                        Postcode = c.String(),
                         City = c.String(),
                         Email = c.String(maxLength: 256),
                         EmailConfirmed = c.Boolean(nullable: false),
