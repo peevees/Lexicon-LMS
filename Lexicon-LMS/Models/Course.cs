@@ -24,10 +24,16 @@ namespace Lexicon_LMS.Models
         public DateTime EndDate { get; set; }
 
         public string Description { get; set; }
+
+        [Display(Name = "Course modules")]
         public virtual ICollection<Module> CourseModules { get; set; }
+
+        [Display(Name = "Course documents")]
         public virtual ICollection<Document> CourseDocuments { get; set; }
 
         public ApplicationUser Teacher { get; set; }
+
+        [Display(Name = "Course participants")]
         public ICollection<ApplicationUser> CourseParticipants { get; set; }
     }
 }
