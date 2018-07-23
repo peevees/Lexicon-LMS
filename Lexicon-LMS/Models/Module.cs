@@ -18,11 +18,16 @@ namespace Lexicon_LMS.Models
         public DateTime EndDate { get; set; }
 
         public string Description { get; set; }
+
+        [Display(Name = "Module activities")]
         public virtual ICollection<Activity> ModuleActivities { get; set; }
+
+        [Display(Name = "Module documents")]
         public virtual ICollection<Document> ModuleDocuments { get; set; }
 
         [Display(Name = "Course code")]
         public int CourseCode { get; set; }
+
         public virtual Course Course { get; set; }
     }
 }
