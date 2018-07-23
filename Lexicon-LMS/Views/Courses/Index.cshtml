@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<Lexicon_LMS.Models.Course>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Courses";
 }
 
-<h2>Index</h2>
+<h2>@ViewBag.Title</h2>
 
 @if (User.IsInRole("Teacher"))
 {

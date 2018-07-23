@@ -13,11 +13,15 @@ namespace Lexicon_LMS.Models
     {
         public string Forename { get; set; }
         public string Surname { get; set; }
+
+        [Display(Name = "Full name")]
         public string FullName { get { return Forename + " " + Surname; } }
+
         public DateTime TimeOfRegistration { get; set; }
 
         public string Street { get; set; }
-        public string PostCode { get; set; }
+        
+        public string Postcode { get; set; }
         public string City { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
