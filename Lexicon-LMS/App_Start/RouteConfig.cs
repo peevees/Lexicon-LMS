@@ -13,11 +13,17 @@ namespace Lexicon_LMS
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            //This is suppose to remove the need of writing /Index but it seems to work anyway :)
+            //routes.MapRoute("Course", "Course/{id}",
+            //             new { controller = "Course", action = "Index" });
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Account", action = "Login", id = UrlParameter.Optional }
+                defaults: new { controller = "Courses", action = "Index", id = UrlParameter.Optional }
             );
         }
+
+
     }
 }
