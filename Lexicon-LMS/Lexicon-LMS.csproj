@@ -241,6 +241,7 @@
     <Content Include="Content\logo.png" />
     <Content Include="Content\logo_text.png" />
     <Content Include="Content\navbarstyle.css" />
+
     <Content Include="Content\Pir_ServerRoom1.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
