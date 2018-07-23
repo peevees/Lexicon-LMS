@@ -224,50 +224,5 @@ namespace Lexicon_LMS.Migrations
             seededModuleoffice.ModuleActivities.Add(seededActivityoffice);
 
         }
-
-        private void AddCourse(ApplicationDbContext context)
-        {
-            context.Courses.AddOrUpdate(
-                c => c.CourseName,
-                new Course
-                {
-                    CourseName = ".NET Development",
-                    StartDate = new DateTime(2018, 7, 19),
-                    EndDate = new DateTime(2019, 7, 19),
-                    Description = "A course in .NET Development",
-                    CourseCode = "DN-18"
-                });
-
-            context.SaveChanges();
-            Course seededCourse = context.Courses.Where(c => c.CourseCode == "DN-18").FirstOrDefault();
-
-            context.Modules.AddOrUpdate(
-                m => m.Description,
-                new Module
-                {
-                    Description = "C# Basics",
-                    StartDate = new DateTime(2018, 7, 19),
-                    EndDate = new DateTime(2018, 7, 31),
-                    Course = seededCourse,
-                    CourseCode = seededCourse.ID
-                });
-
-            context.SaveChanges();
-            Module seededModule = context.Modules.Where(c => c.CourseCode == seededCourse.ID).FirstOrDefault();
-            seededCourse.CourseModules.Add(seededModule);
-
-            context.Activities.AddOrUpdate(
-                a => a.Name,
-                new Activity
-                {
-                    Name = "Hello World!",
-                    Deadline = new DateTime(2018, 7, 20),
-                    Module = seededModule,
-                    ModuleID = seededModule.ID
-                });
-            context.SaveChanges();
-            Activity seededActivity = context.Activities.Where(c => c.ModuleID == seededModule.ID).FirstOrDefault();
-            seededModule.ModuleActivities.Add(seededActivity);
-        }
     }
 }
