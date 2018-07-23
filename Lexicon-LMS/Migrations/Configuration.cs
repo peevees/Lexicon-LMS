@@ -1,14 +1,12 @@
 namespace Lexicon_LMS.Migrations
 {
+    using Lexicon_LMS.Models;
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
     using System;
-    using System.Data.Entity;
+    using System.Collections.Generic;
     using System.Data.Entity.Migrations;
     using System.Linq;
-    using Lexicon_LMS.Models;
-    using System.Web.UI.WebControls;
-    using System.Collections.Generic;
 
     internal sealed class Configuration : DbMigrationsConfiguration<ApplicationDbContext>
     {
@@ -223,42 +221,6 @@ namespace Lexicon_LMS.Migrations
             seededModulejava.ModuleActivities.Add(seededActivityjava);
             seededModuleoffice.ModuleActivities.Add(seededActivityoffice);
 
-        }
-
-        private void AddCourse(ApplicationDbContext context)
-        {
-            context.Courses.AddOrUpdate(
-                c => c.CourseName,
-                new Course
-                {
-                    CourseName = ".NET Development",
-                    StartDate = new DateTime(2018, 7, 19),
-                    EndDate = new DateTime(2019, 7, 19),
-                    Description = "A course in .NET Development",
-                    CourseCode = "DN-18"
-                }
-                );
-
-            //context.Modules.AddOrUpdate(
-            //    m => m.Description,
-            //    new Module
-            //    {
-            //        Course = context.Courses.Where(c => c.CourseCode == "DN-18").FirstOrDefault(),
-            //        CourseID = context.Courses.Where(c => c.CourseCode == "DN-18").FirstOrDefault().ID,
-            //        Description = "Basics of C#",
-            //        StartDate = new DateTime(2018, 7, 19),
-            //        EndDate = new DateTime(2018, 8, 6)
-            //    }
-            //    );
-
-            //context.Activities.AddOrUpdate(
-            //    a => a.Name,
-            //    new Activity
-            //    {
-            //        Name = "Hello World!",
-            //        Deadline = new DateTime(2018, 7, 20)
-            //    }
-            //    );
         }
     }
 }
