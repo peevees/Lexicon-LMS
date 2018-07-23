@@ -17,6 +17,7 @@ namespace Lexicon_LMS.Models
         [Display(Name = "Full name")]
         public string FullName { get { return Forename + " " + Surname; } }
 
+        [Display(Name = "Registrated since")]
         public DateTime TimeOfRegistration { get; set; }
 
         public string Street { get; set; }
