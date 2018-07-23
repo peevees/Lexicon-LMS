@@ -99,6 +99,35 @@ namespace Lexicon_LMS.Controllers
             return RedirectToAction("ManageLogins", new { Message = message });
         }
 
+        public ActionResult EditProfile()
+        {
+            ApplicationUser model = UserManager.FindById(User.Identity.GetUserId());
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditProfile([Bind(Include = "Forename,Surname,Street,PostCode,City,Email")] ApplicationUser user)
+        {
+            if (ModelState.IsValid)
+            {
+                var targetUser = UserManager.FindById(User.Identity.GetUserId());
+
+                targetUser.Forename = user.Forename;
+                targetUser.Surname = user.Surname;
+                targetUser.Street = user.Street;
+                targetUser.PostCode = user.PostCode;
+                targetUser.City = user.City;
+                targetUser.Email = user.Email;
+                targetUser.UserName = user.Email;
+
+                UserManager.Update(targetUser);
+
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Index", "Manage");
+        }
+
         //
         // GET: /Manage/AddPhoneNumber
         public ActionResult AddPhoneNumber()
