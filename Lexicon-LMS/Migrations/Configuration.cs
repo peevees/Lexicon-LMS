@@ -26,9 +26,8 @@ namespace Lexicon_LMS.Migrations
             //  to avoid creating duplicate seed data.
 
             //HACK: SEED DEBUGGER
-            System.Diagnostics.Debugger.Launch();
-            if (!System.Diagnostics.Debugger.IsAttached)
-                System.Diagnostics.Debugger.Launch();
+            //if (!System.Diagnostics.Debugger.IsAttached)
+            //    System.Diagnostics.Debugger.Launch();
 
             var roleNames = new[] { "Teacher" };//REMINDER: add roles here!
             AddRoles(context, roleNames);
@@ -220,8 +219,8 @@ namespace Lexicon_LMS.Migrations
             Activity seededActivityjava = context.Activities.Where(c => c.ModuleID == seededModulejava.ID).FirstOrDefault();
             Activity seededActivityoffice = context.Activities.Where(c => c.ModuleID == seededModuleoffice.ID).FirstOrDefault();
             seededModule.ModuleActivities.Add(seededActivity);
-            seededModule.ModuleActivities.Add(seededActivityjava);
-            seededModule.ModuleActivities.Add(seededActivityoffice);
+            seededModulejava.ModuleActivities.Add(seededActivityjava);
+            seededModuleoffice.ModuleActivities.Add(seededActivityoffice);
 
         }
     }
