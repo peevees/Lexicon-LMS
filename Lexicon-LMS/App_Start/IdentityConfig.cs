@@ -22,10 +22,10 @@ namespace Lexicon_LMS
     {
         public async Task SendAsync(IdentityMessage message)
         {
-            await configSendGridasync(message);
+            await ConfigSendGridasync(message);
         }
 
-        private async Task configSendGridasync(IdentityMessage message)
+        private async Task ConfigSendGridasync(IdentityMessage message)
         {
             //HACK: You must manually add the "SendGridApiKey" in "Edit the system environment variables"
             //Aquire api key from Fredrik

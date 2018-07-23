@@ -9,6 +9,7 @@ namespace Lexicon_LMS.Models
     public class Activity
     {
         public int ID { get; set; }
+        [Required]
         public string Name { get; set; }
         public DateTime Deadline { get; set; }
         public virtual ICollection<Document> Documents { get; set; }

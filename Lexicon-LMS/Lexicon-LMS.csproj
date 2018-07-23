@@ -219,6 +219,10 @@
     <Compile Include="Migrations\201807230703431_ChangeCourseID2CourseCode.Designer.cs">
       <DependentUpon>201807230703431_ChangeCourseID2CourseCode.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807230958489_Add more courses, modules, activities also add required attribute on activities and notification.cs" />
+    <Compile Include="Migrations\201807230958489_Add more courses, modules, activities also add required attribute on activities and notification.Designer.cs">
+      <DependentUpon>201807230958489_Add more courses, modules, activities also add required attribute on activities and notification.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Activity.cs" />
@@ -343,6 +347,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807230703431_ChangeCourseID2CourseCode.resx">
       <DependentUpon>201807230703431_ChangeCourseID2CourseCode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807230958489_Add more courses, modules, activities also add required attribute on activities and notification.resx">
+      <DependentUpon>201807230958489_Add more courses, modules, activities also add required attribute on activities and notification.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
