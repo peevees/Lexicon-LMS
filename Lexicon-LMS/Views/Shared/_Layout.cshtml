@@ -7,6 +7,7 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <link href="~/Content/Footer.css" rel="stylesheet" />
+    <link href="~/Content/navbarstyle.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -19,35 +20,42 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
-                    </button>
+                    </button> 
+
                     @Html.ActionLink("South-Hammond Institute of Technology", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
                 </div>
-             <div>
-                        <ul class="nav navbar-nav">
-                            <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                            <li>@Html.ActionLink("About", "About", "Home")</li>
-                                @Html.Partial("_LoginPartial")
-                            <li class="btn-group nav navbar-right">
-                                <button type="button" class="btn navbar-btn" style="background-color:#ac5a20"><span class="glyphicon glyphicon-home"></span></button>
-                                <button type="button" class="btn navbar-btn dropdown-toggle" data-toggle="dropdown">
-                                    <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li>
-                                        <a href="#"><span class="glyphicon glyphicon-user"></span> My Profile</a>
-                                    </li>
-                                    <li>
-                                        <a href="#"><span class="glyphicon glyphicon-lock"></span> Change Password</a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:document.getElementById('logoutForm').submit()">
-                                            <span class="glyphicon glyphicon-log-out"></span> 
-                                            Logout
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                        <li>@Html.ActionLink("About", "About", "Home")</li>
+                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="btn-group nav" style="float:right">
+                            <button type="button" class="btn navbar-btn dropdown-toggle" data-toggle="dropdown">
+                                <span class="glyphicon glyphicon-home"></span>
+                                <span style="color: #996600"> | </span>
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a href="@Url.Action("Index", "Manage")"><span class="glyphicon glyphicon-user"></span> My Profile</a>
+                                </li>
+                                <li>                    
+                                    <a href="@Url.Action("ChangePassword", "Manage")">
+                                    <span class="glyphicon glyphicon-lock"> </span>
+                                    Change Password</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:document.getElementById('logoutForm').submit()">
+                                        <span class="glyphicon glyphicon-log-out"></span>
+                                        Logout
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        @Html.Partial("_LoginPartial")
+                    </ul>
                 </div>
             </div>
         </div>
