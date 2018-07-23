@@ -1,46 +1,67 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>@ViewBag.Title - South-Hammond Institute of Technology</title>
-	@Styles.Render("~/Content/css")
-	@Scripts.Render("~/bundles/modernizr")
-	<link href="~/Content/Footer.css" rel="stylesheet" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - South-Hammond Institute of Technology</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Content/Footer.css" rel="stylesheet" />
 </head>
 
 <body>
-	@if (User.Identity.IsAuthenticated)
-	{	<div class="navbar navbar-inverse navbar-fixed-top">
-			<div class="container">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-					@Html.ActionLink("South-Hammond Institute of Technology", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-				</div>
-				<div class="navbar-collapse collapse">
-					<ul class="nav navbar-nav">
-						<li>@Html.ActionLink("Home", "Index", "Home")</li>
-						<li>@Html.ActionLink("About", "About", "Home")</li>
-						<li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-					</ul>
-					@Html.Partial("_LoginPartial")
-				</div>
-			</div>
-		</div>
-	}
-<div class="container body-content">
-	@RenderBody()
-</div>
-	<footer>
-		<p>&copy; @DateTime.Now.Year - S.H.I.T - South-Hammond Institute of Technology. &copy; Back-End Solutions Table.</p>
-	</footer>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    @Html.ActionLink("South-Hammond Institute of Technology", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                </div>
+             <div>
+                        <ul class="nav navbar-nav">
+                            <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                            <li>@Html.ActionLink("About", "About", "Home")</li>
+                                @Html.Partial("_LoginPartial")
+                            <li class="btn-group nav navbar-right">
+                                <button type="button" class="btn navbar-btn" style="background-color:#ac5a20"><span class="glyphicon glyphicon-home"></span></button>
+                                <button type="button" class="btn navbar-btn dropdown-toggle" data-toggle="dropdown">
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>
+                                        <a href="#"><span class="glyphicon glyphicon-user"></span> My Profile</a>
+                                    </li>
+                                    <li>
+                                        <a href="#"><span class="glyphicon glyphicon-lock"></span> Change Password</a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:document.getElementById('logoutForm').submit()">
+                                            <span class="glyphicon glyphicon-log-out"></span> 
+                                            Logout
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                </div>
+            </div>
+        </div>
 
-@Scripts.Render("~/bundles/jquery")
-@Scripts.Render("~/bundles/bootstrap")
-@RenderSection("scripts", required: false)
+    }
+    <div class="container body-content">
+        @RenderBody()
+    </div>
+    <footer>
+        <p>&copy; @DateTime.Now.Year - S.H.I.T - South-Hammond Institute of Technology. &copy; Back-End Solutions Table.</p>
+    </footer>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
 </body>
 </html>
