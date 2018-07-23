@@ -16,7 +16,7 @@ namespace Lexicon_LMS.Tests.Controllers
         public void Index()
         {
             // Arrange
-            HomeController controller = new HomeController();
+            CoursesController controller = new CoursesController();
 
             // Act
             ViewResult result = controller.Index() as ViewResult;
@@ -29,23 +29,24 @@ namespace Lexicon_LMS.Tests.Controllers
         public void About()
         {
             // Arrange
-            HomeController controller = new HomeController();
+            CoursesController controller = new CoursesController();
 
             // Act
-            ViewResult result = controller.About() as ViewResult;
+            ViewResult result = controller.Create() as ViewResult;
 
             // Assert
-            Assert.AreEqual("Your application description page.", result.ViewBag.Message);
+            Assert.AreEqual("Your application description page.", result.Model);
         }
 
         [TestMethod]
         public void Contact()
         {
             // Arrange
-            HomeController controller = new HomeController();
+            CoursesController controller = new CoursesController();
+            int Id = 0;
 
             // Act
-            ViewResult result = controller.Contact() as ViewResult;
+            ViewResult result = controller.Details(Id) as ViewResult;
 
             // Assert
             Assert.IsNotNull(result);
