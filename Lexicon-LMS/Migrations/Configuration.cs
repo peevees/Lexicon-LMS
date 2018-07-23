@@ -129,11 +129,11 @@ namespace Lexicon_LMS.Migrations
                     StartDate = new DateTime(2018, 7, 19),
                     EndDate = new DateTime(2018, 7, 31),
                     Course = seededCourse,
-                    CourseID = seededCourse.ID
+                    CourseCode = seededCourse.ID
                 });
 
             context.SaveChanges();
-            Module seededModule = context.Modules.Where(c => c.CourseID == seededCourse.ID).FirstOrDefault();
+            Module seededModule = context.Modules.Where(c => c.CourseCode == seededCourse.ID).FirstOrDefault();
             seededCourse.CourseModules.Add(seededModule);
 
             context.Activities.AddOrUpdate(
