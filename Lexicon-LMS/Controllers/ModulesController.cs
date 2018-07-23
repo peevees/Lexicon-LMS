@@ -39,14 +39,14 @@ namespace Lexicon_LMS.Controllers
         // GET: Modules/Create
         public ActionResult Create(int? id)
         {
-            //ViewBag.CourseID = new SelectList(db.Courses, "ID", "CourseName");
+            //ViewBag.CourseCode = new SelectList(db.Courses, "ID", "CourseName");
              
             Course targetCourse = db.Courses.Where(course => course.ID == id).FirstOrDefault();
             ViewBag.CourseLabel = targetCourse.CourseName + " (" + targetCourse.CourseCode + ")";
             Module model = new Module();
             if (id != null)
             {
-                model.CourseID = targetCourse.ID;
+                model.CourseCode = targetCourse.ID;
                 model.Course = targetCourse;
             }
             
@@ -59,18 +59,18 @@ namespace Lexicon_LMS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,StartDate,EndDate,Description,CourseID")] Module module)
+        public ActionResult Create([Bind(Include = "ID,StartDate,EndDate,Description,CourseCode")] Module module)
         {
             if (ModelState.IsValid)
             {
-                Course targetCourse = db.Courses.Where(course => course.ID == module.CourseID).FirstOrDefault();
+                Course targetCourse = db.Courses.Where(course => course.ID == module.CourseCode).FirstOrDefault();
                 targetCourse.CourseModules.Add(module);
                 db.Modules.Add(module);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CourseID = new SelectList(db.Courses, "ID", "CourseCode", module.CourseID);
+            ViewBag.CourseCode = new SelectList(db.Courses, "ID", "CourseCode", module.CourseCode);
             return View(module);
         }
 
@@ -86,7 +86,7 @@ namespace Lexicon_LMS.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CourseID = new SelectList(db.Courses, "ID", "CourseCode", module.CourseID);
+            ViewBag.CourseCode = new SelectList(db.Courses, "ID", "CourseCode", module.CourseCode);
             return View(module);
         }
 
@@ -95,7 +95,7 @@ namespace Lexicon_LMS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,StartDate,EndDate,Description,CourseID")] Module module)
+        public ActionResult Edit([Bind(Include = "ID,StartDate,EndDate,Description,CourseCode")] Module module)
         {
             if (ModelState.IsValid)
             {
@@ -103,7 +103,7 @@ namespace Lexicon_LMS.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.CourseID = new SelectList(db.Courses, "ID", "CourseCode", module.CourseID);
+            ViewBag.CourseCode = new SelectList(db.Courses, "ID", "CourseCode", module.CourseCode);
             return View(module);
         }
 

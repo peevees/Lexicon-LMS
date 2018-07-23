@@ -16,12 +16,9 @@ namespace Lexicon_LMS.Models
         public string FullName { get { return Forename + " " + Surname; } }
         public DateTime TimeOfRegistration { get; set; }
 
-
         public string Street { get; set; }
         public string PostCode { get; set; }
         public string City { get; set; }
-
-
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
