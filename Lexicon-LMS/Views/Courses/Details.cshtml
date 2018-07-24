@@ -1,14 +1,12 @@
 ﻿@model Lexicon_LMS.Models.Course
     @using Lexicon_LMS.Models;
 
-@{
-    ViewBag.Title = "Details";
-}
 
-<h2>Details</h2>
+<link href="~/Content/icecreamstyle.css" rel="stylesheet" />
+<div style="background-color: #ededed; border-radius: 12px; opacity:.92;">
+<h2 style="margin-left: 5px;">Details</h2>
 
-<div>
-    <h4>Course</h4>
+    <h4 style="margin-left: 5px;">Course</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -68,9 +66,13 @@
         @foreach(ApplicationUser participant in Model.CourseParticipants)
         { <dd>@participant.FullName</dd>}
     </dl>
+    <p style="margin-left: 5px;">
+        <span class="glyphicon glyphicon-pencil"> </span>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+        <span class="glyphicon glyphicon-arrow-left"> </span>
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+    <p style="padding-bottom: 10px;">
+@Html.ActionLink("Add Module", "Create", new { Controller = "Modules", action = "Create", id = Model.ID }, new { @class = "btn btn-primary" })
+    </p>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
-@Html.ActionLink("Add Module", "Create", new { Controller = "Modules", action = "Create", id = Model.ID }, new { @class = "btn btn-default" })
