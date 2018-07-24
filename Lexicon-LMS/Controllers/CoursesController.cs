@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Lexicon_LMS.Models;
+using System.Web.Security;
 
 namespace Lexicon_LMS.Controllers
 {
@@ -38,6 +40,11 @@ namespace Lexicon_LMS.Controllers
         // GET: Courses/Create
         public ActionResult Create()
         {
+            var role = db.Roles.SingleOrDefault(m => m.Name == "Teacher");
+            var teachers = db.Users.Where(u => u.Roles.Any(r => r.RoleId == role.Id));
+            SelectList list = new SelectList(teachers, "Id", "FullName");
+            ViewBag.teachers = list as IEnumerable<SelectListItem>;
+
             return View();
         }
 
@@ -46,10 +53,11 @@ namespace Lexicon_LMS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,CourseCode,CourseName,StartDate,EndDate,Description")] Course course)
+        public ActionResult Create([Bind(Include = "ID,CourseCode,CourseName,StartDate,EndDate,Description,TeacherID")] Course course)
         {
             if (ModelState.IsValid)
             {
+                course.Teacher = db.Users.Where(u => u.Id == course.TeacherID).FirstOrDefault();
                 db.Courses.Add(course);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -61,11 +69,18 @@ namespace Lexicon_LMS.Controllers
         // GET: Courses/Edit/5
         public ActionResult Edit(int? id)
         {
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Course course = db.Courses.Find(id);
+
+            var role = db.Roles.SingleOrDefault(m => m.Name == "Teacher");
+            var teachers = db.Users.Where(u => u.Roles.Any(r => r.RoleId == role.Id));
+            SelectList list = new SelectList(teachers, "Id", "FullName");
+            ViewBag.teachers = list as IEnumerable<SelectListItem>;
+
             if (course == null)
             {
                 return HttpNotFound();
@@ -78,10 +93,11 @@ namespace Lexicon_LMS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,CourseCode,CourseName,StartDate,EndDate,Description")] Course course)
+        public ActionResult Edit([Bind(Include = "ID,CourseCode,CourseName,StartDate,EndDate,Description,TeacherID")] Course course)
         {
             if (ModelState.IsValid)
             {
+                course.Teacher = db.Users.Where(u => u.Id == course.TeacherID).FirstOrDefault();
                 db.Entry(course).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

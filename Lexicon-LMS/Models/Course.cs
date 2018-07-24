@@ -27,7 +27,8 @@ namespace Lexicon_LMS.Models
         public virtual ICollection<Module> CourseModules { get; set; }
         public virtual ICollection<Document> CourseDocuments { get; set; }
 
-        public ApplicationUser Teacher { get; set; }
-        public ICollection<ApplicationUser> CourseParticipants { get; set; }
+        public virtual ApplicationUser Teacher { get; set; }
+        public string TeacherID { get; set; }
+        public virtual ICollection<ApplicationUser> CourseParticipants { get; set; }
     }
 }

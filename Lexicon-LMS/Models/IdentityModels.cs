@@ -16,6 +16,9 @@ namespace Lexicon_LMS.Models
         public string FullName { get { return Forename + " " + Surname; } }
         public DateTime TimeOfRegistration { get; set; }
 
+        public virtual Course UserCourse { get; set; }
+        public string UserCourseCode { get; set; }
+
         public string Street { get; set; }
         public string PostCode { get; set; }
         public string City { get; set; }
