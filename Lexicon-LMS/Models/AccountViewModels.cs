@@ -72,6 +72,11 @@ namespace Lexicon_LMS.Models
         //[Required]
         public string Surname { get; set; }
 
+        public virtual Course UserCourse { get; set; }
+
+        [Display(Name ="Course")]
+        public string UserCourseCode { get; set; }
+
         [Phone]
         [Display(Name = "Phone number")]
         public string PhoneNumber { get; set; }
@@ -80,7 +85,7 @@ namespace Lexicon_LMS.Models
         public string Street { get; set; }
 
         [Display(Name = "Post code")]
-        public string PostCode { get; set; }
+        public string Postcode { get; set; }
 
         public string City { get; set; }
 

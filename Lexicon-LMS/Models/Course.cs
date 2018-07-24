@@ -11,15 +11,19 @@ namespace Lexicon_LMS.Models
     {
         public int ID { get; set; }
 
+        [Required]
         [Display(Name = "Course code")]
         public string CourseCode { get; set; }
 
+        [Required]
         [Display(Name = "Course name")]
         public string CourseName { get; set; }
 
+        [Required]
         [Display(Name = "Start date")]
         public DateTime StartDate { get; set; }
 
+        [Required]
         [Display(Name = "End date")]
         public DateTime EndDate { get; set; }
 
@@ -31,9 +35,8 @@ namespace Lexicon_LMS.Models
         [Display(Name = "Course documents")]
         public virtual ICollection<Document> CourseDocuments { get; set; }
 
-        public ApplicationUser Teacher { get; set; }
-
-        [Display(Name = "Course participants")]
-        public ICollection<ApplicationUser> CourseParticipants { get; set; }
+        public virtual ApplicationUser Teacher { get; set; }
+        public string TeacherID { get; set; }
+        public virtual ICollection<ApplicationUser> CourseParticipants { get; set; }
     }
 }

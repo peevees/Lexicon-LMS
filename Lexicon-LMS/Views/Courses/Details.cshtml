@@ -1,4 +1,5 @@
 ﻿@model Lexicon_LMS.Models.Course
+    @using Lexicon_LMS.Models;
 
 @{
     ViewBag.Title = "Details";
@@ -60,6 +61,12 @@
         </dd>
         }
 
+        <dt>@Html.DisplayNameFor(model=>model.Teacher)</dt>
+        <dd>@Html.DisplayFor(model=>model.Teacher.FullName)</dd>
+
+        <dt>@Html.DisplayNameFor(model=>model.CourseParticipants)</dt>
+        @foreach(ApplicationUser participant in Model.CourseParticipants)
+        { <dd>@participant.FullName</dd>}
     </dl>
 </div>
 <p>

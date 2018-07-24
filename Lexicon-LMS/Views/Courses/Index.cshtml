@@ -1,13 +1,12 @@
 ﻿@model IEnumerable<Lexicon_LMS.Models.Course>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Courses";
 }
 <link href="~/Content/icecreamstyle.css" rel="stylesheet" />
 
 <div style="background-color: #ededed; border-radius: 12px;">
 <h2 style="margin-left: 5px;">Courses</h2>
-
 
 @if (User.IsInRole("Teacher"))
 {

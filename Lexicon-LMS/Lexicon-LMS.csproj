@@ -219,6 +219,18 @@
     <Compile Include="Migrations\201807230703431_ChangeCourseID2CourseCode.Designer.cs">
       <DependentUpon>201807230703431_ChangeCourseID2CourseCode.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807230958489_Add more courses, modules, activities also add required attribute on activities and notification.cs" />
+    <Compile Include="Migrations\201807230958489_Add more courses, modules, activities also add required attribute on activities and notification.Designer.cs">
+      <DependentUpon>201807230958489_Add more courses, modules, activities also add required attribute on activities and notification.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807231304022_PostCode2Postcode.cs" />
+    <Compile Include="Migrations\201807231304022_PostCode2Postcode.Designer.cs">
+      <DependentUpon>201807231304022_PostCode2Postcode.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807240845321_current.cs" />
+    <Compile Include="Migrations\201807240845321_current.Designer.cs">
+      <DependentUpon>201807240845321_current.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Activity.cs" />
@@ -349,6 +361,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807230703431_ChangeCourseID2CourseCode.resx">
       <DependentUpon>201807230703431_ChangeCourseID2CourseCode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807230958489_Add more courses, modules, activities also add required attribute on activities and notification.resx">
+      <DependentUpon>201807230958489_Add more courses, modules, activities also add required attribute on activities and notification.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807231304022_PostCode2Postcode.resx">
+      <DependentUpon>201807231304022_PostCode2Postcode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807240845321_current.resx">
+      <DependentUpon>201807240845321_current.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
