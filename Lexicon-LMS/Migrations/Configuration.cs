@@ -1,14 +1,12 @@
 namespace Lexicon_LMS.Migrations
 {
+    using Lexicon_LMS.Models;
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
     using System;
-    using System.Data.Entity;
+    using System.Collections.Generic;
     using System.Data.Entity.Migrations;
     using System.Linq;
-    using Lexicon_LMS.Models;
-    using System.Web.UI.WebControls;
-    using System.Collections.Generic;
 
     internal sealed class Configuration : DbMigrationsConfiguration<ApplicationDbContext>
     {

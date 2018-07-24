@@ -1,15 +1,15 @@
 ﻿.navbar-inverse {
     background-color: #996600;
-    border-color: #d9d7d7;
+    /*border-color: #d9d7d7;*/
 }
 
-.navbar-inverse .navbar-text {
-    color: #d9d7d7;
-    background-color: transparent;
+    .navbar-inverse .navbar-text {
+        color: #e2e1e1;
+        background-color: transparent;
 }
 
 .navbar-inverse .navbar-brand {
-    color: #d9d7d7;
+    color: #e2e1e1;
 }
 
 .navbar-inverse .navbar-brand:hover,
@@ -19,7 +19,7 @@
 }
 
 .navbar-inverse .navbar-nav > li > a {
-    color: #d9d7d7;
+    color: #e2e1e1;
     font-family: Arial;
     font-size: 15px;
     background-color: transparent;

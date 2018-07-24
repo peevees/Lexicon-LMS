@@ -35,9 +35,9 @@
             @Html.DisplayFor(modelItem => item.Read)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+            <span class="glyphicon glyphicon-pencil"> </span>   @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+            <span class="glyphicon glyphicon-eye-open"> </span> @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+            <span class="glyphicon glyphicon-remove"> </span>  @Html.ActionLink("Delete", "Delete", new { id = item.ID })
         </td>
     </tr>
 }
