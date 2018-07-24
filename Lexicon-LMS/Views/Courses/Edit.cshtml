@@ -1,21 +1,18 @@
 ﻿@model Lexicon_LMS.Models.Course
-@using Lexicon_LMS.Models;
 
-@{
-    ViewBag.Title = "Edit";
-    ViewData["Teacher"] = ViewBag.teachers as IEnumerable<SelectListItem>;
-    SelectList teachersList = ViewBag.Teachers;
-}
-
-<h2>Edit</h2>
+<link href="~/Content/icecreamstyle.css" rel="stylesheet" />
 
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
+<div style="background-color: #ededed; border-radius: 12px; opacity:.95; margin-top:10px;">
+    <h2 style="margin-left:10px; padding-top:10px;">Edit</h2>
+
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Course</h4>
+        <h4 style="margin-left:10px;">Course</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.ID)
@@ -59,25 +56,27 @@
                 @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.TeacherID, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.TeacherID, ViewBag.teachers as IEnumerable<SelectListItem>, new { @class = "form-control", id = "Teacher" })
-                @Html.ValidationMessageFor(model => model.TeacherID, "", new { @class = "text-danger" })
+                @Html.DropDownListFor(model => model.TeacherID, ViewBag.teachers as IEnumerable<SelectListItem>
+                    , new { @class = "form-control", id = "Teacher" })
+                    @Html.ValidationMessageFor(model => model.TeacherID, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-success" />
+                @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-danger" })
             </div>
         </div>
     </div>
-}
+    }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
+        <div style="margin-left:10px; padding-bottom:10px;">
+            <span class="glyphicon glyphicon-arrow-left"> </span>
+            @Html.ActionLink("Back to List", "Index")
+        </div>
 </div>
 
 @section Scripts {
