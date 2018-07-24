@@ -108,6 +108,9 @@ namespace Lexicon_LMS.Migrations
 
         private void AddCourse(ApplicationDbContext context)
         {
+            var CourseTeacher = context.Users.Where(u => u.Email == "teacher@shit.se").FirstOrDefault();
+            var CourseStudent = context.Users.Where(u => u.Email == "student@shit.se").FirstOrDefault();
+
             context.Courses.AddOrUpdate(
                 c => c.CourseName,
                 new Course
@@ -116,7 +119,9 @@ namespace Lexicon_LMS.Migrations
                     StartDate = new DateTime(2018, 7, 19),
                     EndDate = new DateTime(2019, 7, 19),
                     Description = "A course in .NET Development",
-                    CourseCode = "DN-18"
+                    CourseCode = "DN-18",
+                    Teacher = CourseTeacher,
+                    TeacherID = CourseTeacher.Id
                 });
 
             context.Courses.AddOrUpdate(
@@ -145,6 +150,10 @@ namespace Lexicon_LMS.Migrations
             Course seededCourse = context.Courses.Where(c => c.CourseCode == "DN-18").FirstOrDefault();
             Course seededCoursejava = context.Courses.Where(c => c.CourseCode == "JD-18").FirstOrDefault();
             Course seededCourseoffice = context.Courses.Where(c => c.CourseCode == "MO-19").FirstOrDefault();
+
+            seededCourse.CourseParticipants.Add(CourseStudent);
+            CourseStudent.UserCourse = seededCourse;
+            CourseStudent.UserCourseCode = seededCourse.CourseCode;
 
             context.Modules.AddOrUpdate(
                 m => m.Description,
