@@ -11,7 +11,10 @@ namespace Lexicon_LMS.Models
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit https://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
     {
+        [Required(ErrorMessage = "The forename is required")]
         public string Forename { get; set; }
+
+        [Required(ErrorMessage = "The surname is required")]
         public string Surname { get; set; }
 
         [Display(Name = "Full name")]
