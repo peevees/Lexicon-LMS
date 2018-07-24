@@ -18,11 +18,19 @@ namespace Lexicon_LMS.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Courses
-        [Authorize(Roles = "Teacher")]
+        //[Authorize(Roles = "Teacher")]
         public ActionResult Index()
         {
+
+            if (!User.IsInRole("Teacher"))
+            {
+                var currentUserCourse = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name).UserCourse.ID;
+                return RedirectToAction("Details", "Courses", new { id = currentUserCourse });
+            }
+
             return View(db.Courses.ToList());
         }
+
 
         // GET: Courses/Details/5
         public ActionResult Details(int? id)

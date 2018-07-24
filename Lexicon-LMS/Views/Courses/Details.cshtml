@@ -1,5 +1,5 @@
 ﻿@model Lexicon_LMS.Models.Course
-    @using Lexicon_LMS.Models;
+@using Lexicon_LMS.Models;
 
 @{
     ViewBag.Title = "Details";
@@ -56,21 +56,26 @@
         </dt>
         @foreach (var module in Model.CourseModules)
         {
-        <dd>
-            @Html.ActionLink(module.Description, "Details", new { Controller = "Modules", action = "Details", id = module.ID })
-        </dd>
+            <dd>
+                @Html.ActionLink(module.Description, "Details", new { Controller = "Modules", action = "Details", id = module.ID })
+            </dd>
         }
 
-        <dt>@Html.DisplayNameFor(model=>model.Teacher)</dt>
-        <dd>@Html.DisplayFor(model=>model.Teacher.FullName)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Teacher)</dt>
+        <dd>@Html.DisplayFor(model => model.Teacher.FullName)</dd>
 
-        <dt>@Html.DisplayNameFor(model=>model.CourseParticipants)</dt>
-        @foreach(ApplicationUser participant in Model.CourseParticipants)
-        { <dd>@participant.FullName</dd>}
+        <dt>@Html.DisplayNameFor(model => model.CourseParticipants)</dt>
+        @foreach (ApplicationUser participant in Model.CourseParticipants)
+        {
+            <dd>@participant.FullName</dd>}
     </dl>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+@if (User.IsInRole("Teacher"))
+{
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+
 @Html.ActionLink("Add Module", "Create", new { Controller = "Modules", action = "Create", id = Model.ID }, new { @class = "btn btn-default" })
+}

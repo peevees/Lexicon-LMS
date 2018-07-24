@@ -227,6 +227,10 @@
     <Compile Include="Migrations\201807231304022_PostCode2Postcode.Designer.cs">
       <DependentUpon>201807231304022_PostCode2Postcode.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807240755034_AddSomeValidation.cs" />
+    <Compile Include="Migrations\201807240755034_AddSomeValidation.Designer.cs">
+      <DependentUpon>201807240755034_AddSomeValidation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\201807240845321_current.cs" />
     <Compile Include="Migrations\201807240845321_current.Designer.cs">
       <DependentUpon>201807240845321_current.cs</DependentUpon>
@@ -370,6 +374,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807240845321_current.resx">
       <DependentUpon>201807240845321_current.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807240755034_AddSomeValidation.resx">
+      <DependentUpon>201807240755034_AddSomeValidation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
