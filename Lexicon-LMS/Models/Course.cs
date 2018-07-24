@@ -11,9 +11,11 @@ namespace Lexicon_LMS.Models
     {
         public int ID { get; set; }
 
+        //Course code regex: ^\s*([A-Z]{2}-[0-9]{2})\s*$
+
         //[Required(ErrorMessage = "The email address is required")]
         //[EmailAddress(ErrorMessage = "Invalid Email Address")]
-        
+
         [Required(ErrorMessage ="Course code is required")]
         [Display(Name = "Course code")]
         public string CourseCode { get; set; }
