@@ -1,0 +1,21 @@
+﻿body {
+    background: linear-gradient( rgba(126, 126, 126, 0.65), rgba(126, 126, 126, 0.65)), url('ICE-CREAM-SCOOP.jpg');
+    margin: 0;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+
+.btn-primary {
+    color: #e2e1e1;
+    background-color: #996600;
+    border-color: #684601;
+    margin-left: 5px;
+}
+
+.btn-primary:hover {
+    color: #d9d9d9;
+    background-color: #684601;
+    border-color: #895b00;
+}

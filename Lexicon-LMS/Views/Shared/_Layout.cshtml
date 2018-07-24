@@ -8,6 +8,7 @@
     @Scripts.Render("~/bundles/modernizr")
     <link href="~/Content/Footer.css" rel="stylesheet" />
     <link href="~/Content/navbarstyle.css" rel="stylesheet" />
+
 </head>
 
 <body>
@@ -39,12 +40,17 @@
                             <ul class="dropdown-menu" role="menu">
                                 <li>
                                     <a href="@Url.Action("Index", "Manage")"><span class="glyphicon glyphicon-user"></span> My Profile</a>
+
                                 </li>
-                                <li>                    
-                                    <a href="@Url.Action("ChangePassword", "Manage")">
-                                    <span class="glyphicon glyphicon-lock"> </span>
-                                    Change Password</a>
-                                </li>
+                                @if (User.IsInRole("Teacher"))
+                                {
+                                    <li>
+                                        <a href="@Url.Action("", "")">
+                                            <span class="glyphicon glyphicon-list-alt"> </span>
+                                            Mange Profiles
+                                        </a>
+                                    </li>
+                                }
                                 <li>
                                     <a href="javascript:document.getElementById('logoutForm').submit()">
                                         <span class="glyphicon glyphicon-log-out"></span>
