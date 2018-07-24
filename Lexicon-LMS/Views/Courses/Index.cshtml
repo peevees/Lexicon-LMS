@@ -6,14 +6,15 @@
 <link href="~/Content/icecreamstyle.css" rel="stylesheet" />
 
 <div style="background-color: #ededed; border-radius: 12px; opacity:.95">
-<h2 style="margin-left: 5px;">@ViewBag.Title</h2>
+    <h2 style="margin-left: 5px;">@ViewBag.Title</h2>
 
 @if (User.IsInRole("Teacher"))
 {
-<p>
-    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })
+    <p>
+        @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })
 
-</p>  
+        @Html.ActionLink("Archive", "Index", "Archive", null, new { @class = "btn btn-primary" } )
+    </p>
 }
     <table class="table">
         <tr>
@@ -73,4 +74,4 @@
         }
 
     </table>
- </div>
+</div>
