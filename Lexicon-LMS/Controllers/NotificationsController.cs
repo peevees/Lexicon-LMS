@@ -10,6 +10,7 @@ using Lexicon_LMS.Models;
 
 namespace Lexicon_LMS.Controllers
 {
+    [Authorize]
     public class NotificationsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -36,6 +37,7 @@ namespace Lexicon_LMS.Controllers
         }
 
         // GET: Notifications/Create
+        [Authorize(Roles = "Teacher")]
         public ActionResult Create()
         {
             return View();
@@ -46,6 +48,7 @@ namespace Lexicon_LMS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Teacher")]
         public ActionResult Create([Bind(Include = "ID,Subject,Body,Read")] Notification notification)
         {
             if (ModelState.IsValid)
@@ -59,6 +62,7 @@ namespace Lexicon_LMS.Controllers
         }
 
         // GET: Notifications/Edit/5
+        [Authorize(Roles = "Teacher")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -78,6 +82,7 @@ namespace Lexicon_LMS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Teacher")]
         public ActionResult Edit([Bind(Include = "ID,Subject,Body,Read")] Notification notification)
         {
             if (ModelState.IsValid)
@@ -90,6 +95,7 @@ namespace Lexicon_LMS.Controllers
         }
 
         // GET: Notifications/Delete/5
+        [Authorize(Roles = "Teacher")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -107,6 +113,7 @@ namespace Lexicon_LMS.Controllers
         // POST: Notifications/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Teacher")]
         public ActionResult DeleteConfirmed(int id)
         {
             Notification notification = db.Notifications.Find(id);

@@ -120,7 +120,7 @@ namespace Lexicon_LMS.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditProfile([Bind(Include = "Forename,Surname,Street,PostCode,City,Email,UserCourseCode")] ApplicationUser user)
+        public ActionResult EditProfile([Bind(Include = "Forename,Surname,Street,Postcode,City,Email,UserCourseCode")] ApplicationUser user)
         {
             if (ModelState.IsValid)
             {

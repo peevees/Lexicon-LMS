@@ -59,6 +59,10 @@ namespace Lexicon_LMS.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            if(User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Courses");
+            }
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -482,7 +486,7 @@ namespace Lexicon_LMS.Controllers
             {
                 return Redirect(returnUrl);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Courses");
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult

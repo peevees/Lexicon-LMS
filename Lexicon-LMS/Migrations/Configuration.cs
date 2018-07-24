@@ -77,6 +77,7 @@ namespace Lexicon_LMS.Migrations
                 }
 
                 var user = new ApplicationUser { UserName = userEmail, Email = userEmail, TimeOfRegistration = new DateTime(2000, 01, 01, 00, 00, 00) };
+
                 var result = userManager.Create(user, "P@$$w0rd");
                 if (!result.Succeeded)
                 {
@@ -118,8 +119,32 @@ namespace Lexicon_LMS.Migrations
                     CourseCode = "DN-18"
                 });
 
+            context.Courses.AddOrUpdate(
+                c => c.CourseName,
+                new Course
+                {
+                    CourseName = "Java Development",
+                    StartDate = new DateTime(2018, 8, 19),
+                    EndDate = new DateTime(2019, 8, 19),
+                    Description = "Boil coffee",
+                    CourseCode = "JD-18"
+                });
+
+            context.Courses.AddOrUpdate(
+                c => c.CourseName,
+                new Course
+                {
+                    CourseName = "Office 365",
+                    StartDate = new DateTime(2019, 8, 19),
+                    EndDate = new DateTime(2020, 8, 19),
+                    Description = "Create Documents, Spreadsheets and Presentations",
+                    CourseCode = "MO-19"
+                });
+
             context.SaveChanges();
             Course seededCourse = context.Courses.Where(c => c.CourseCode == "DN-18").FirstOrDefault();
+            Course seededCoursejava = context.Courses.Where(c => c.CourseCode == "JD-18").FirstOrDefault();
+            Course seededCourseoffice = context.Courses.Where(c => c.CourseCode == "MO-19").FirstOrDefault();
 
             context.Modules.AddOrUpdate(
                 m => m.Description,
@@ -132,9 +157,36 @@ namespace Lexicon_LMS.Migrations
                     CourseCode = seededCourse.ID
                 });
 
+            context.Modules.AddOrUpdate(
+                m => m.Description,
+                new Module
+                {
+                    Description = "Measuring the right amount of Java",
+                    StartDate = new DateTime(2018, 8, 19),
+                    EndDate = new DateTime(2018, 8, 31),
+                    Course = seededCoursejava,
+                    CourseCode = seededCoursejava.ID
+                });
+
+            context.Modules.AddOrUpdate(
+                m => m.Description,
+                new Module
+                {
+                    Description = "Predicting words in Word",
+                    StartDate = new DateTime(2019, 8, 19),
+                    EndDate = new DateTime(2019, 8, 31),
+                    Course = seededCourseoffice,
+                    CourseCode = seededCourseoffice.ID
+                });
+
             context.SaveChanges();
             Module seededModule = context.Modules.Where(c => c.CourseCode == seededCourse.ID).FirstOrDefault();
+            Module seededModulejava = context.Modules.Where(c => c.CourseCode == seededCoursejava.ID).FirstOrDefault();
+            Module seededModuleoffice = context.Modules.Where(c => c.CourseCode == seededCourseoffice.ID).FirstOrDefault();
+
             seededCourse.CourseModules.Add(seededModule);
+            seededCoursejava.CourseModules.Add(seededModulejava);
+            seededCourseoffice.CourseModules.Add(seededModuleoffice);
 
             context.Activities.AddOrUpdate(
                 a => a.Name,
@@ -145,9 +197,32 @@ namespace Lexicon_LMS.Migrations
                     Module = seededModule,
                     ModuleID = seededModule.ID
                 });
+            context.Activities.AddOrUpdate(
+                a => a.Name,
+                new Activity
+                {
+                    Name = "Java Cup!",
+                    Deadline = new DateTime(2018, 8, 20),
+                    Module = seededModulejava,
+                    ModuleID = seededModulejava.ID
+                });
+            context.Activities.AddOrUpdate(
+                a => a.Name,
+                new Activity
+                {
+                    Name = "Spreading the Sheets!",
+                    Deadline = new DateTime(2019, 8, 20),
+                    Module = seededModuleoffice,
+                    ModuleID = seededModuleoffice.ID
+                });
             context.SaveChanges();
             Activity seededActivity = context.Activities.Where(c => c.ModuleID == seededModule.ID).FirstOrDefault();
+            Activity seededActivityjava = context.Activities.Where(c => c.ModuleID == seededModulejava.ID).FirstOrDefault();
+            Activity seededActivityoffice = context.Activities.Where(c => c.ModuleID == seededModuleoffice.ID).FirstOrDefault();
             seededModule.ModuleActivities.Add(seededActivity);
+            seededModulejava.ModuleActivities.Add(seededActivityjava);
+            seededModuleoffice.ModuleActivities.Add(seededActivityoffice);
+
         }
     }
 }

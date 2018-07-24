@@ -13,7 +13,11 @@ namespace Lexicon_LMS.Models
     {
         public string Forename { get; set; }
         public string Surname { get; set; }
+
+        [Display(Name = "Full name")]
         public string FullName { get { return Forename + " " + Surname; } }
+
+        [Display(Name = "Registrated since")]
         public DateTime TimeOfRegistration { get; set; }
 
         public virtual Course UserCourse { get; set; }

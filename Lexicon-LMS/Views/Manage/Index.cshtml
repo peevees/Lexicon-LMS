@@ -33,9 +33,9 @@
             <div class="">
                 <h2>@user.FullName</h2>
                 @if (User.IsInRole("Teacher"))
-                {<h4>Teacher</h4>}
+                    {<h4>Teacher</h4>}
                 else
-                {<h4>Student</h4>}
+                    {<h4>Student</h4>}
             </div>
 
 
@@ -47,20 +47,18 @@
                 <dt>Account type</dt>
                 <dd>
                     @if (User.IsInRole("Teacher"))
-                    {<span>Teacher</span>}
+                        {<span>Teacher</span>}
                     else
-                    { <span>Student</span>}
+                        { <span>Student</span>}
                 </dd>
-
-                <dt>Course</dt>
 
                 <dt>Phone nr</dt>
                 <dd>@user.PhoneNumber</dd>
 
                 <dt>Address</dt>
-                <dd>@user.Street, @user.City @user.PostCode</dd>
+                <dd>@user.Street, @user.Postcode @user.City</dd>
 
-                <dt>Two-Factor Authentication:</dt>
+                @*<dt>Two-Factor Authentication:</dt>
                 <dd>
                     <p>
                         There are no two-factor authentication providers configured. See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
@@ -86,7 +84,7 @@
                             </text>
                         }
                     }
-                </dd>
+                </dd>*@
             </dl>
             <p>
                 @if (Model.HasPassword)
