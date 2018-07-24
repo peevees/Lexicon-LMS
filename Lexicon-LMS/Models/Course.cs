@@ -11,6 +11,7 @@ namespace Lexicon_LMS.Models
     {
         public int ID { get; set; }
 
+        //Course code regex: ^\s*([A-Z]{2}-[0-9]{2})\s*$
         [Required]
         [Display(Name = "Course code")]
         public string CourseCode { get; set; }
