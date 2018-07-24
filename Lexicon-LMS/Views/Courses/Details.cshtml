@@ -1,5 +1,5 @@
 ﻿@model Lexicon_LMS.Models.Course
-    @using Lexicon_LMS.Models;
+@using Lexicon_LMS.Models;
 
 @{
     ViewBag.Title = "Details";
@@ -56,19 +56,25 @@
         </dt>
         @foreach (var module in Model.CourseModules)
         {
-        <dd>
-            @Html.ActionLink(module.Description, "Details", new { Controller = "Modules", action = "Details", id = module.ID })
-        </dd>
+            <dd>
+                @Html.ActionLink(module.Description, "Details", new { Controller = "Modules", action = "Details", id = module.ID })
+            </dd>
         }
 
-        <dt>@Html.DisplayNameFor(model=>model.Teacher)</dt>
-        <dd>
-        @Html.ActionLink(Model.Teacher.FullName, "UserProfile", new { Controller = "Manage", action = "UserProfile", id = Model.Teacher.Id })
-        </dd>
+        @if (Model.Teacher != null)
+        {
+            <dt>@Html.DisplayNameFor(model => model.Teacher)</dt>
+            <dd>
+                @Html.ActionLink(Model.Teacher.FullName, "UserProfile", new { Controller = "Manage", action = "UserProfile", id = Model.Teacher.Id })
+            </dd>
+        }
 
-        <dt>@Html.DisplayNameFor(model=>model.CourseParticipants)</dt>
-        @foreach(ApplicationUser participant in Model.CourseParticipants)
-        { <dd>@Html.ActionLink(participant.FullName, "UserProfile", new { Controller = "Manage", action = "UserProfile", id = participant.Id })</dd>}
+
+
+        <dt>@Html.DisplayNameFor(model => model.CourseParticipants)</dt>
+        @foreach (ApplicationUser participant in Model.CourseParticipants)
+        {
+            <dd>@Html.ActionLink(participant.FullName, "UserProfile", new { Controller = "Manage", action = "UserProfile", id = participant.Id })</dd>}
     </dl>
 </div>
 <p>

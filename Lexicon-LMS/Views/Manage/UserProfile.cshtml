@@ -34,13 +34,19 @@
             @Html.DisplayFor(model => model.Surname)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.UserCourseCode)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.UserCourse.CourseName) (@Html.DisplayFor(model => model.UserCourse.CourseCode))
-        </dd>
+
+        @if (Model.UserCourse != null)
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.UserCourseCode)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.UserCourse.CourseName) (@Html.DisplayFor(model => model.UserCourse.CourseCode))
+            </dd>
+
+        }
+
 
         @if (User.IsInRole("Teacher"))
         {

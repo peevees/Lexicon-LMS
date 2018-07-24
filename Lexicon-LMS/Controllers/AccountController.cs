@@ -181,7 +181,7 @@ namespace Lexicon_LMS.Controllers
                     Email = model.Email,
                     TimeOfRegistration = DateTime.Now,
                     UserCourse = model.UserCourse,
-                    UserCourseCode = model.UserCourseCode
+                    UserCourseCode = model.UserCourse.CourseCode
                 };
 
                 var result = await UserManager.CreateAsync(user, model.Password);

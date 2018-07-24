@@ -72,6 +72,8 @@ namespace Lexicon_LMS.Models
         //[Required]
         public string Surname { get; set; }
 
+        [Required]
+        [Display(Name ="Course")]
         public virtual Course UserCourse { get; set; }
 
         [Display(Name ="Course")]
