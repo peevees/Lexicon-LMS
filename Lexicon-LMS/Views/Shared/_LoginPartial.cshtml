@@ -1,15 +1,25 @@
 ﻿@using Microsoft.AspNet.Identity
+@using Microsoft.AspNet.Identity.Owin;
+@using Lexicon_LMS.Models;
 @if (Request.IsAuthenticated)
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
-    @Html.AntiForgeryToken()
+        @Html.AntiForgeryToken()
+        ApplicationUser user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(User.Identity.GetUserId());
+        string welcome = "";
 
-<ul class="nav navbar-nav">
-    <li>
-        @Html.ActionLink("Greetings " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-    </li>
-</ul>
+        if (user.Forename != null)
+        {
+            welcome = user.Forename;
+        }
+        else { welcome = User.Identity.GetUserName(); }
 
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                @Html.ActionLink("Greetings " + welcome + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+            </li>
+            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+        </ul>
     }
 }

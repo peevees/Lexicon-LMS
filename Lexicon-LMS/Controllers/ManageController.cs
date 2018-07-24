@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
@@ -102,16 +103,34 @@ namespace Lexicon_LMS.Controllers
         public ActionResult EditProfile()
         {
             ApplicationUser model = UserManager.FindById(User.Identity.GetUserId());
+
+
+            ApplicationDbContext db = new ApplicationDbContext();
+            var courses = new List<SelectListItem>();
+
+            foreach(Course c in db.Courses)
+            {
+                courses.Add(new SelectListItem { Text = c.CourseName, Value = c.CourseCode });
+            }
+
+            ViewBag.coursesList = courses;
+                
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditProfile([Bind(Include = "Forename,Surname,Street,Postcode,City,Email")] ApplicationUser user)
+        public ActionResult EditProfile([Bind(Include = "Forename,Surname,Street,Postcode,City,Email,UserCourseCode")] ApplicationUser user)
         {
             if (ModelState.IsValid)
             {
-                var targetUser = UserManager.FindById(User.Identity.GetUserId());
+                var targetUser = UserManager.FindById(user.Id);
+                ApplicationDbContext db = new ApplicationDbContext();
+                Course newCourse = db.Courses.Where(c => c.CourseCode == user.UserCourseCode).FirstOrDefault();
+                Course oldCourse = db.Courses.Where(c=>c.CourseCode == (TempData["PreviousCourse"]).ToString()).FirstOrDefault();
+
+                newCourse.CourseParticipants.Add(user);
+                oldCourse.CourseParticipants.Remove(user);
 
                 targetUser.Forename = user.Forename;
                 targetUser.Surname = user.Surname;
@@ -120,6 +139,10 @@ namespace Lexicon_LMS.Controllers
                 targetUser.City = user.City;
                 targetUser.Email = user.Email;
                 targetUser.UserName = user.Email;
+                targetUser.UserCourse = newCourse;
+                targetUser.UserCourseCode = newCourse.CourseCode;
+
+                
 
                 UserManager.Update(targetUser);
 

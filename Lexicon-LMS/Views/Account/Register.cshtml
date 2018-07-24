@@ -24,6 +24,14 @@
     </div>
 
     <div class="form-group">
+        @Html.LabelFor(model => model.UserCourse, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.UserCourseCode, ViewBag.coursesList as IEnumerable<SelectListItem>, new { @class = "form-control" })
+            @*@Html.ValidationMessageFor(model => model.Surname, "", new { @class = "text-danger" })*@
+        </div>
+    </div>
+
+    <div class="form-group">
         @Html.LabelFor(m => m.PhoneNumber, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
             @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
