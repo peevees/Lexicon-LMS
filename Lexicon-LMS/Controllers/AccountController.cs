@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Collections.Generic;
 
 namespace Lexicon_LMS.Controllers
 {
@@ -17,6 +18,7 @@ namespace Lexicon_LMS.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         public AccountController()
         {
@@ -145,6 +147,15 @@ namespace Lexicon_LMS.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            var courses = new List<SelectListItem>();
+
+            foreach (Course c in db.Courses)
+            {
+                courses.Add(new SelectListItem { Text = c.CourseName, Value = c.CourseCode });
+            }
+
+            ViewBag.coursesList = courses;
+
             return View();
         }
 
@@ -168,12 +179,17 @@ namespace Lexicon_LMS.Controllers
                     City = model.City,
                     UserName = model.Email,
                     Email = model.Email,
-                    TimeOfRegistration = DateTime.Now
+                    TimeOfRegistration = DateTime.Now,
+                    UserCourse = model.UserCourse,
+                    UserCourseCode = model.UserCourseCode
                 };
 
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    Course userCourse = db.Courses.Where(c => c.CourseCode == user.UserCourseCode).FirstOrDefault();
+                    userCourse.CourseParticipants.Add(user);
+
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771

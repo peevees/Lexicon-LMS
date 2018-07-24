@@ -23,8 +23,10 @@ namespace Lexicon_LMS.Models
         [Display(Name = "Registrated since")]
         public DateTime TimeOfRegistration { get; set; }
 
+        public virtual Course UserCourse { get; set; }
+        public string UserCourseCode { get; set; }
+
         public string Street { get; set; }
-        
         public string Postcode { get; set; }
         public string City { get; set; }
 

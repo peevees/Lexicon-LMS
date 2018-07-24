@@ -231,6 +231,10 @@
     <Compile Include="Migrations\201807240755034_AddSomeValidation.Designer.cs">
       <DependentUpon>201807240755034_AddSomeValidation.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807240845321_current.cs" />
+    <Compile Include="Migrations\201807240845321_current.Designer.cs">
+      <DependentUpon>201807240845321_current.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Activity.cs" />
@@ -250,6 +254,8 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Footer.css" />
+    <Content Include="Content\ICE-CREAM-SCOOP.jpg" />
+    <Content Include="Content\icecreamstyle.css" />
     <Content Include="Content\logo.png" />
     <Content Include="Content\logo_text.png" />
     <Content Include="Content\navbarstyle.css" />
@@ -258,6 +264,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="opacity.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -364,6 +371,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807231304022_PostCode2Postcode.resx">
       <DependentUpon>201807231304022_PostCode2Postcode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807240845321_current.resx">
+      <DependentUpon>201807240845321_current.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807240755034_AddSomeValidation.resx">
       <DependentUpon>201807240755034_AddSomeValidation.cs</DependentUpon>

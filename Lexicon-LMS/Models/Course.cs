@@ -37,9 +37,8 @@ namespace Lexicon_LMS.Models
         [Display(Name = "Course documents")]
         public virtual ICollection<Document> CourseDocuments { get; set; }
 
-        public ApplicationUser Teacher { get; set; }
-
-        [Display(Name = "Course participants")]
-        public ICollection<ApplicationUser> CourseParticipants { get; set; }
+        public virtual ApplicationUser Teacher { get; set; }
+        public string TeacherID { get; set; }
+        public virtual ICollection<ApplicationUser> CourseParticipants { get; set; }
     }
 }

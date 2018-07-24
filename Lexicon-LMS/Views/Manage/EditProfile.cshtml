@@ -1,7 +1,9 @@
 ﻿@model Lexicon_LMS.Models.ApplicationUser
+    @using Microsoft.AspNet.Identity;
 
 @{
     ViewBag.Title = "EditProfile";
+    { TempData["PreviousCourse"] = Model.UserCourseCode; }
 }
 
 <h2>Edit Profile</h2>
@@ -12,7 +14,7 @@
     @Html.AntiForgeryToken()
     
 <div class="form-horizontal">
-    <h4>@Html.ValueFor(model=>model.FullName)</h4>
+    <h4>@Html.ValueFor(model => model.FullName)</h4>
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     @Html.HiddenFor(model => model.Id)
@@ -32,6 +34,17 @@
             @Html.ValidationMessageFor(model => model.Surname, "", new { @class = "text-danger" })
         </div>
     </div>
+
+    @if (User.IsInRole("Teacher"))
+    {
+        <div class="form-group">
+            @Html.LabelFor(model=>model.UserCourse, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.UserCourseCode, ViewBag.coursesList as IEnumerable<SelectListItem>, new { @class = "form-control" })
+                @*@Html.ValidationMessageFor(model => model.Surname, "", new { @class = "text-danger" })*@
+            </div>
+        </div>
+    }
 
     @*<div class="form-group">
             @Html.LabelFor(model => model.TimeOfRegistration, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -163,7 +176,7 @@
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            @Html.ActionLink("Cancel", "Index",null,new {@class="btn btn-danger" })
+            @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-danger" })
             <input type="submit" value="Save" class="btn btn-success" />
         </div>
     </div>
