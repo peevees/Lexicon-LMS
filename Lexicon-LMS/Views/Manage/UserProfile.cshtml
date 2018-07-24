@@ -1,0 +1,79 @@
+﻿@model Lexicon_LMS.Models.ApplicationUser
+@using Lexicon_LMS.Models;
+@using Microsoft.AspNet.Identity;
+@using Microsoft.AspNet.Identity.Owin;
+@using Microsoft.AspNet.Identity.EntityFramework;
+
+@{
+    ViewBag.Title = "Profile";
+    var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+}
+
+<h2>@Html.DisplayFor(model => model.FullName)</h2>
+
+<div>
+    @if (um.IsInRole(Model.Id, "Teacher"))
+    {<h4>Teacher</h4>}
+    else
+    { <h4>Student</h4>}
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Forename)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Forename)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Surname)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Surname)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserCourseCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserCourse.CourseName) (@Html.DisplayFor(model => model.UserCourse.CourseCode))
+        </dd>
+
+        @if (User.IsInRole("Teacher"))
+        {
+            <dt>Address</dt>
+            <dd>@Model.Street, @Model.Postcode @Model.City</dd>
+        }
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        @if (User.IsInRole("Teacher"))
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.PhoneNumber)
+            </dd>
+        }
+
+
+    </dl>
+</div>
+<p>
+    @if (User.IsInRole("Teacher"))
+    {@Html.ActionLink("Edit", "EditProfile", new { id = Model.Id }) <span> | </span>}
+    @Html.ActionLink("Send Message", "Index") |
+    @Html.ActionLink("Back to List", "Index")
+</p>

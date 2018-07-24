@@ -100,11 +100,38 @@ namespace Lexicon_LMS.Controllers
             return RedirectToAction("ManageLogins", new { Message = message });
         }
 
-        public ActionResult EditProfile()
+        public ActionResult UserProfile(string id)
         {
-            ApplicationUser model = UserManager.FindById(User.Identity.GetUserId());
+            ApplicationUser viewer = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(User.Identity.GetUserId());
+            ApplicationUser model = UserManager.FindById(id);
+
+            if(id == null)
+            { return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest); }
+
+            if(id == User.Identity.GetUserId())
+            {
+                return RedirectToAction("Index");
+            }
+
+            if(User.IsInRole("Teacher") || viewer.UserCourse == model.UserCourse)
+            {
+                return View(model);
+            }
+            else
+            {
+                return View("Error");
+            }
+            
+        }
 
 
+        public ActionResult EditProfile(string id)
+        {
+            ApplicationUser model = null;
+            if (id == null) {model = UserManager.FindById(User.Identity.GetUserId());}
+            else if(User.IsInRole("Teacher")){ model = UserManager.FindById(id); }
+            else { return View("Error"); }
+            
             ApplicationDbContext db = new ApplicationDbContext();
             var courses = new List<SelectListItem>();
 

@@ -151,6 +151,9 @@ namespace Lexicon_LMS.Migrations
             Course seededCoursejava = context.Courses.Where(c => c.CourseCode == "JD-18").FirstOrDefault();
             Course seededCourseoffice = context.Courses.Where(c => c.CourseCode == "MO-19").FirstOrDefault();
 
+            CourseTeacher.UserCourse = seededCourse;
+            CourseTeacher.UserCourseCode = seededCourse.CourseCode;
+
             seededCourse.CourseParticipants.Add(CourseStudent);
             CourseStudent.UserCourse = seededCourse;
             CourseStudent.UserCourseCode = seededCourse.CourseCode;
