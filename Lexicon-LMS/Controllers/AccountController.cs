@@ -171,7 +171,7 @@ namespace Lexicon_LMS.Controllers
                     Surname = model.Surname,
                     PhoneNumber = model.PhoneNumber,
                     Street = model.Street,
-                    PostCode = model.PostCode,
+                    Postcode = model.Postcode,
                     City = model.City,
                     UserName = model.Email,
                     Email = model.Email,

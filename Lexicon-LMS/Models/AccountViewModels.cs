@@ -85,7 +85,7 @@ namespace Lexicon_LMS.Models
         public string Street { get; set; }
 
         [Display(Name = "Post code")]
-        public string PostCode { get; set; }
+        public string Postcode { get; set; }
 
         public string City { get; set; }
 

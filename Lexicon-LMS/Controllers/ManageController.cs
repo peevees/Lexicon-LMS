@@ -135,7 +135,7 @@ namespace Lexicon_LMS.Controllers
                 targetUser.Forename = user.Forename;
                 targetUser.Surname = user.Surname;
                 targetUser.Street = user.Street;
-                targetUser.PostCode = user.PostCode;
+                targetUser.Postcode = user.Postcode;
                 targetUser.City = user.City;
                 targetUser.Email = user.Email;
                 targetUser.UserName = user.Email;
