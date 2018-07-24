@@ -1,10 +1,10 @@
 ﻿@model Lexicon_LMS.Models.Course
-    @using Lexicon_LMS.Models;
+@using Lexicon_LMS.Models;
 
 
 <link href="~/Content/icecreamstyle.css" rel="stylesheet" />
 <div style="background-color: #ededed; border-radius: 12px; opacity:.92;">
-<h2 style="margin-left: 5px;">Details</h2>
+    <h2 style="margin-left: 5px;">Details</h2>
 
     <h4 style="margin-left: 5px;">Course</h4>
     <hr />
@@ -59,13 +59,16 @@
         </dd>
         }
 
-        <dt>@Html.DisplayNameFor(model=>model.Teacher)</dt>
-        <dd>@Html.DisplayFor(model=>model.Teacher.FullName)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Teacher)</dt>
+        <dd>@Html.DisplayFor(model => model.Teacher.FullName)</dd>
 
-        <dt>@Html.DisplayNameFor(model=>model.CourseParticipants)</dt>
-        @foreach(ApplicationUser participant in Model.CourseParticipants)
-        { <dd>@participant.FullName</dd>}
+        <dt>@Html.DisplayNameFor(model => model.CourseParticipants)</dt>
+        @foreach (ApplicationUser participant in Model.CourseParticipants)
+        {
+        <dd>@participant.FullName</dd>}
     </dl>
+    @if (User.IsInRole("Teacher"))
+    {
     <p style="margin-left: 5px;">
         <span class="glyphicon glyphicon-pencil"> </span>
         @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
@@ -73,6 +76,7 @@
         @Html.ActionLink("Back to List", "Index")
     </p>
     <p style="padding-bottom: 10px;">
-@Html.ActionLink("Add Module", "Create", new { Controller = "Modules", action = "Create", id = Model.ID }, new { @class = "btn btn-primary" })
+        @Html.ActionLink("Add Module", "Create", new { Controller = "Modules", action = "Create", id = Model.ID }, new { @class = "btn btn-primary" })
     </p>
+    }
 </div>

@@ -199,6 +199,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ActivitiesController.cs" />
+    <Compile Include="Controllers\ArchiveController.cs" />
     <Compile Include="Controllers\CoursesController.cs" />
     <Compile Include="Controllers\DocumentsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -226,6 +227,10 @@
     <Compile Include="Migrations\201807231304022_PostCode2Postcode.cs" />
     <Compile Include="Migrations\201807231304022_PostCode2Postcode.Designer.cs">
       <DependentUpon>201807231304022_PostCode2Postcode.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807240755034_AddSomeValidation.cs" />
+    <Compile Include="Migrations\201807240755034_AddSomeValidation.Designer.cs">
+      <DependentUpon>201807240755034_AddSomeValidation.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201807240845321_current.cs" />
     <Compile Include="Migrations\201807240845321_current.Designer.cs">
@@ -334,6 +339,11 @@
     <Content Include="Views\Documents\Details.cshtml" />
     <Content Include="Views\Documents\Edit.cshtml" />
     <Content Include="Views\Documents\Index.cshtml" />
+    <Content Include="Views\Archive\Create.cshtml" />
+    <Content Include="Views\Archive\Delete.cshtml" />
+    <Content Include="Views\Archive\Details.cshtml" />
+    <Content Include="Views\Archive\Edit.cshtml" />
+    <Content Include="Views\Archive\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -370,6 +380,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807240845321_current.resx">
       <DependentUpon>201807240845321_current.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807240755034_AddSomeValidation.resx">
+      <DependentUpon>201807240755034_AddSomeValidation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

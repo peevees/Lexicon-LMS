@@ -11,11 +11,13 @@ namespace Lexicon_LMS.Models
     {
         public int ID { get; set; }
 
-        [Required]
+        [Required(ErrorMessage ="Course code is required")]
         [Display(Name = "Course code")]
+        [RegularExpression("^\\s*([A-Z]{2}-[0-9]{2})\\s*$",
+            ErrorMessage ="The course code need to be in the format two capital letters, a dash and two numbers. For example:\"NG-18\"")]
         public string CourseCode { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Course name is required")]
         [Display(Name = "Course name")]
         public string CourseName { get; set; }
 
@@ -37,6 +39,8 @@ namespace Lexicon_LMS.Models
 
         public virtual ApplicationUser Teacher { get; set; }
         public string TeacherID { get; set; }
+
+        [Display(Name = "Course participants")]
         public virtual ICollection<ApplicationUser> CourseParticipants { get; set; }
     }
 }

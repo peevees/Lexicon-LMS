@@ -74,7 +74,7 @@ namespace Lexicon_LMS.Migrations
                     continue;
                 }
 
-                var user = new ApplicationUser { UserName = userEmail, Email = userEmail, TimeOfRegistration = new DateTime(2000, 01, 01, 00, 00, 00) };
+                var user = new ApplicationUser { Forename="Mr", Surname="JohnDoe", UserName = userEmail, Email = userEmail, TimeOfRegistration = new DateTime(2000, 01, 01, 00, 00, 00) };
 
                 var result = userManager.Create(user, "P@$$w0rd");
                 if (!result.Succeeded)
