@@ -39,6 +39,8 @@ namespace Lexicon_LMS.Models
 
         public virtual ApplicationUser Teacher { get; set; }
         public string TeacherID { get; set; }
+
+        [Display(Name = "Course participants")]
         public virtual ICollection<ApplicationUser> CourseParticipants { get; set; }
     }
 }

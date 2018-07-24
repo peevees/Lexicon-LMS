@@ -22,3 +22,8 @@ select,
 textarea {
     max-width: 280px;
 }
+
+/* Add a background color on hover */
+.btn-group button:hover {
+    color: #1f1f1f;
+}
