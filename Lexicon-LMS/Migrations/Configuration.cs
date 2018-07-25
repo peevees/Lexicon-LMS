@@ -10,6 +10,30 @@ namespace Lexicon_LMS.Migrations
 
     internal sealed class Configuration : DbMigrationsConfiguration<ApplicationDbContext>
     {
+        #region Variables
+        private DateTime startDate = new DateTime(1990, 01, 01);
+        private Random Rnd = new Random();
+        //UNDONE: Add all properties that a user shall have by default
+        private struct Users
+        {
+            public string Email { get; set; }
+            public string Username => Email;
+            public string Password { get; set; }
+            public string Forename { get; set; }
+            public string Surname { get; set; }
+            public DateTime TimeofRegistration { get; set; }
+            public string Street { get; set; }
+            public string Postcode { get; set; }
+            public string City { get; set; }
+        }
+
+        //UNDONE: Add all properties that a courses shall have by default
+        private struct Courses
+        {
+
+        }
+        #endregion
+
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
@@ -27,14 +51,130 @@ namespace Lexicon_LMS.Migrations
             //if (!System.Diagnostics.Debugger.IsAttached)
             //    System.Diagnostics.Debugger.Launch();
 
+            //REMINDER: Add Users here
+            var usersToAdd = new[]
+            {
+                #region Teachers
+                new Users
+                {
+                    Email = "Teacher@shit.se",
+                    Password = "P@$$w0rd",
+                    Forename = "Mr. ",
+                    Surname = "Teacher",
+                    TimeofRegistration = new DateTime(),
+                    Street = "SomeStreetName 0",
+                    Postcode = "00000",
+                    City = "SomeCityName"
+                },
+                new Users
+                {
+                    Email = "John.Doe@shit.se",
+                    Password = "JohnDoe",
+                    Forename = "John",
+                    Surname = "Doe",
+                    TimeofRegistration = GetRandomDate(),
+                    Street = "Primrose Lane 2",
+                    Postcode = GetRandomNumber().ToString(),
+                    City = "Lillsand"
+                },
+                new Users
+                {
+                    Email = "Jane.Doe@shit.se",
+                    Password = "JaneDoe",
+                    Forename = "Jane",
+                    Surname = "Doe",
+                    TimeofRegistration = GetRandomDate(),
+                    Street = "Jackson Avenue 3",
+                    Postcode = GetRandomNumber().ToString(),
+                    City = "Sickla"
+                },
+                #endregion
+                #region Template
+                /*Mock structure
+                new Users
+                {
+                    Email = "",
+                    Password = "",
+                    Forename = "",
+                    Surname = "",
+                    TimeofRegistration = GetRandomDate(),
+                    Street = "",
+                    Postcode = GetRandomNumber().ToString(),
+                    City = ""
+                },*/
+#endregion
+
+                //REMINDER: Students below Teachers above
+                #region Students
+                new Users
+                {
+                    Email = "student@shit.se",
+                    Password = "P@$$w0rd",
+                    Forename = "Mr. ",
+                    Surname = "Student",
+                    TimeofRegistration = new DateTime(),
+                    Street = "SomeStreetName 0",
+                    Postcode = "00000",
+                    City = "SomeCityName"
+                },
+                new Users
+                {
+                    Email = "Johnny.Roe@shit.se",
+                    Password = "JohnnyRoe",
+                    Forename = "Johnny",
+                    Surname = "Roe",
+                    TimeofRegistration = GetRandomDate(),
+                    Street = "Howard Street 1",
+                    Postcode = GetRandomNumber().ToString(),
+                    City = "Nocketorp"
+                },
+                new Users
+                {
+                    Email = "Janie.Roe@shit.se",
+                    Password = "JanieRoe",
+                    Forename = "Janie",
+                    Surname = "Roe",
+                    TimeofRegistration = GetRandomDate(),
+                    Street = "Roberts Road 1",
+                    Postcode = GetRandomNumber().ToString(),
+                    City = "Medvik"
+                }
+#endregion
+            };
+
+            //REMINDER: Add courses here
+            var coursesToAdd = new[]
+            {
+                 new Courses
+                 {
+
+                 }
+            };
+
             var roleNames = new[] { "Teacher" };//REMINDER: add roles here!
-            AddRoles(context, roleNames);
-
             var users = new[] { "teacher@shit.se", "student@shit.se" };//REMINDER: add users here!
+            AddRoles(context, roleNames);
             AddUsers(context, users);
-
             AddCourse(context);
         }
+
+        #region Utilities
+        private int GetRandomNumber()
+        {
+            return Rnd.Next(00001, 99999);
+        }
+        private DateTime GetRandomDate()
+        {
+            int range = (DateTime.Today - startDate).Days;
+            return startDate.AddDays(Rnd.Next(range));
+        }
+
+        /*REMINDER: Idea for postcode formatting?
+            postCode = postCode.Replace(" ", "");//remove current spaces
+            if (postCode.Length > 3)
+                postCode = postCode.Insert(postCode.Length - 3, " ");//but set max length in validation
+        */
+        #endregion
 
         private void AddRoles(ApplicationDbContext db, string[] roles)
         {
@@ -74,7 +214,7 @@ namespace Lexicon_LMS.Migrations
                     continue;
                 }
 
-                var user = new ApplicationUser { Forename="Mr", Surname="JohnDoe", UserName = userEmail, Email = userEmail, TimeOfRegistration = new DateTime(2000, 01, 01, 00, 00, 00) };
+                var user = new ApplicationUser { Forename = "Mr", Surname = "JohnDoe", UserName = userEmail, Email = userEmail, TimeOfRegistration = new DateTime(2000, 01, 01, 00, 00, 00) };
 
                 var result = userManager.Create(user, "P@$$w0rd");
                 if (!result.Succeeded)
