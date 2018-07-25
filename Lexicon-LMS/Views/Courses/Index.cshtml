@@ -5,72 +5,77 @@
 }
 <link href="~/Content/icecreamstyle.css" rel="stylesheet" />
 
-<div style="background-color: #ededed; border-radius: 12px; opacity:.95">
-<h2 style="margin-left: 5px;">@ViewBag.Title</h2>
+@*style="background-color: #ededed; border-radius: 12px; opacity:.85"*@
 
-@if (User.IsInRole("Teacher"))
-{
-<p>
-    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })
+<div class="main-div">
 
-</p>  
-}
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CourseCode)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CourseName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StartDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EndDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th></th>
-        </tr>
+    <div>
+        <h2 class="h2-override">@ViewBag.Title</h2>
 
-        @foreach (var item in Model)
+        @if (User.IsInRole("Teacher"))
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CourseCode)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CourseName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StartDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EndDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @if (User.IsInRole("Teacher"))
-                    {
-                        <span class="glyphicon glyphicon-pencil"> </span>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.ID })
-                        <span> | </span>
-                    }
-                    <span class="glyphicon glyphicon-eye-open"> </span>
-                    @Html.ActionLink("Details", "Details", new { id = item.ID })
-                    @if (User.IsInRole("Teacher"))
-                    {
-                        <span> | </span>
-                        <span class="glyphicon glyphicon-remove"> </span>
-                        @Html.ActionLink("Delete", "Delete", new { id = item.ID })
-                    }
-                </td>
-            </tr>
-        }
+            <p>
+                @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })
 
-    </table>
- </div>
+            </p>
+        }
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.CourseCode)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CourseName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StartDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EndDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CourseCode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CourseName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EndDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @if (User.IsInRole("Teacher"))
+                        {
+                            <span class="glyphicon glyphicon-pencil"> </span>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.ID })
+                            <span> | </span>
+                        }
+                        <span class="glyphicon glyphicon-eye-open"> </span>
+                        @Html.ActionLink("Details", "Details", new { id = item.ID })
+                        @if (User.IsInRole("Teacher"))
+                        {
+                            <span> | </span>
+                            <span class="glyphicon glyphicon-remove"> </span>
+                            @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                        }
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>

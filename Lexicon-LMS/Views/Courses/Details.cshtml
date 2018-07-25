@@ -1,82 +1,89 @@
 ﻿@model Lexicon_LMS.Models.Course
 @using Lexicon_LMS.Models;
 
+@{
+    ViewBag.Title = "Details";
+}
 
 <link href="~/Content/icecreamstyle.css" rel="stylesheet" />
-<div style="background-color: #ededed; border-radius: 12px; opacity:.92;">
-    <h2 style="margin-left: 5px;">Details</h2>
 
-    <h4 style="margin-left: 5px;">Course</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.CourseCode)
-        </dt>
+<div class="main-div">
 
-        <dd>
-            @Html.DisplayFor(model => model.CourseCode)
-        </dd>
+    <div>
+        <h2 class="h2-override">@ViewBag.Title</h2>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CourseName)
-        </dt>
+        <h4 style="margin-left: 5px;">Course</h4>   @*TODO should be in navbar*@ 
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.CourseCode)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.CourseName)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.CourseCode)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.StartDate)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.CourseName)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.StartDate)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.CourseName)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.EndDate)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.StartDate)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.EndDate)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.StartDate)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.EndDate)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.EndDate)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CourseModules)
-        </dt>
-        @foreach (var module in Model.CourseModules)
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.CourseModules)
+            </dt>
+            @foreach (var module in Model.CourseModules)
+            {
+                <dd>
+                    @Html.ActionLink(module.Description, "Details", new { Controller = "Modules", action = "Details", id = module.ID })
+                </dd>
+            }
+
+            <dt>@Html.DisplayNameFor(model => model.Teacher)</dt>
+            <dd>@Html.DisplayFor(model => model.Teacher.FullName)</dd>
+
+            <dt>@Html.DisplayNameFor(model => model.CourseParticipants)</dt>
+            @foreach (ApplicationUser participant in Model.CourseParticipants)
+            {
+                <dd>@participant.FullName</dd>}
+        </dl>
+        @if (User.IsInRole("Teacher"))
         {
-        <dd>
-            @Html.ActionLink(module.Description, "Details", new { Controller = "Modules", action = "Details", id = module.ID })
-        </dd>
+            <p style="margin-left: 5px;">
+                <span class="glyphicon glyphicon-pencil"> </span>
+                @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+                <span class="glyphicon glyphicon-arrow-left"> </span>
+                @Html.ActionLink("Back to List", "Index")
+            </p>
+            <p style="padding-bottom: 10px;">
+                @Html.ActionLink("Add Module", "Create", new { Controller = "Modules", action = "Create", id = Model.ID }, new { @class = "btn btn-primary" })
+            </p>
         }
-
-        <dt>@Html.DisplayNameFor(model => model.Teacher)</dt>
-        <dd>@Html.DisplayFor(model => model.Teacher.FullName)</dd>
-
-        <dt>@Html.DisplayNameFor(model => model.CourseParticipants)</dt>
-        @foreach (ApplicationUser participant in Model.CourseParticipants)
-        {
-        <dd>@participant.FullName</dd>}
-    </dl>
-    @if (User.IsInRole("Teacher"))
-    {
-    <p style="margin-left: 5px;">
-        <span class="glyphicon glyphicon-pencil"> </span>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-        <span class="glyphicon glyphicon-arrow-left"> </span>
-        @Html.ActionLink("Back to List", "Index")
-    </p>
-    <p style="padding-bottom: 10px;">
-        @Html.ActionLink("Add Module", "Create", new { Controller = "Modules", action = "Create", id = Model.ID }, new { @class = "btn btn-primary" })
-    </p>
-    }
+    </div>
 </div>
