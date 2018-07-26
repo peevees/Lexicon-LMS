@@ -231,6 +231,14 @@
     <Compile Include="Migrations\201807240845321_current.Designer.cs">
       <DependentUpon>201807240845321_current.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807251111051_recipientsnotrequiredreceipientidhoweverrequired.cs" />
+    <Compile Include="Migrations\201807251111051_recipientsnotrequiredreceipientidhoweverrequired.Designer.cs">
+      <DependentUpon>201807251111051_recipientsnotrequiredreceipientidhoweverrequired.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807251145458_sendernotrequired.cs" />
+    <Compile Include="Migrations\201807251145458_sendernotrequired.Designer.cs">
+      <DependentUpon>201807251145458_sendernotrequired.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Activity.cs" />
@@ -250,10 +258,12 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Footer.css" />
+    <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\logo.png" />
     <Content Include="Content\logo_text.png" />
     <Content Include="Content\navbarstyle.css" />
     <Content Include="Content\Pir_ServerRoom1.png" />
+    <Content Include="Content\token-input.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -269,6 +279,8 @@
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-ui.min.js" />
+    <Content Include="Scripts\jquery.tokeninput.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -368,6 +380,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807240845321_current.resx">
       <DependentUpon>201807240845321_current.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807251111051_recipientsnotrequiredreceipientidhoweverrequired.resx">
+      <DependentUpon>201807251111051_recipientsnotrequiredreceipientidhoweverrequired.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807251145458_sendernotrequired.resx">
+      <DependentUpon>201807251145458_sendernotrequired.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

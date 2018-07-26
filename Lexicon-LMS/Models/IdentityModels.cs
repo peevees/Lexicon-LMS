@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -27,6 +28,8 @@ namespace Lexicon_LMS.Models
         public string Street { get; set; }
         public string Postcode { get; set; }
         public string City { get; set; }
+
+        public virtual IList<Notification> Notifications {get;set;}
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {

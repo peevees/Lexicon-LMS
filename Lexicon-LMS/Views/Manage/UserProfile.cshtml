@@ -80,6 +80,6 @@
 <p>
     @if (User.IsInRole("Teacher"))
     {@Html.ActionLink("Edit", "EditProfile", new { id = Model.Id }) <span> | </span>}
-    @Html.ActionLink("Send Message", "Index") |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Send Message", "Create", new { Controller = "Notifications", action = "Create", id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index") |
 </p>

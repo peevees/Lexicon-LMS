@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Lexicon_LMS.Models;
+using Microsoft.AspNet.Identity;
 
 namespace Lexicon_LMS.Controllers
 {
@@ -38,9 +39,15 @@ namespace Lexicon_LMS.Controllers
 
         // GET: Notifications/Create
         [Authorize(Roles = "Teacher")]
-        public ActionResult Create()
+        public ActionResult Create(string id)
         {
-            return View();
+            if(id!=null)
+            {
+                ViewBag.recipient = db.Users.Find(id);
+            }
+
+                return View();
+
         }
 
         // POST: Notifications/Create
@@ -49,10 +56,21 @@ namespace Lexicon_LMS.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Teacher")]
-        public ActionResult Create([Bind(Include = "ID,Subject,Body,Read")] Notification notification)
+        public ActionResult Create([Bind(Include = "ID,Subject,Body,RecipientID")] Notification notification)
         {
             if (ModelState.IsValid)
             {
+                notification.Sender = db.Users.Find(User.Identity.GetUserId());
+                notification.DateSent = DateTime.Now;
+
+                var recipientslist = notification.RecipientID.Split( new char[] {',' }, StringSplitOptions.RemoveEmptyEntries);
+
+                foreach(var id in recipientslist)
+                {
+                    var recipient = db.Users.Find(id);
+                    recipient.Notifications.OrderByDescending(rec => rec.DateSent);
+                }
+
                 db.Notifications.Add(notification);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -129,6 +147,23 @@ namespace Lexicon_LMS.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public ActionResult GetUsers(string q)
+        {
+            var users = db.Users.Where(c => (c.Forename + " " + c.Surname).StartsWith(q));
+            //^^ Can't use non-assigned properties like FullName in LINQ so that's why it's like that
+
+            if (User.IsInRole("Teacher"))
+            {
+                return Json(users.Select(a => new { name = a.Forename + " " + a.Surname, id = a.Id }), JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                ApplicationUser student = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
+                return Json(users.Where(c=>c.UserCourse == student.UserCourse).Select(a => new { id = a.Id, name = a.Forename + " " + a.Surname }), JsonRequestBehavior.AllowGet);
+            }
+            
         }
     }
 }
