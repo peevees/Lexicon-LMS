@@ -35,9 +35,9 @@
             @Html.DisplayFor(modelItem => item.CourseCode)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+            @Html.ActionLink("Edit", "Edit", "Modules", new { id=item.ID }, null) |<!--fix edit to modules instead of courses-->
+            @Html.ActionLink("Details", "Details", "Modules", new { id=item.ID }, null) |
+            @Html.ActionLink("Delete", "Delete", "Modules", new { id=item.ID }, null)
         </td>
     </tr>
 }
