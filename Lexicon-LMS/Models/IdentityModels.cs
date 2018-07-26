@@ -61,6 +61,7 @@ namespace Lexicon_LMS.Models
 
         public System.Data.Entity.DbSet<Lexicon_LMS.Models.Document> Documents { get; set; }
 
+        //TODO: keep track of this line it is automatically created on scaffold and breaks the application
         //public System.Data.Entity.DbSet<Lexicon_LMS.Models.ApplicationUser> ApplicationUsers { get; set; }
     }
 }
