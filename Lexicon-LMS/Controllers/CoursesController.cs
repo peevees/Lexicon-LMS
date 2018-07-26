@@ -28,7 +28,8 @@ namespace Lexicon_LMS.Controllers
                 return RedirectToAction("Details", "Courses", new { id = currentUserCourse });
             }
 
-            return View(db.Courses.ToList());
+            var courses = db.Courses.Include(c => c.Teacher).Where(c => c.EndDate >= DateTime.Now);
+            return View(courses.ToList());
         }
 
 
