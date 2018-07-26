@@ -1,14 +1,12 @@
 namespace Lexicon_LMS.Migrations
 {
+    using Lexicon_LMS.Models;
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
     using System;
-    using System.Data.Entity;
+    using System.Collections.Generic;
     using System.Data.Entity.Migrations;
     using System.Linq;
-    using Lexicon_LMS.Models;
-    using System.Web.UI.WebControls;
-    using System.Collections.Generic;
 
     internal sealed class Configuration : DbMigrationsConfiguration<ApplicationDbContext>
     {
@@ -76,7 +74,7 @@ namespace Lexicon_LMS.Migrations
                     continue;
                 }
 
-                var user = new ApplicationUser { UserName = userEmail, Email = userEmail, TimeOfRegistration = new DateTime(2000, 01, 01, 00, 00, 00) };
+                var user = new ApplicationUser { Forename="Mr", Surname="JohnDoe", UserName = userEmail, Email = userEmail, TimeOfRegistration = new DateTime(2000, 01, 01, 00, 00, 00) };
 
                 var result = userManager.Create(user, "P@$$w0rd");
                 if (!result.Succeeded)
@@ -150,9 +148,6 @@ namespace Lexicon_LMS.Migrations
             Course seededCourse = context.Courses.Where(c => c.CourseCode == "DN-18").FirstOrDefault();
             Course seededCoursejava = context.Courses.Where(c => c.CourseCode == "JD-18").FirstOrDefault();
             Course seededCourseoffice = context.Courses.Where(c => c.CourseCode == "MO-19").FirstOrDefault();
-
-            CourseTeacher.UserCourse = seededCourse;
-            CourseTeacher.UserCourseCode = seededCourse.CourseCode;
 
             seededCourse.CourseParticipants.Add(CourseStudent);
             CourseStudent.UserCourse = seededCourse;

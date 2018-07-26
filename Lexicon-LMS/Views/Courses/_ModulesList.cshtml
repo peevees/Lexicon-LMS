@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Lexicon_LMS.Models.Module>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EndDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CourseCode)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.StartDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EndDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CourseCode)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", "Modules", new { id=item.ID }, null) |<!--fix edit to modules instead of courses-->
+            @Html.ActionLink("Details", "Details", "Modules", new { id=item.ID }, null) |
+            @Html.ActionLink("Delete", "Delete", "Modules", new { id=item.ID }, null)
+        </td>
+    </tr>
+}
+
+</table>

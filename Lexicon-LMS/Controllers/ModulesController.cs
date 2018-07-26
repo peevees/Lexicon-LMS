@@ -44,7 +44,7 @@ namespace Lexicon_LMS.Controllers
             //ViewBag.CourseCode = new SelectList(db.Courses, "ID", "CourseName");
              
             Course targetCourse = db.Courses.Where(course => course.ID == id).FirstOrDefault();
-            ViewBag.CourseLabel = targetCourse.CourseName + " (" + targetCourse.CourseCode + ")";
+            ViewBag.CourseLabel = targetCourse.CourseName + " (" + targetCourse.CourseCode + ")";   // TODO: cannot create module at the moment
             Module model = new Module();
             if (id != null)
             {

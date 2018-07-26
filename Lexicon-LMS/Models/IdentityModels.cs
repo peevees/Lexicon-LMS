@@ -12,7 +12,10 @@ namespace Lexicon_LMS.Models
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit https://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
     {
+        [Required(ErrorMessage = "The forename is required")]
         public string Forename { get; set; }
+
+        [Required(ErrorMessage = "The surname is required")]
         public string Surname { get; set; }
 
         [Display(Name = "Full name")]
@@ -20,7 +23,6 @@ namespace Lexicon_LMS.Models
 
         [Display(Name = "Registrated since")]
         public DateTime TimeOfRegistration { get; set; }
-
 
         public virtual Course UserCourse { get; set; }
         public string UserCourseCode { get; set; }
@@ -62,6 +64,7 @@ namespace Lexicon_LMS.Models
 
         public System.Data.Entity.DbSet<Lexicon_LMS.Models.Document> Documents { get; set; }
 
+        //TODO: keep track of this line it is automatically created on scaffold and breaks the application
         //public System.Data.Entity.DbSet<Lexicon_LMS.Models.ApplicationUser> ApplicationUsers { get; set; }
     }
 }

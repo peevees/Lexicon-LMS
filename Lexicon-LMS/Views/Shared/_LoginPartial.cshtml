@@ -6,7 +6,7 @@
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
         @Html.AntiForgeryToken()
-        ApplicationUser user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(User.Identity.GetUserId());
+        ApplicationUser user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(User.Identity.GetUserId());@*TODO: check if null *@
         string welcome = "";
 
         if (user.Forename != null)
@@ -19,7 +19,7 @@
             <li>
                 @Html.ActionLink("Greetings " + welcome + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
             </li>
-            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+            @*<li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>*@
         </ul>
     }
 }

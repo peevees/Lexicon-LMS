@@ -199,6 +199,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ActivitiesController.cs" />
+    <Compile Include="Controllers\ArchiveController.cs" />
     <Compile Include="Controllers\CoursesController.cs" />
     <Compile Include="Controllers\DocumentsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -226,6 +227,14 @@
     <Compile Include="Migrations\201807231304022_PostCode2Postcode.cs" />
     <Compile Include="Migrations\201807231304022_PostCode2Postcode.Designer.cs">
       <DependentUpon>201807231304022_PostCode2Postcode.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807240755034_AddSomeValidation.cs" />
+    <Compile Include="Migrations\201807240755034_AddSomeValidation.Designer.cs">
+      <DependentUpon>201807240755034_AddSomeValidation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807240845321_current.cs" />
+    <Compile Include="Migrations\201807240845321_current.Designer.cs">
+      <DependentUpon>201807240845321_current.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201807240845321_current.cs" />
     <Compile Include="Migrations\201807240845321_current.Designer.cs">
@@ -259,6 +268,8 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Footer.css" />
     <Content Include="Content\jquery-ui.css" />
+    <Content Include="Content\ICE-CREAM-SCOOP.jpg" />
+    <Content Include="Content\icecreamstyle.css" />
     <Content Include="Content\logo.png" />
     <Content Include="Content\logo_text.png" />
     <Content Include="Content\navbarstyle.css" />
@@ -268,6 +279,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="opacity.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -344,6 +356,14 @@
     <Content Include="Views\Documents\Edit.cshtml" />
     <Content Include="Views\Documents\Index.cshtml" />
     <Content Include="Views\Manage\UserProfile.cshtml" />
+    <Content Include="Views\Archive\Create.cshtml" />
+    <Content Include="Views\Archive\Delete.cshtml" />
+    <Content Include="Views\Archive\Details.cshtml" />
+    <Content Include="Views\Archive\Edit.cshtml" />
+    <Content Include="Views\Archive\Index.cshtml" />
+    <Content Include="Views\Courses\_Tablayout.cshtml" />
+    <Content Include="Views\Courses\_ModulesList.cshtml" />
+    <Content Include="Views\Courses\_CourseMembers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -377,6 +397,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807231304022_PostCode2Postcode.resx">
       <DependentUpon>201807231304022_PostCode2Postcode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807240845321_current.resx">
+      <DependentUpon>201807240845321_current.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807240755034_AddSomeValidation.resx">
+      <DependentUpon>201807240755034_AddSomeValidation.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807240845321_current.resx">
       <DependentUpon>201807240845321_current.cs</DependentUpon>

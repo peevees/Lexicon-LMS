@@ -1,0 +1,72 @@
+﻿@model IEnumerable<Lexicon_LMS.Models.Course>
+
+@{
+    ViewBag.Title = "Archived courses";
+}
+<link href="~/Content/icecreamstyle.css" rel="stylesheet" />
+
+<div style="background-color: #ededed; border-radius: 12px; opacity:.95">
+
+    <h2 style="margin-left:10px">@ViewBag.Title</h2>
+
+    @Html.ActionLink("Active courses", "Index", "Courses", null, new { @class = "btn btn-primary" })
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Teacher.Forename)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CourseCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CourseName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Teacher.Forename)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CourseCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CourseName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    <span class="glyphicon glyphicon-pencil"> </span>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+
+                    <span class="glyphicon glyphicon-eye-open"> </span>
+                    @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+
+                    <span class="glyphicon glyphicon-remove"> </span>
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
