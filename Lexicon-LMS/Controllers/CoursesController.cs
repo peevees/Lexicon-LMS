@@ -119,6 +119,9 @@ namespace Lexicon_LMS.Controllers
 
         private byte[] GetFile(string fullName)
         {
+
+            //is null check filepath
+            //https://stackoverflow.com/questions/3597179/file-download-in-asp-net-mvc-2
             FileStream fs = System.IO.File.OpenRead(fullName);
 
             byte[] data = new byte[fs.Length];
