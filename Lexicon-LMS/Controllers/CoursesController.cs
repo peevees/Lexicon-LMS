@@ -8,7 +8,9 @@ using System.Net;
 using System.Web.Mvc;
 using Lexicon_LMS.Models;
 using System.Web.Security;
-
+using System.Web;
+using System.IO;
+using System.Reflection;
 
 namespace Lexicon_LMS.Controllers
 {
@@ -41,6 +43,8 @@ namespace Lexicon_LMS.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Course course = db.Courses.Find(id);
+
+
             if (course == null)
             {
                 return HttpNotFound();
@@ -66,10 +70,32 @@ namespace Lexicon_LMS.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Teacher")]
-        public ActionResult Create([Bind(Include = "ID,CourseCode,CourseName,StartDate,EndDate,Description,TeacherID")] Course course)
+        public ActionResult Create([Bind(Include = "ID,CourseCode,CourseName,StartDate,EndDate,Description,TeacherID")] Course course, HttpPostedFileBase upload)
         {
             if (ModelState.IsValid)
             {
+                if (upload != null && upload.ContentLength > 0)
+                {
+                    var originalFilename = Path.GetFileName(upload.FileName);
+                    string fileId = Guid.NewGuid().ToString().Replace("-", "");
+
+                    var path = Path.Combine(Server.MapPath("~/Uploads"), originalFilename);
+                    upload.SaveAs(path);
+
+                    var file = new Document
+                    {
+                        Name = originalFilename,
+                        UploadDate = DateTime.Now,
+                        CourseID = course.ID,
+                        Filepath = path,
+                        User = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault()
+                    };
+
+                    course.CourseDocuments = new List<Document>();
+                    course.CourseDocuments.Add(file);
+
+                }
+
                 course.Teacher = db.Users.Where(u => u.Id == course.TeacherID).FirstOrDefault();
                 db.Courses.Add(course);
                 db.SaveChanges();
@@ -78,6 +104,31 @@ namespace Lexicon_LMS.Controllers
 
             return View(course);
         }
+
+        public ActionResult Download(string filePath, string fileName)
+        {
+            string fullName = Path.Combine(Assembly.GetExecutingAssembly().CodeBase, filePath, fileName);
+
+            byte[] fileBytes = GetFile(fullName);
+            return File(
+                filePath,
+                System.Net.Mime.MediaTypeNames.Application.Octet,
+                Path.GetFileName(filePath)
+                );
+        }
+
+        private byte[] GetFile(string fullName)
+        {
+            FileStream fs = System.IO.File.OpenRead(fullName);
+
+            byte[] data = new byte[fs.Length];
+            int br = fs.Read(data, 0, data.Length);
+            if (br != fs.Length)
+                throw new IOException(fullName);
+
+            return data;
+        }
+
 
         // GET: Courses/Edit/5
         [Authorize(Roles = "Teacher")]
