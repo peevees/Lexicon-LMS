@@ -47,13 +47,20 @@
                 <dt>Account type</dt>
                 <dd>
                     @if (User.IsInRole("Teacher"))
-                        {<span>Teacher</span>}
+                    {<span>Teacher</span>}
                     else
-                        { <span>Student</span>}
+                    { <span>Student</span>}
                 </dd>
 
                 <dt>Course</dt>
-                @*<dd>@user.UserCourse.CourseName</dd>*@
+                @if (user.UserCourse != null)
+                {
+                    <dd>@user.UserCourse.CourseName</dd>
+                }else
+	{
+	         <dd>No registered courses</dd>
+	}
+
 
                 <dt>Phone nr</dt>
                 <dd>@user.PhoneNumber</dd>
@@ -62,32 +69,32 @@
                 <dd>@user.Street, @user.Postcode @user.City</dd>
 
                 @*<dt>Two-Factor Authentication:</dt>
-                <dd>
-                    <p>
-                        There are no two-factor authentication providers configured. See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
-                        for details on setting up this ASP.NET application to support two-factor authentication.
-                    </p>
-                    @if (Model.TwoFactor)
-                    {
-                        using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                        {
-                            @Html.AntiForgeryToken()
-                            <text>Enabled
-                                <input type="submit" value="Disable" class="btn btn-link" />
-                            </text>
-                        }
-                    }
-                    else
-                    {
-                        using (Html.BeginForm("EnableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                        {
-                            @Html.AntiForgeryToken()
-                            <text>Disabled
-                                <input type="submit" value="Enable" class="btn btn-link" />
-                            </text>
-                        }
-                    }
-                </dd>*@
+        <dd>
+            <p>
+                There are no two-factor authentication providers configured. See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
+                for details on setting up this ASP.NET application to support two-factor authentication.
+            </p>
+            @if (Model.TwoFactor)
+            {
+                using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <text>Enabled
+                        <input type="submit" value="Disable" class="btn btn-link" />
+                    </text>
+                }
+            }
+            else
+            {
+                using (Html.BeginForm("EnableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <text>Disabled
+                        <input type="submit" value="Enable" class="btn btn-link" />
+                    </text>
+                }
+            }
+        </dd>*@
             </dl>
             <p style="margin-left:8px; padding-bottom: 20px;">
                 @if (Model.HasPassword)

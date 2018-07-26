@@ -5,17 +5,21 @@
 }
 <link href="~/Content/icecreamstyle.css" rel="stylesheet" />
 
-<div style="background-color: #ededed; border-radius: 12px; opacity:.95">
+@*style="background-color: #ededed; border-radius: 12px; opacity:.85"*@
 
-<h2 style="margin-left: 5px;">@ViewBag.Title</h2>
+<div class="main-div">
 
-@if (User.IsInRole("Teacher"))
-{
-    <p>
-        @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })
+    <div>
+        <h2 class="h2-override">@ViewBag.Title</h2>
 
-        @Html.ActionLink("Archive", "Index", "Archive", null, new { @class = "btn btn-primary" } )
-    </p>
+        @if (User.IsInRole("Teacher"))
+        {
+        <p>
+            @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })
+
+            @Html.ActionLink("Archive", "Index", "Archive", null, new { @class = "btn btn-primary" } )
+
+        </p>  
 }
     <table class="table">
         <tr>
@@ -37,42 +41,43 @@
             <th></th>
         </tr>
 
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CourseCode)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CourseName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StartDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EndDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @if (User.IsInRole("Teacher"))
-                    {
-                        <span class="glyphicon glyphicon-pencil"> </span>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.ID })
-                        <span> | </span>
-                    }
-                    <span class="glyphicon glyphicon-eye-open"> </span>
-                    @Html.ActionLink("Details", "Details", new { id = item.ID })
-                    @if (User.IsInRole("Teacher"))
-                    {
-                        <span> | </span>
-                        <span class="glyphicon glyphicon-remove"> </span>
-                        @Html.ActionLink("Delete", "Delete", new { id = item.ID })
-                    }
-                </td>
-            </tr>
-        }
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CourseCode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CourseName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EndDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @if (User.IsInRole("Teacher"))
+                        {
+                            <span class="glyphicon glyphicon-pencil"> </span>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.ID })
+                            <span> | </span>
+                        }
+                        <span class="glyphicon glyphicon-eye-open"> </span>
+                        @Html.ActionLink("Details", "Details", new { id = item.ID })
+                        @if (User.IsInRole("Teacher"))
+                        {
+                            <span> | </span>
+                            <span class="glyphicon glyphicon-remove"> </span>
+                            @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                        }
+                    </td>
+                </tr>
+            }
 
-    </table>
+        </table>
+    </div>
 </div>
