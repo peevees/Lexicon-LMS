@@ -4,57 +4,66 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<link href="~/Content/icecreamstyle.css" rel="stylesheet" />
 
-<div>
-    <h4>Module</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Course.CourseCode)
-        </dt>
+<div class="main-div">
 
-        <dd>
-            @Html.DisplayFor(model => model.Course.CourseCode)
-        </dd>
+    <div>
+        <h2 class="h2-override">@ViewBag.Title</h2>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.StartDate)
-        </dt>
+        <div>
+            <h4>Module</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Course.CourseCode)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.StartDate)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Course.CourseCode)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.EndDate)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.StartDate)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.EndDate)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.StartDate)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.EndDate)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.EndDate)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model=>model.ModuleActivities)
-        </dt>
-        @foreach(var activity in Model.ModuleActivities)
-        {
-            <dd>
-                @Html.ActionLink(activity.Name, "Details", new { Controller="Activities", action = "Details", id = activity.ID})
-            </dd>
-        }
-    </dl>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ModuleActivities)
+                </dt>
+                @foreach (var activity in Model.ModuleActivities)
+                {
+                    <dd>
+                        @Html.ActionLink(activity.Name, "Details", new { Controller = "Activities", action = "Details", id = activity.ID })
+                    </dd>
+                }
+            </dl>
+        </div>
+        <p>
+            @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+            @Html.ActionLink("Back to List", "Index")
+        </p>
+        @Html.ActionLink("Add Activity", "Create", new { Controller = "Activities", action = "Create", id = Model.ID, @class = "btn btn-default" }, new { @class = "btn btn-default" })
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
-@Html.ActionLink("Add Activity", "Create", new { Controller = "Activities", action = "Create", id = Model.ID, @class= "btn btn-default" }, new { @class = "btn btn-default" })
+
+@* TODO: too many divs ?*@

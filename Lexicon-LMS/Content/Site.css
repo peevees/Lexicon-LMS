@@ -5,8 +5,9 @@
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+    
+    
+    
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -26,4 +27,18 @@ textarea {
 /* Add a background color on hover */
 .btn-group button:hover {
     color: #1f1f1f;
+}
+
+
+.main-div {
+    border-radius: 12px;
+    padding-bottom: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-top: 20px;
+    background: rgba(255, 255, 255, 0.85);
+}
+.h2-override{
+    padding-top: 10px;
+    margin-left: 5px;
 }
