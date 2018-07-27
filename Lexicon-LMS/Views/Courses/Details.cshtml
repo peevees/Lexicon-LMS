@@ -29,85 +29,89 @@
 
             <br />
             @*<hr />*@
-            <dl class="dl-horizontal">
-                <dt>
-                    @Html.DisplayNameFor(model => model.CourseCode)
-                </dt>
+              <dl class="dl-horizontal">
+                  <dt>
+                      @Html.DisplayNameFor(model => model.CourseCode)
+                  </dt>
 
-                <dd>
-                    @Html.DisplayFor(model => model.CourseCode)
-                </dd>
+                  <dd>
+                      @Html.DisplayFor(model => model.CourseCode)
+                  </dd>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.CourseName)
-                </dt>
+                  <dt>
+                      @Html.DisplayNameFor(model => model.CourseName)
+                  </dt>
 
-                <dd>
-                    @Html.DisplayFor(model => model.CourseName)
-                </dd>
+                  <dd>
+                      @Html.DisplayFor(model => model.CourseName)
+                  </dd>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.StartDate)
-                </dt>
+                  <dt>
+                      @Html.DisplayNameFor(model => model.StartDate)
+                  </dt>
 
-                <dd>
-                    @Html.DisplayFor(model => model.StartDate)
-                </dd>
+                  <dd>
+                      @Html.DisplayFor(model => model.StartDate)
+                  </dd>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.EndDate)
-                </dt>
+                  <dt>
+                      @Html.DisplayNameFor(model => model.EndDate)
+                  </dt>
 
-                <dd>
-                    @Html.DisplayFor(model => model.EndDate)
-                </dd>
+                  <dd>
+                      @Html.DisplayFor(model => model.EndDate)
+                  </dd>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.Description)
-                </dt>
+                  <dt>
+                      @Html.DisplayNameFor(model => model.Description)
+                  </dt>
 
-                <dd>
-                    @Html.DisplayFor(model => model.Description)
-                </dd>
+                  <dd>
+                      @Html.DisplayFor(model => model.Description)
+                  </dd>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.CourseModules)
-                </dt>
-                @foreach (var module in Model.CourseModules)
-                {
-                    <dd>
-                        @Html.ActionLink(module.Description, "Details", new { Controller = "Modules", action = "Details", id = module.ID })
-                    </dd>
-                }
+                  <dt>
+                      @Html.DisplayNameFor(model => model.CourseModules)
+                  </dt>
+                  @foreach (var module in Model.CourseModules)
+                  {
+                  <dd>
+                      @Html.ActionLink(module.Description, "Details", new { Controller = "Modules", action = "Details", id = module.ID })
+                  </dd>
+                  }
 
-                <dt>@Html.DisplayNameFor(model => model.Teacher)</dt>
-                <dd>@Html.DisplayFor(model => model.Teacher.FullName)</dd>
+                  <dt>@Html.DisplayNameFor(model => model.Teacher)</dt>
+                  <dd>@Html.DisplayFor(model => model.Teacher.FullName)</dd>
 
-                <dt>@Html.DisplayNameFor(model => model.CourseParticipants)</dt>
-                @foreach (ApplicationUser participant in Model.CourseParticipants)
-                {
-                    <dd>@participant.FullName</dd>
-                    <dd>"hej"</dd>
-                }
-
-                <dt>@Html.DisplayNameFor(model => model.CourseDocuments)</dt>
-                @foreach (Document document in Model.CourseDocuments)
-                {
-                    <dd>
-                        @Html.ActionLink("Download", "Download", new { filePath = document.Filepath, fileName = document.Name })
-                        @*<a href="controllerName/Download?file=@document.Filepath" target="_blank">@document.Name</a>*@
-                    </dd>
-                }
-
-            </dl>
+                  <dt>@Html.DisplayNameFor(model => model.CourseParticipants)</dt>
+                  @foreach (ApplicationUser participant in Model.CourseParticipants)
+                  {
+                  <dd>@participant.FullName</dd>
+                  }
+                  
+                  <dt>@Html.DisplayNameFor(model => model.CourseDocuments)</dt>
+                  @foreach (Document document in Model.CourseDocuments)
+                  {
+                  <dd>
+                      @Html.ActionLink("Download", "Download", new { filePath = document.Filepath, fileName = document.Name })
+                      @*<a href="controllerName/Download?file=@document.Filepath" target="_blank">@document.Name</a>*@
+                  </dd>
+                  }
+              </dl>
             @if (User.IsInRole("Teacher"))
             {
-                <p style="margin-left: 5px;">
+                <span style="margin-left: 5px;">
                     <span class="glyphicon glyphicon-pencil"> </span>
                     @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-                    <span class="glyphicon glyphicon-arrow-left"> </span>
+                </span>
+            }
+
+                <span>
+                   <span class="glyphicon glyphicon-arrow-left"> </span>
                     @Html.ActionLink("Back to List", "Index")
-                </p>
+                </span>
+            @if (User.IsInRole("Teacher"))
+            {
                 <p style="padding-bottom: 10px;">
                     @Html.ActionLink("Add Module", "Create", new { Controller = "Modules", action = "Create", id = Model.ID }, new { @class = "btn btn-primary" })
                 </p>
@@ -121,7 +125,7 @@
         </div>
 
         <div class="tab-pane fade" id="coursemembers" role="tabpanel" aria-labelledby="overview-tab">
-            @Html.Partial("_CourseMembers", Model.CourseParticipants);
+            @Html.Partial("_CourseMembers", Model.CourseParticipants)
 
         </div>
     </div>
