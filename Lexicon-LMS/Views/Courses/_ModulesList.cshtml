@@ -41,13 +41,13 @@
                 </td>
                 <td>
                     @if (User.IsInRole("Teacher"))
-                    {
-                        @Html.ActionLink("Edit", "Edit", new { id = item.ID }) <span>| </span>
+                    {<!--fix edit to modules instead of courses-->
+                        @Html.ActionLink("Edit", "Edit", "Modules", new { id=item.ID }, null) <span>| </span>
                     }
-                    @Html.ActionLink("Details", "Details", new { id = item.ID })
+                    @Html.ActionLink("Details", "Details", "Modules", new { id=item.ID }, null)
                     @if (User.IsInRole("Teacher"))
                     {
-                        <span> | </span> @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                        <span> | </span> @Html.ActionLink("Delete", "Delete", "Modules", new { id=item.ID }, null)
                     }
                 </td>
             </tr>
