@@ -79,8 +79,9 @@ namespace Lexicon_LMS.Controllers
                     var originalFilename = Path.GetFileName(upload.FileName);
                     string fileId = Guid.NewGuid().ToString().Replace("-", "");
 
-                    var path = Path.Combine(Server.MapPath("~/Uploads"), originalFilename);
-                    upload.SaveAs(path);
+                    var path = Path.Combine(Server.MapPath("~/Uploads"));
+                    var save = Path.Combine(Server.MapPath("~/Uploads"), originalFilename);
+                    upload.SaveAs(save);
 
                     var file = new Document
                     {
@@ -107,14 +108,23 @@ namespace Lexicon_LMS.Controllers
 
         public ActionResult Download(string filePath, string fileName)
         {
+
             string fullName = Path.Combine(Assembly.GetExecutingAssembly().CodeBase, filePath, fileName);
 
+            string contentType = MimeMapping.GetMimeMapping(filePath);
             byte[] fileBytes = GetFile(fullName);
+            var cd = new System.Net.Mime.ContentDisposition
+            {
+                FileName = fileName,
+
+                Inline = false
+            };
+            
+            Response.AppendHeader("Content-Disposition", cd.ToString());
             return File(
-                filePath,
-                System.Net.Mime.MediaTypeNames.Application.Octet,
-                Path.GetFileName(filePath)
-                );
+             fileBytes,
+             contentType
+             );
         }
 
         private byte[] GetFile(string fullName)
