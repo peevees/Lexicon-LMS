@@ -31,8 +31,32 @@ namespace Lexicon_LMS.Migrations
         //UNDONE: Add all properties that a courses shall have by default
         private struct Courses
         {
-
+            public string CourseName { get; set; }
+            public DateTime StartDate { get; set; }
+            public DateTime EndDate { get; set; }
+            public string Description { get; set; }
+            public string CourseCode { get; set; }
+            public ApplicationUser Teacher { get; set; }
+            public string TeacherId => Teacher.Id;
+            public ApplicationUser CoursePaticipant { get; set; }
         }
+
+        private struct Modules
+        {
+            public string Description { get; set; }
+            public DateTime StartDate { get; set; }
+            public Course Course { get; set; }
+            public int CourseId => Course.ID;
+        }
+
+        private struct Activities
+        {
+            public string Name { get; set; }
+            public DateTime Deadline { get; set; }
+            public Module Module { get; set; }
+            public int ModuleId => Module.ID;
+        }
+
         #endregion
 
         public Configuration()
@@ -51,6 +75,7 @@ namespace Lexicon_LMS.Migrations
             //HACK: SEED DEBUGGER
             if (!System.Diagnostics.Debugger.IsAttached)
                 System.Diagnostics.Debugger.Launch();
+
 
             //REMINDER: Add Users here
             var usersToAdd = new[]
@@ -155,19 +180,76 @@ namespace Lexicon_LMS.Migrations
             var coursesToAdd = new[]
             {
                  new Courses
-                 {
+                {
+                    CourseName = ".NET Development",
+                    StartDate = new DateTime(2018, 7, 19),
+                    EndDate = new DateTime(2019, 7, 19),
+                    Description = "A course in .NET Development",
+                    CourseCode = "DN-18"
+                },
 
-                 }
+                 new Courses
+                {
+                    CourseName = "Java Development",
+                    StartDate = new DateTime(2018, 8, 19),
+                    EndDate = new DateTime(2019, 8, 19),
+                    Description = "Boil coffee",
+                    CourseCode = "JD-18"
+                },
+
+                 new Courses
+                {
+                    CourseName = "Office 365",
+                    StartDate = new DateTime(2019, 8, 19),
+                    EndDate = new DateTime(2020, 8, 19),
+                    Description = "Create Documents, Spreadsheets and Presentations",
+                    CourseCode = "MO-19"
+                }
             };
 
             var roleNames = new[] { "Teacher" };//REMINDER: add roles here!
             var users = new[] { "teacher@shit.se", "student@shit.se" };//REMINDER: add users here!
             AddRoles(context, roleNames);
             AddUsers(context, usersToAdd);
-            AddCourse(context);
+            AddCourse(context, coursesToAdd, usersToAdd);
         }
 
         #region Utilities
+        private ApplicationUser GetRandomTeacher(ApplicationDbContext db, Users[] users)
+        {
+            Users[] teachersToFind = users.Where(u => u.IsStudent == false).ToArray();
+            List<ApplicationUser> Teachers = new List<ApplicationUser>();
+
+            foreach (var teacher in teachersToFind)
+            {
+                ApplicationUser toAdd = (ApplicationUser) db.Users.Where(u => u.UserName == teacher.Username);
+                Teachers.Add(toAdd);
+            }
+            if (Teachers.Count() == 0)
+            {
+                throw new Exception("Failed to get random teacher");
+            }
+            return Teachers[Rnd.Next(0, (Teachers.Capacity )+1)];
+
+        }
+
+        private ApplicationUser GetStudent(ApplicationDbContext db, Users[] users)
+        {
+            Users[] studentToFind = users.Where(u => u.IsStudent == true).ToArray();
+            ApplicationUser[] Students = new ApplicationUser[studentToFind.Length];
+
+            foreach (var teacher in studentToFind)
+            {
+                Students = db.Users.Where(u => u.UserName == teacher.Username).ToArray();
+            }
+            if (Students.Count() == 0)
+            {
+                throw new Exception("Failed to get random student");
+            }
+            return Students[Rnd.Next(0, (Students.Length)+1)];
+
+        }
+
         private int GetRandomNumber()
         {
             return Rnd.Next(00001, 99999);
@@ -183,6 +265,19 @@ namespace Lexicon_LMS.Migrations
             if (postCode.Length > 3)
                 postCode = postCode.Insert(postCode.Length - 3, " ");//but set max length in validation
         */
+
+        private static void SetConfirmEmailForSeedUsers(UserManager<ApplicationUser> userManager, ApplicationUser user)
+        {
+            var provider = new Microsoft.Owin.Security.DataProtection.DpapiDataProtectionProvider("Lexicon-LMS");
+            userManager.UserTokenProvider = new Microsoft.AspNet.Identity.Owin.DataProtectorTokenProvider<ApplicationUser>(provider.Create("EmailConfirmation"));
+            var token = userManager.GenerateEmailConfirmationToken(user.Id);
+
+            var confirmResult = userManager.ConfirmEmail(user.Id, token);
+            if (!confirmResult.Succeeded)
+            {
+                throw new Exception(string.Join("/n", confirmResult.Errors));
+            }
+        }
         #endregion
 
         private void AddRoles(ApplicationDbContext db, string[] roles)
@@ -244,21 +339,18 @@ namespace Lexicon_LMS.Migrations
 
         }
 
-        private static void SetConfirmEmailForSeedUsers(UserManager<ApplicationUser> userManager, ApplicationUser user)
-        {
-            var provider = new Microsoft.Owin.Security.DataProtection.DpapiDataProtectionProvider("Lexicon-LMS");
-            userManager.UserTokenProvider = new Microsoft.AspNet.Identity.Owin.DataProtectorTokenProvider<ApplicationUser>(provider.Create("EmailConfirmation"));
-            var token = userManager.GenerateEmailConfirmationToken(user.Id);
 
-            var confirmResult = userManager.ConfirmEmail(user.Id, token);
-            if (!confirmResult.Succeeded)
+
+        private void AddCourse(ApplicationDbContext context, Courses[] coursesToCreate, Users[] users)
+        {
+            foreach (var course in coursesToCreate)
             {
-                throw new Exception(string.Join("/n", confirmResult.Errors));
+                var teacher = GetRandomTeacher(context, users);
+                context.Courses.AddOrUpdate(c => c.CourseName, new Course { CourseCode = course.CourseCode, CourseName = course.CourseName, StartDate = course.StartDate, EndDate = course.EndDate, Teacher = teacher, TeacherID = teacher.Id, Description = course.Description, CourseParticipants = (ICollection<ApplicationUser>)GetStudent(context, users) });
+                context.SaveChanges();
             }
-        }
 
-        private void AddCourse(ApplicationDbContext context)
-        {
+            /*
             var CourseTeacher = context.Users.Where(u => u.Email == "teacher@shit.se").FirstOrDefault();
             var CourseStudent = context.Users.Where(u => u.Email == "student@shit.se").FirstOrDefault();
 
@@ -296,16 +388,19 @@ namespace Lexicon_LMS.Migrations
                     Description = "Create Documents, Spreadsheets and Presentations",
                     CourseCode = "MO-19"
                 });
+              */
 
-            context.SaveChanges();
-            Course seededCourse = context.Courses.Where(c => c.CourseCode == "DN-18").FirstOrDefault();
-            Course seededCoursejava = context.Courses.Where(c => c.CourseCode == "JD-18").FirstOrDefault();
-            Course seededCourseoffice = context.Courses.Where(c => c.CourseCode == "MO-19").FirstOrDefault();
+            /*
+                context.SaveChanges();
+                Course seededCourse = context.Courses.Where(c => c.CourseCode == "DN-18").FirstOrDefault();
+                Course seededCoursejava = context.Courses.Where(c => c.CourseCode == "JD-18").FirstOrDefault();
+                Course seededCourseoffice = context.Courses.Where(c => c.CourseCode == "MO-19").FirstOrDefault();
 
-            seededCourse.CourseParticipants.Add(CourseStudent);
-            CourseStudent.UserCourse = seededCourse;
-            CourseStudent.UserCourseCode = seededCourse.CourseCode;
-
+                seededCourse.CourseParticipants.Add(CourseStudent);
+                CourseStudent.UserCourse = seededCourse;
+                CourseStudent.UserCourseCode = seededCourse.CourseCode;
+              */
+              /*
             context.Modules.AddOrUpdate(
                 m => m.Description,
                 new Module
@@ -382,7 +477,7 @@ namespace Lexicon_LMS.Migrations
             seededModule.ModuleActivities.Add(seededActivity);
             seededModulejava.ModuleActivities.Add(seededActivityjava);
             seededModuleoffice.ModuleActivities.Add(seededActivityoffice);
-
+                */
         }
     }
 }
