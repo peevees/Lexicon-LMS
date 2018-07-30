@@ -52,31 +52,31 @@
 
 
                 var myModal = "myModal" + item.ID;
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CourseCode)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CourseName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.StartDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.EndDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </td>
-                    <td>
-                        @if (User.IsInRole("Teacher"))
-                        {
-                            <span class="glyphicon glyphicon-pencil"> </span>
-                            @Html.ActionLink("Edit", "Edit", new { id = item.ID })
-                            <span> | </span>
-                        }
-                        <span class="glyphicon glyphicon-eye-open"> </span>
-                        @Html.ActionLink("Details", "Details", new { id = item.ID })
+            <tr class="collapsible">
+                <td>
+                    @Html.DisplayFor(modelItem => item.CourseCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CourseName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @if (User.IsInRole("Teacher"))
+                    {
+                        <span class="glyphicon glyphicon-pencil"> </span>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.ID })
+                        <span> | </span>
+                    }
+                    <span class="glyphicon glyphicon-eye-open"> </span>
+                    @Html.ActionLink("Details", "Details", new { id = item.ID })
 
                         @if (User.IsInRole("Teacher"))
                         {
@@ -98,25 +98,31 @@
                                         </div>
                                         <div class="modal-footer">
 
-                                            @using (Html.BeginForm("Delete", "Courses", new { id = item.ID }, FormMethod.Post, null))
-                                            {
-                                                @Html.AntiForgeryToken()
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                                <input type="submit" value="Delete" class="btn btn-danger" />
-                                            }
+                                        @using (Html.BeginForm("Delete", "Courses", new { id = item.ID }, FormMethod.Post, null))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                            <input type="submit" value="Delete" class="btn btn-danger" />
+                                        }
 
-                                        </div>
                                     </div>
                                 </div>
                             </div>
+                        </div>
 
-                        }
-                    </td>
-                </tr>
+                    }
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    @Html.DisplayFor(modelItem => item.CourseModules)
+                </th>
+            </tr>
 
             }
         </table>
-    </div>
+    </div> 
 </div>
 
 
+@Scripts.Render("~/Scripts/collapse.js")
