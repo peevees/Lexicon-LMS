@@ -25,7 +25,7 @@ namespace Lexicon_LMS.Models
         public virtual ICollection<Activity> ModuleActivities { get; set; }
 
         [Display(Name = "Module documents")]
-        public virtual ICollection<Document> ModuleDocuments { get; set; }
+        public virtual ICollection<Document> Documents { get; set; }
 
         [Required]
         [Display(Name = "Course code")]

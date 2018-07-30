@@ -77,27 +77,32 @@ namespace Lexicon_LMS.Controllers
                 if (upload != null && upload.ContentLength > 0)
                 {
                     var originalFilename = Path.GetFileName(upload.FileName);
+                    var user = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
+
                     string fileId = Guid.NewGuid().ToString().Replace("-", "");
 
+                    var fileName =  user.Forename + "_" + user.Surname + "_" + fileId + "_" + originalFilename;
+
                     var path = Path.Combine(Server.MapPath("~/Uploads"));
-                    var save = Path.Combine(Server.MapPath("~/Uploads"), originalFilename);
+                    var save = Path.Combine(Server.MapPath("~/Uploads"), fileName);
                     upload.SaveAs(save);
 
                     var file = new Document
                     {
-                        Name = originalFilename,
+                        FileName = fileName,
+                        DisplayName = originalFilename,
                         UploadDate = DateTime.Now,
                         CourseID = course.ID,
                         Filepath = path,
                         User = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault()
                     };
 
-                    course.CourseDocuments = new List<Document>();
-                    course.CourseDocuments.Add(file);
+                    course.Documents = new List<Document>();
+                    course.Documents.Add(file);
 
                 }
 
-                course.Teacher = db.Users.Where(u => u.Id == course.TeacherID).FirstOrDefault();
+                //course.Teacher = db.Users.Where(u => u.Id == course.TeacherID).FirstOrDefault();
                 db.Courses.Add(course);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -106,20 +111,24 @@ namespace Lexicon_LMS.Controllers
             return View(course);
         }
 
-        public ActionResult Download(string filePath, string fileName)
+        [Authorize]
+        public ActionResult Download(string filePath, string fileName, string saveName)
         {
-
             string fullName = Path.Combine(Assembly.GetExecutingAssembly().CodeBase, filePath, fileName);
+
+            if (!System.IO.File.Exists(fullName))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "File was not found");
+            }
 
             string contentType = MimeMapping.GetMimeMapping(filePath);
             byte[] fileBytes = GetFile(fullName);
             var cd = new System.Net.Mime.ContentDisposition
             {
-                FileName = fileName,
-
+                FileName = saveName,
                 Inline = false
             };
-            
+
             Response.AppendHeader("Content-Disposition", cd.ToString());
             return File(
              fileBytes,
@@ -132,6 +141,7 @@ namespace Lexicon_LMS.Controllers
 
             //is null check filepath
             //https://stackoverflow.com/questions/3597179/file-download-in-asp-net-mvc-2
+
             FileStream fs = System.IO.File.OpenRead(fullName);
 
             byte[] data = new byte[fs.Length];

@@ -3,8 +3,8 @@
 @if (User.IsInRole("Teacher"))
 {
     <p>
-
-        @Html.ActionLink("Create New", "Create")
+        @*TODO:send course code or id to module create action*@
+        @Html.ActionLink("Create New", "Create", "Modules", null,null)
     </p>
 }
     <table class="table">

@@ -29,75 +29,82 @@
 
             <br />
             @*<hr />*@
-              <dl class="dl-horizontal">
-                  <dt>
-                      @Html.DisplayNameFor(model => model.CourseCode)
-                  </dt>
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.CourseCode)
+                </dt>
 
-                  <dd>
-                      @Html.DisplayFor(model => model.CourseCode)
-                  </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.CourseCode)
+                </dd>
 
-                  <dt>
-                      @Html.DisplayNameFor(model => model.CourseName)
-                  </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.CourseName)
+                </dt>
 
-                  <dd>
-                      @Html.DisplayFor(model => model.CourseName)
-                  </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.CourseName)
+                </dd>
 
-                  <dt>
-                      @Html.DisplayNameFor(model => model.StartDate)
-                  </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.StartDate)
+                </dt>
 
-                  <dd>
-                      @Html.DisplayFor(model => model.StartDate)
-                  </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.StartDate)
+                </dd>
 
-                  <dt>
-                      @Html.DisplayNameFor(model => model.EndDate)
-                  </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.EndDate)
+                </dt>
 
-                  <dd>
-                      @Html.DisplayFor(model => model.EndDate)
-                  </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.EndDate)
+                </dd>
 
-                  <dt>
-                      @Html.DisplayNameFor(model => model.Description)
-                  </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
 
-                  <dd>
-                      @Html.DisplayFor(model => model.Description)
-                  </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
 
-                  <dt>
-                      @Html.DisplayNameFor(model => model.CourseModules)
-                  </dt>
-                  @foreach (var module in Model.CourseModules)
-                  {
-                  <dd>
-                      @Html.ActionLink(module.Description, "Details", new { Controller = "Modules", action = "Details", id = module.ID })
-                  </dd>
-                  }
+                <dt>
+                    @Html.DisplayNameFor(model => model.CourseModules)
+                </dt>
 
-                  <dt>@Html.DisplayNameFor(model => model.Teacher)</dt>
-                  <dd>@Html.DisplayFor(model => model.Teacher.FullName)</dd>
+                <dd>
+                    @foreach (var module in Model.CourseModules)
+                    {
 
-                  <dt>@Html.DisplayNameFor(model => model.CourseParticipants)</dt>
-                  @foreach (ApplicationUser participant in Model.CourseParticipants)
-                  {
-                  <dd>@participant.FullName</dd>
-                  }
-                  
-                  <dt>@Html.DisplayNameFor(model => model.CourseDocuments)</dt>
-                  @foreach (Document document in Model.CourseDocuments)
-                  {
-                  <dd>
-                      @Html.ActionLink("Download", "Download", new { filePath = document.Filepath, fileName = document.Name })
-                      @*<a href="controllerName/Download?file=@document.Filepath" target="_blank">@document.Name</a>*@
-                  </dd>
-                  }
-              </dl>
+                        @Html.ActionLink(module.Description, "Details", new { Controller = "Modules", action = "Details", id = module.ID })
+
+                    }
+                </dd>
+
+                    <dt>@Html.DisplayNameFor(model => model.Teacher)</dt>
+                    <dd>@Html.DisplayFor(model => model.Teacher.FullName)</dd>
+
+                    @*<dt>@Html.DisplayNameFor(model => model.CourseParticipants)</dt>
+            <dd>
+                @foreach (ApplicationUser participant in Model.CourseParticipants)
+                {
+
+                    @participant.FullName
+                }
+            </dd>*@
+
+                    <dt>@Html.DisplayNameFor(model => model.Documents)</dt>
+                    <dd>
+                        @foreach (Document document in Model.Documents)
+                        {
+
+                            @Html.ActionLink("Download: " + document.DisplayName, "Download", new { filePath = document.Filepath, fileName = document.FileName, saveName = document.DisplayName })
+
+                        }
+                    </dd>
+                </dl>
             @if (User.IsInRole("Teacher"))
             {
                 <span style="margin-left: 5px;">
@@ -131,7 +138,9 @@
     </div>
 </div>
 
-
+@*<script>$(function () {
+    $('#DownloadLink')
+    })</script>*@
 
 @*<div style="background-color: #ededed; border-radius: 12px; opacity:.92;">
         <h2 style="margin-left: 5px;">Details</h2>
