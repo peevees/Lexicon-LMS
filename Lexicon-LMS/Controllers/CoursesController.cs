@@ -153,6 +153,8 @@ namespace Lexicon_LMS.Controllers
         }
 
 
+
+
         // GET: Courses/Edit/5
         [Authorize(Roles = "Teacher")]
         public ActionResult Edit(int? id)

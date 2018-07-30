@@ -60,6 +60,7 @@ namespace Lexicon_LMS.Controllers
         [Authorize(Roles = "Teacher")]
         public ActionResult Create([Bind(Include = "ID,Name,Deadline,ModuleID")] Activity activity, HttpPostedFileBase upload)
         {
+
             if (ModelState.IsValid)
             {
                 Module targetModule = db.Modules.Where(module => module.ID == activity.ModuleID).FirstOrDefault();
@@ -93,10 +94,7 @@ namespace Lexicon_LMS.Controllers
 
                 }
 
-                //Module targetModule = db.Modules.Where(module => module.ID == activity.ModuleID).FirstOrDefault();
-                //targetModule.ModuleActivities.Add(activity);
-
-
+            
                 //course.Teacher = db.Users.Where(u => u.Id == course.TeacherID).FirstOrDefault();
                 db.Activities.Add(activity);
                 db.SaveChanges();
@@ -105,8 +103,6 @@ namespace Lexicon_LMS.Controllers
 
             //ViewBag.CourseCode = new SelectList(db.Courses, "ID", "CourseCode", module.CourseCode);
             return View(activity);
-
-            
         }
 
         [Authorize]
