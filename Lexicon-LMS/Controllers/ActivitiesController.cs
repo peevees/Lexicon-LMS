@@ -62,6 +62,9 @@ namespace Lexicon_LMS.Controllers
         {
             if (ModelState.IsValid)
             {
+                Module targetModule = db.Modules.Where(module => module.ID == activity.ModuleID).FirstOrDefault();
+                targetModule.ModuleActivities.Add(activity);
+
                 if (upload != null && upload.ContentLength > 0)
                 {
                     var originalFilename = Path.GetFileName(upload.FileName);
@@ -90,8 +93,8 @@ namespace Lexicon_LMS.Controllers
 
                 }
 
-                Module targetModule = db.Modules.Where(module => module.ID == activity.ModuleID).FirstOrDefault();
-                targetModule.ModuleActivities.Add(activity);
+                //Module targetModule = db.Modules.Where(module => module.ID == activity.ModuleID).FirstOrDefault();
+                //targetModule.ModuleActivities.Add(activity);
 
 
                 //course.Teacher = db.Users.Where(u => u.Id == course.TeacherID).FirstOrDefault();
