@@ -49,7 +49,7 @@ namespace Lexicon_LMS.Controllers
             Module model = new Module();
             if (id != null)
             {
-                model.CourseCode = targetCourse.ID;
+                model.CourseCode = targetCourse.CourseCode;
                 model.Course = targetCourse;
             }
             
@@ -97,7 +97,7 @@ namespace Lexicon_LMS.Controllers
 
                 }
 
-                Course targetCourse = db.Courses.Where(course => course.ID == module.CourseCode).FirstOrDefault();
+                Course targetCourse = db.Courses.Where(course => course.CourseCode == module.CourseCode).FirstOrDefault();
                 targetCourse.CourseModules.Add(module);
 
 

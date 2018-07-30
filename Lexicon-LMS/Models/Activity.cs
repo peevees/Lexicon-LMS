@@ -15,6 +15,7 @@ namespace Lexicon_LMS.Models
 
         public DateTime Deadline { get; set; }
 
+        //[Required]
         [Display(Name = "Module ID")]
         public int ModuleID { get; set; }
 

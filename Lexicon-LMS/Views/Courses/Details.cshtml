@@ -75,36 +75,41 @@
                 </dt>
 
                 <dd>
-                    @foreach (var module in Model.CourseModules)
+                    @*<a id="modules-tab" href="#modules" data-toggle="tab" aria-controls="modules" aria-selected="true">@Html.ViewData.Model.CourseModules.Count</a>*@
+
+                    @Html.ViewData.Model.CourseModules.Count
+
+                    @*@foreach (var module in Model.CourseModules)
+        {
+
+            @Html.ActionLink(module.Description, "Details", new { Controller = "Modules", action = "Details", id = module.ID })
+
+        }*@
+
+                </dd>
+
+                <dt>@Html.DisplayNameFor(model => model.Teacher)</dt>
+                <dd>@Html.DisplayFor(model => model.Teacher.FullName)</dd>
+
+                @*<dt>@Html.DisplayNameFor(model => model.CourseParticipants)</dt>
+                    <dd>
+                        @foreach (ApplicationUser participant in Model.CourseParticipants)
+                        {
+
+                            @participant.FullName
+                        }
+                    </dd>*@
+
+                <dt>@Html.DisplayNameFor(model => model.Documents)</dt>
+                <dd>
+                    @foreach (Document document in Model.Documents)
                     {
 
-                        @Html.ActionLink(module.Description, "Details", new { Controller = "Modules", action = "Details", id = module.ID })
+                        @Html.ActionLink("Download: " + document.DisplayName, "Download", new { filePath = document.Filepath, fileName = document.FileName, saveName = document.DisplayName })
 
                     }
                 </dd>
-
-                    <dt>@Html.DisplayNameFor(model => model.Teacher)</dt>
-                    <dd>@Html.DisplayFor(model => model.Teacher.FullName)</dd>
-
-                    @*<dt>@Html.DisplayNameFor(model => model.CourseParticipants)</dt>
-            <dd>
-                @foreach (ApplicationUser participant in Model.CourseParticipants)
-                {
-
-                    @participant.FullName
-                }
-            </dd>*@
-
-                    <dt>@Html.DisplayNameFor(model => model.Documents)</dt>
-                    <dd>
-                        @foreach (Document document in Model.Documents)
-                        {
-
-                            @Html.ActionLink("Download: " + document.DisplayName, "Download", new { filePath = document.Filepath, fileName = document.FileName, saveName = document.DisplayName })
-
-                        }
-                    </dd>
-                </dl>
+            </dl>
             @if (User.IsInRole("Teacher"))
             {
                 <span style="margin-left: 5px;">
@@ -113,10 +118,10 @@
                 </span>
             }
 
-                <span>
-                   <span class="glyphicon glyphicon-arrow-left"> </span>
-                    @Html.ActionLink("Back to List", "Index")
-                </span>
+            <span>
+                <span class="glyphicon glyphicon-arrow-left"> </span>
+                @Html.ActionLink("Back to List", "Index")
+            </span>
             @if (User.IsInRole("Teacher"))
             {
                 <p style="padding-bottom: 10px;">
@@ -126,12 +131,12 @@
 
         </div>
 
-        <div class="tab-pane fade" id="modules" role="tabpanel" aria-labelledby="contact-tab">
+        <div class="tab-pane fade" id="modules" role="tabpanel" aria-labelledby="modules-tab">
             @Html.Partial("_ModulesList", Model.CourseModules)
 
         </div>
 
-        <div class="tab-pane fade" id="coursemembers" role="tabpanel" aria-labelledby="overview-tab">
+        <div class="tab-pane fade" id="coursemembers" role="tabpanel" aria-labelledby="coursemembers-tab">
             @Html.Partial("_CourseMembers", Model.CourseParticipants)
 
         </div>

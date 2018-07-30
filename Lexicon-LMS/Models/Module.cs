@@ -26,10 +26,9 @@ namespace Lexicon_LMS.Models
 
         [Display(Name = "Module documents")]
         public virtual ICollection<Document> Documents { get; set; }
-
-        [Required]
+        
         [Display(Name = "Course code")]
-        public int CourseCode { get; set; }
+        public string CourseCode { get; set; }
 
         public virtual Course Course { get; set; }
     }

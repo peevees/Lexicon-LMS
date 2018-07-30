@@ -31,7 +31,7 @@ namespace Lexicon_LMS.Models
 
         public string Description { get; set; }
 
-        [Display(Name = "Course modules")]
+        [Display(Name = "Number of modules")]
         public virtual ICollection<Module> CourseModules { get; set; }
 
         [Display(Name = "Course document")]
