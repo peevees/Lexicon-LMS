@@ -35,36 +35,69 @@
 
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Course.CourseCode)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.StartDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.EndDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </td>
-                    <td>
-                        @if (User.IsInRole("Teacher"))
-                        {
-                            <span class="glyphicon glyphicon-pencil"> </span>
-                            @Html.ActionLink("Edit", "Edit", new { id = item.ID }) <span> | </span>
-                        }
-                        <span class="glyphicon glyphicon-eye-open"> </span>
-                        @Html.ActionLink("Details", "Details", new { id = item.ID })
 
-                        @if (User.IsInRole("Teacher"))
-                        {
-                            <span> | </span>
-                            <span class="glyphicon glyphicon-remove"> </span>
-                            @Html.ActionLink("Delete", "Delete", new { id = item.ID })
-                        }
-                    </td>
-                </tr>
+
+                var myModal = "myModal" + item.ID;
+
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Course.CourseCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @if (User.IsInRole("Teacher"))
+                    {
+                        <span class="glyphicon glyphicon-pencil"> </span>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.ID })
+                        <span> | </span>
+                    }
+                    <span class="glyphicon glyphicon-eye-open"> </span>
+                    @Html.ActionLink("Details", "Details", new { id = item.ID })
+
+                    @if (User.IsInRole("Teacher"))
+                    {
+                        <span> | </span>
+
+                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#@myModal"
+                                data-whatever="@item.ID">
+                            <span class="glyphicon glyphicon-remove"></span> Delete
+                        </button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="@myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog modal-sm" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" id="myModalLabel">Confirm Delete</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        Are you sure you want to delete: <span><b>@item.Description</b></span>?
+                                    </div>
+                                    <div class="modal-footer">
+
+                                        @using (Html.BeginForm("Delete", "Modules", new { id = item.ID }, FormMethod.Post, null))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                            <input type="submit" value="Delete" class="btn btn-danger" />
+                                        }
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                </td>
+            </tr>
             }
 
         </table>
