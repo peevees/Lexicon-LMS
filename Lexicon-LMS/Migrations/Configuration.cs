@@ -5,6 +5,7 @@ namespace Lexicon_LMS.Migrations
     using Microsoft.AspNet.Identity.EntityFramework;
     using System;
     using System.Collections.Generic;
+    using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
 
@@ -215,21 +216,35 @@ namespace Lexicon_LMS.Migrations
         }
 
         #region Utilities
-        private ApplicationUser GetRandomTeacher(ApplicationDbContext db, Users[] users)
+        private ApplicationUser GetRandomTeacher(ApplicationDbContext db)
         {
-            Users[] teachersToFind = users.Where(u => u.IsStudent == false).ToArray();
-            List<ApplicationUser> Teachers = new List<ApplicationUser>();
+            var Users = db.Users.Include(u => u.Roles);
+            var role = db.Roles.ToList();
 
-            foreach (var teacher in teachersToFind)
-            {
-                ApplicationUser toAdd = (ApplicationUser) db.Users.Where(u => u.UserName == teacher.Username);
-                Teachers.Add(toAdd);
-            }
-            if (Teachers.Count() == 0)
-            {
-                throw new Exception("Failed to get random teacher");
-            }
-            return Teachers[Rnd.Next(0, (Teachers.Capacity )+1)];
+
+            List<ApplicationUser> Teacher = new List<ApplicationUser>();
+
+            //foreach (var user in Users)
+            //{
+
+            //    Teacher.Add(user.Roles.Where(r => r.UserId == user.Id));
+            //}
+
+
+
+            //Users[] teachersToFind = users.Where(u => u.IsStudent == false).ToArray();
+            //List<ApplicationUser> Teachers = new List<ApplicationUser>();
+
+            //foreach (var teacher in teachersToFind)
+            //{
+            //    ApplicationUser toAdd = (ApplicationUser)db.Users.Where(u => u.UserName == teacher.Username);
+            //    Teachers.Add(toAdd);
+            //}
+            //if (Teachers.Count() == 0)
+            //{
+            //    throw new Exception("Failed to get random teacher");
+            //}
+            return null; //Teachers[Rnd.Next(0, (Teachers.Capacity) + 1)];
 
         }
 
@@ -246,7 +261,7 @@ namespace Lexicon_LMS.Migrations
             {
                 throw new Exception("Failed to get random student");
             }
-            return Students[Rnd.Next(0, (Students.Length)+1)];
+            return Students[Rnd.Next(0, (Students.Length) + 1)];
 
         }
 
@@ -351,14 +366,16 @@ namespace Lexicon_LMS.Migrations
 
         private void AddCourse(ApplicationDbContext context, Courses[] coursesToCreate, Users[] users)
         {
+            /*
             foreach (var course in coursesToCreate)
             {
                 var teacher = GetRandomTeacher(context, users);
                 context.Courses.AddOrUpdate(c => c.CourseName, new Course { CourseCode = course.CourseCode, CourseName = course.CourseName, StartDate = course.StartDate, EndDate = course.EndDate, Teacher = teacher, TeacherID = teacher.Id, Description = course.Description, CourseParticipants = (ICollection<ApplicationUser>)GetStudent(context, users) });
                 context.SaveChanges();
             }
+              */
 
-            /*
+
             var CourseTeacher = context.Users.Where(u => u.Email == "teacher@shit.se").FirstOrDefault();
             var CourseTeacher2 = context.Users.Where(u => u.Email == "teacher2@shit.se").FirstOrDefault();
             var CourseTeacher3 = context.Users.Where(u => u.Email == "teacher3@shit.se").FirstOrDefault();
@@ -403,17 +420,18 @@ namespace Lexicon_LMS.Migrations
                     Description = "Create Documents, Spreadsheets and Presentations",
                     CourseCode = "MO-19"
                 });
-              */
 
-            /*
-                context.SaveChanges();
-                Course seededCourse = context.Courses.Where(c => c.CourseCode == "DN-18").FirstOrDefault();
-                Course seededCoursejava = context.Courses.Where(c => c.CourseCode == "JD-18").FirstOrDefault();
-                Course seededCourseoffice = context.Courses.Where(c => c.CourseCode == "MO-19").FirstOrDefault();
+
+
+            context.SaveChanges();
+            Course seededCourse = context.Courses.Where(c => c.CourseCode == "DN-18").FirstOrDefault();
+            Course seededCoursejava = context.Courses.Where(c => c.CourseCode == "JD-18").FirstOrDefault();
+            Course seededCourseoffice = context.Courses.Where(c => c.CourseCode == "MO-19").FirstOrDefault();
 
             seededCourse.CourseParticipants.Add(CourseStudent);
             CourseStudent.UserCourse = seededCourse;
             CourseStudent.UserCourseCode = seededCourse.CourseCode;
+
 
             context.Modules.AddOrUpdate(
                 m => m.Description,
@@ -494,7 +512,7 @@ namespace Lexicon_LMS.Migrations
             seededModule.ModuleActivities.Add(seededActivity);
             seededModulejava.ModuleActivities.Add(seededActivityjava);
             seededModuleoffice.ModuleActivities.Add(seededActivityoffice);
-                */
+
         }
     }
 }
