@@ -1,7 +1,7 @@
+using Lexicon_LMS.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -195,9 +195,12 @@ namespace Lexicon_LMS.Controllers
         }
 
         // GET: Courses/Delete/5
+
         [Authorize(Roles = "Teacher")]
         public ActionResult Delete(int? id)
         {
+
+            /*
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -208,7 +211,10 @@ namespace Lexicon_LMS.Controllers
                 return HttpNotFound();
             }
             return View(course);
+            */
+            return RedirectToAction("DeleteConfirmed", id);
         }
+
 
         // POST: Courses/Delete/5
         [Authorize(Roles = "Teacher")]
@@ -222,6 +228,15 @@ namespace Lexicon_LMS.Controllers
             return RedirectToAction("Index");
         }
 
+        //[HttpPost, ActionName("Delete")]
+        //public async Task<ActionResult> Delete(int id)
+        //{
+        //    Course course = await db.Courses.FindAsync(id);
+        //    db.Courses.Remove(course);
+        //    await db.SaveChangesAsync();
+        //    return RedirectToAction("Index");
+        //}
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -230,5 +245,6 @@ namespace Lexicon_LMS.Controllers
             }
             base.Dispose(disposing);
         }
+
     }
 }
