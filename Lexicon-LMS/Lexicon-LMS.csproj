@@ -353,6 +353,7 @@
     <Content Include="Views\Courses\_ModulesList.cshtml" />
     <Content Include="Views\Courses\_CourseMembers.cshtml" />
     <Content Include="Views\Manage\ShowProfile.cshtml" />
+    <Content Include="Views\Manage\ListUsers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
