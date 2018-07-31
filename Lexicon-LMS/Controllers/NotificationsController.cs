@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Lexicon_LMS.Models;
 using Microsoft.AspNet.Identity;
+using PagedList;
 
 namespace Lexicon_LMS.Controllers
 {
@@ -22,6 +23,31 @@ namespace Lexicon_LMS.Controllers
             return View(db.Notifications.ToList());
         }
 
+        public ActionResult InboxContainer()
+        {
+            return View();
+        }
+
+        public ActionResult Inbox(int? page)
+        {
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
+
+            ApplicationUser user = db.Users.Find(User.Identity.GetUserId());
+            return PartialView(user.Notifications.ToPagedList(pageNumber,pageSize));
+        }
+
+        public ActionResult InboxMsg(int notif)
+        {
+
+            var model = db.Notifications.Find(notif);
+            model.Read = true;
+            db.SaveChanges();
+
+            return PartialView(model);
+        }
+
+
         // GET: Notifications/Details/5
         public ActionResult Details(int? id)
         {
@@ -34,19 +60,22 @@ namespace Lexicon_LMS.Controllers
             {
                 return HttpNotFound();
             }
-            return View(notification);
+            return PartialView(notification);
         }
 
         // GET: Notifications/Create
         [Authorize(Roles = "Teacher")]
-        public ActionResult Create(string id)
+        public ActionResult Create(string uid = null, string subject = null, string body =null)
         {
-            if(id!=null)
+            Notification model = new Notification();
+            if (uid!=null)
             {
-                ViewBag.recipient = db.Users.Find(id);
+                ViewBag.recipient = db.Users.Find(uid);
+                model.RecipientID = uid;
+                model.Subject = subject;
             }
 
-                return View();
+                return View(model);
 
         }
 
@@ -55,23 +84,25 @@ namespace Lexicon_LMS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Teacher")]
         public ActionResult Create([Bind(Include = "ID,Subject,Body,RecipientID")] Notification notification)
         {
             if (ModelState.IsValid)
             {
-                notification.Sender = db.Users.Find(User.Identity.GetUserId());
+                notification.Sender = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
                 notification.DateSent = DateTime.Now;
+                notification.Recipients = new List<ApplicationUser>();
 
                 var recipientslist = notification.RecipientID.Split( new char[] {',' }, StringSplitOptions.RemoveEmptyEntries);
 
                 foreach(var id in recipientslist)
                 {
                     var recipient = db.Users.Find(id);
-                    recipient.Notifications.OrderByDescending(rec => rec.DateSent);
+                    notification.Recipients.Add(recipient);
+                    recipient.Notifications.Add(notification);
+                    recipient.Notifications.OrderBy(rec => rec.DateSent);
                 }
 
-                db.Notifications.Add(notification);
+                 db.Notifications.Add(notification);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -135,6 +166,10 @@ namespace Lexicon_LMS.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Notification notification = db.Notifications.Find(id);
+            foreach(var rec in notification.Recipients)
+            {
+                rec.Notifications.Remove(notification);
+            }
             db.Notifications.Remove(notification);
             db.SaveChanges();
             return RedirectToAction("Index");

@@ -18,7 +18,7 @@
 <h2>Create</h2>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Create","Notifications",FormMethod.Post, null))
 {
     @Html.AntiForgeryToken()
 
@@ -31,6 +31,7 @@
             @Html.LabelFor(model => model.Recipients, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <input id="Recipients" />
+                @Html.ValidationMessageFor(model => model.RecipientID, "", new { @class = "text-danger" })
                 @Html.HiddenFor(model => model.RecipientID)
             </div>
         </div>
@@ -53,7 +54,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Submit" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-default" />
             </div>
         </div>
     </div>
@@ -82,7 +83,10 @@
             });
         </script>*@
     <script type="text/javascript">
+        $.validator.setDefaults({ ignore: [] });
+
         $(document).ready(function () {
+            $.validator.setDefaults({ ignore: [] });
             $("#Recipients").tokenInput("/Notifications/GetUsers", {
 
                 @{

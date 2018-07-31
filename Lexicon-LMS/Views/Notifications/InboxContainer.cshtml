@@ -1,0 +1,101 @@
+﻿
+@using Microsoft.AspNet.Identity;
+@using Microsoft.AspNet.Identity.Owin;
+@using Lexicon_LMS.Models;
+
+@{
+
+    ApplicationUser user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(User.Identity.GetUserId());
+    int totalPages = user.Notifications.Count / 5;
+    if (user.Notifications.Count % 5 > 0)
+    { totalPages++; }
+
+
+}
+
+
+<div id="inbox-container"></div>
+<input id="hiddenControl" type="hidden" runat="server" />
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <li id="prevpage" class="page-item"><a class="page-link" href="#" id="#pre" onclick="prevpage()">Previous</a></li>
+        @for (int i = 1; i <= totalPages; i++)
+        {
+            <li class="page-item" id="p-@i"><a class="page-link number-link" href="#" onclick="page(@i)">@i</a></li>
+        }
+        <li id="nextpage" class="page-item"><a class="page-link" href="#" id="#next" onclick="nextpage()">Next</a></li>
+    </ul>
+</nav>
+
+
+<script>
+    var pageindex = getQueryString('p');
+
+    var inbox = '@Url.Action("Inbox", "Notifications")'
+    $(document).ready(function () {
+        disable();
+        activate(pageindex);
+        $('#inbox-container').load(inbox, { page: pageindex})
+    });
+
+    function getQueryString(field, url) {
+        var href = url ? url : window.location.href;
+        var reg = new RegExp('[?&]' + field + '=([^&#]*)', 'i');
+        var string = reg.exec(href);
+        return string ? string[1] : 1;
+    };
+
+    function nextpage() {
+
+        if (pageindex<@totalPages)
+        {
+            pageindex++;
+            activate(pageindex);
+            disable();
+            $('#inbox-container').load(inbox, { page: pageindex})
+        }
+
+    }
+
+    function prevpage() {
+
+        if (pageindex>1)
+        {
+            pageindex--
+            activate(pageindex);
+            disable();
+            $('#inbox-container').load(inbox, { page: pageindex});
+        }
+
+        }
+
+    function page(p) {
+
+        pageindex = p;
+
+        activate(p);
+        disable();
+
+        $('#inbox-container').load(inbox, { page: p });
+
+    }
+
+    function disable() {
+        if (pageindex == @totalPages) { $('#nextpage').addClass('disabled'); $('#prevpage').removeClass('disabled');}
+
+        if (pageindex == 1) { $('#prevpage').addClass('disabled'); $('#nextpage').removeClass('disabled');}
+
+        if (pageindex  > 1 && pageindex<@totalPages) {
+            $('#prevpage').removeClass('disabled');
+            $('#nextpage').removeClass('disabled');
+        }
+
+    }
+
+    function activate(nr) {
+        $('.page-item').removeClass('active'),
+            $('#p-' + nr).addClass('active')
+    }
+
+</script>

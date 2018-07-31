@@ -79,7 +79,7 @@
 </div>
 <p>
     @if (User.IsInRole("Teacher"))
-    {@Html.ActionLink("Edit", "EditProfile", new { id = Model.Id }) <span> | </span>}
-    @Html.ActionLink("Send Message", "Create", new { Controller = "Notifications", action = "Create", id = Model.Id }) |
+    {<span class="glyphicon glyphicon-pencil"> </span>@Html.ActionLink("Edit", "EditProfile", new { id = Model.Id }) <span> | </span>}
+    <span class="glyphicon glyphicon-envelope"></span>@Html.ActionLink("Send Message", "Create", new { Controller = "Notifications", action = "Create", uid = Model.Id }) |
     @Html.ActionLink("Back to List", "Index") |
 </p>

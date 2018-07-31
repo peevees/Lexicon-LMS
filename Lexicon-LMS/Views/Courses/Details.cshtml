@@ -81,12 +81,13 @@
 				}
 
 				<dt>@Html.DisplayNameFor(model => model.Teacher)</dt>
-				<dd>@Html.DisplayFor(model => model.Teacher.FullName)</dd>
+                <dd>@Html.ActionLink(Model.Teacher.FullName, "UserProfile", new { Controller = "Manage", action = "UserProfile", id = Model.Teacher.Id })</dd>
 
 				<dt>@Html.DisplayNameFor(model => model.CourseParticipants)</dt>
 				@foreach (ApplicationUser participant in Model.CourseParticipants)
 				{
-					<dd>@participant.FullName</dd>}
+                    <dd>@Html.ActionLink(participant.FullName, "UserProfile", new {Controller = "Manage", action ="UserProfile", id = participant.Id})</dd>
+                }
 			</dl>
 			@if (User.IsInRole("Teacher"))
 			{

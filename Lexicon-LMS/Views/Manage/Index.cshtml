@@ -1,14 +1,21 @@
 ﻿@model Lexicon_LMS.Models.IndexViewModel
 
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+
 @using Microsoft.AspNet.Identity;
 @using Microsoft.AspNet.Identity.Owin;
 @using Lexicon_LMS.Models;
 
+
 @{
+
     ApplicationUser user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(User.Identity.GetUserId());
 
-
 }
+
+
+
 
 <link href="~/Content/icecreamstyle.css" rel="stylesheet" />
 
@@ -27,7 +34,7 @@
     </ul>
 
     <div class="tab-content" id="myTabContent" style="background-color:#fff; border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; opacity:.75">
-        <div class="tab-pane fade show active in" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+        <div class="tab-pane fade active in" id="profile" role="tabpanel" aria-labelledby="profile-tab">
 
             <br />
             <div class="">
@@ -56,10 +63,13 @@
                 @if (user.UserCourse != null)
                 {
                     <dd>@user.UserCourse.CourseName</dd>
-                }else
-	{
-	         <dd>No registered courses</dd>
-	}
+                }
+                else
+                {
+                    <dd>No registered courses</dd>
+                }
+
+
 
 
                 <dt>Phone nr</dt>
@@ -69,32 +79,32 @@
                 <dd>@user.Street, @user.Postcode @user.City</dd>
 
                 @*<dt>Two-Factor Authentication:</dt>
-        <dd>
-            <p>
-                There are no two-factor authentication providers configured. See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
-                for details on setting up this ASP.NET application to support two-factor authentication.
-            </p>
-            @if (Model.TwoFactor)
-            {
-                using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                {
-                    @Html.AntiForgeryToken()
-                    <text>Enabled
-                        <input type="submit" value="Disable" class="btn btn-link" />
-                    </text>
-                }
-            }
-            else
-            {
-                using (Html.BeginForm("EnableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                {
-                    @Html.AntiForgeryToken()
-                    <text>Disabled
-                        <input type="submit" value="Enable" class="btn btn-link" />
-                    </text>
-                }
-            }
-        </dd>*@
+                    <dd>
+                        <p>
+                            There are no two-factor authentication providers configured. See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
+                            for details on setting up this ASP.NET application to support two-factor authentication.
+                        </p>
+                        @if (Model.TwoFactor)
+                        {
+                            using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <text>Enabled
+                                    <input type="submit" value="Disable" class="btn btn-link" />
+                                </text>
+                            }
+                        }
+                        else
+                        {
+                            using (Html.BeginForm("EnableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <text>Disabled
+                                    <input type="submit" value="Enable" class="btn btn-link" />
+                                </text>
+                            }
+                        }
+                    </dd>*@
             </dl>
             <p style="margin-left:8px; padding-bottom: 20px;">
                 @if (Model.HasPassword)
@@ -112,24 +122,15 @@
 
 
         </div>
-        <div class="tab-pane fade" id="inbox" role="tabpanel" aria-labelledby="inbox-tab">
-            <br />
-            <table class="table">
-                <tr>
-                    <th>Date</th>
-                    <th>From</th>
-                    <th>Subject</th>
-                </tr>
-                @foreach(var message in user.Notifications)
-                {
-                    <tr>
-                        <td>@message.DateSent</td>
-                        <td>@message.Sender</td>
-                        <td>@message.Subject</td>
-                    </tr>
-                }
 
-            </table>
+        <div class="tab-pane fade" id="inbox" role="tabpanel" aria-labelledby="inbox-tab" style="padding: 10px">
+            <br />
+
+                @{Html.RenderAction("InboxContainer", "Notifications", new {p= 1 });}
+                <br />
+
+
+
         </div>
     </div>
 
