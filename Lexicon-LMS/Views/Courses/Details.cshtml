@@ -3,29 +3,29 @@
 
 
 <link href="~/Content/icecreamstyle.css" rel="stylesheet" />
-
+<link href="~/Content/Site.css" rel="stylesheet" />
 
 
 <p class="text-success">@ViewBag.StatusMessage</p>
-<div style="background-color:#e2e1e1; border-radius:12px; background: linear-gradient( rgba(126, 126, 126, 0.65), rgba(126, 126, 126, 0.45)); margin-top: 20px;">
-    <h2 style="margin-left:5px; margin-top: 10px;">@Html.DisplayFor(model => model.CourseName)</h2>	<!--fix design-->
-    <hr />
+<div class="coursename">
+    <h2 class="h2-override">@Html.DisplayFor(model => model.CourseName)</h2>	<!--fix design-->
 
-    <ul class="nav nav-tabs" id="myTab" role="tablist" style="background-color:#e2e1e1; background: linear-gradient( rgba(126, 126, 126, 0.65), rgba(126, 126, 126, 0.25));">
+
+    <ul class="nav nav-tabs" id="myTab" role="tablist" style="background-color:#e2e1e1;">
         <li class="nav-item active">
-            <a class="nav-link active" id="overview-tab" data-toggle="tab" href="#overview" role="tab" aria-controls="overview" aria-selected="true">Overview</a>
+            <a class="nav-link active a-override" id="overview-tab" data-toggle="tab" href="#overview" role="tab" aria-controls="overview" aria-selected="true">Overview</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="modules-tab" data-toggle="tab" href="#modules" role="tab" aria-controls="modules" aria-selected="false">Modules</a>
+            <a class="nav-link a-override" id="modules-tab" data-toggle="tab" href="#modules" role="tab" aria-controls="modules" aria-selected="false">Modules</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="members-tab" data-toggle="tab" href="#coursemembers" role="tab" aria-controls="coursemembers" aria-selected="false">Course members</a>
+            <a class="nav-link a-override" id="members-tab" data-toggle="tab" href="#coursemembers" role="tab" aria-controls="coursemembers" aria-selected="false">Course members</a>
         </li>
     </ul>
 
-    <div class="tab-content" id="myTabContent" style="background-color:#fff; border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; opacity:.75">
+    <div class="tab-content" id="myTabContent" style="background-color:#fff; border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; opacity:.75;">
 
-        <div class="tab-pane fade active in" id="overview" role="tabpanel" aria-labelledby="overview-tab">
+        <div class="tab-pane fade active in" id="overview" role="tabpanel" aria-labelledby="overview-tab";>
 
             <br />
             @*<hr />*@
@@ -112,7 +112,7 @@
             </dl>
             @if (User.IsInRole("Teacher"))
             {
-                <span style="margin-left: 5px;">
+                <span style="margin-left: 25px;">
                     <span class="glyphicon glyphicon-pencil"> </span>
                     @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
                 </span>
@@ -124,7 +124,7 @@
             </span>
             @if (User.IsInRole("Teacher"))
             {
-                <p style="padding-bottom: 10px;">
+                <p style="padding-bottom: 10px; margin-left:20px;">
                     @Html.ActionLink("Add Module", "Create", new { Controller = "Modules", action = "Create", id = Model.ID }, new { @class = "btn btn-primary" })
                 </p>
             }

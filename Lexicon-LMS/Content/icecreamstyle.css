@@ -19,3 +19,12 @@
     background-color: #684601;
     border-color: #895b00;
 }
+
+.nav-tabs li.active a {
+    color: #555;
+    cursor: default;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    opacity: .76;
+    border-bottom-color: transparent;
+}
