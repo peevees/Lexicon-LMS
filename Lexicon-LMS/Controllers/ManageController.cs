@@ -77,7 +77,8 @@ namespace Lexicon_LMS.Controllers
             };
             return View(model);
         }
-        public async Task<ActionResult> ShowProfile(string userName)
+
+        public ActionResult ShowProfile(string userName)
         {
             if (userName == "")
             {
@@ -92,6 +93,72 @@ namespace Lexicon_LMS.Controllers
             return View(model);
         }
 
+        public ActionResult ListUsers()
+        {
+            return View(db.Users.ToList());
+        }
+
+        [Authorize(Roles = "Teacher")]
+        public ActionResult Delete(string id)
+        {
+
+            /*
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Course course = db.Courses.Find(id);
+            if (course == null)
+            {
+                return HttpNotFound();
+            }
+            return View(course);
+            */
+            return RedirectToAction("DeleteConfirmed", new { id });
+        }
+
+        // POST: /Users/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(string id)
+        {
+            if (ModelState.IsValid)
+            {
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
+                var user = _userManager.FindById(id);
+                var logins = user.Logins;
+                var rolesForUser = _userManager.GetRoles(id);
+
+                using (var transaction = db.Database.BeginTransaction())
+                {
+                    foreach (var login in logins.ToList())
+                    {
+                        _userManager.RemoveLogin(login.UserId, new UserLoginInfo(login.LoginProvider, login.ProviderKey));
+                    }
+
+                    if (rolesForUser.Count() > 0)
+                    {
+                        foreach (var item in rolesForUser.ToList())
+                        {
+                            // item should be the name of the role
+                            var result = _userManager.RemoveFromRoleAsync(user.Id, item);
+                        }
+                    }
+
+                    _userManager.Delete(user);
+                    transaction.Commit();
+                }
+                return RedirectToAction("ListUsers");
+            }
+            else
+            {
+                return
+            }
+        }
 
         //
         // POST: /Manage/RemoveLogin
@@ -117,13 +184,22 @@ namespace Lexicon_LMS.Controllers
             return RedirectToAction("ManageLogins", new { Message = message });
         }
 
-        public ActionResult EditProfile()
+        public ActionResult EditProfile(string userName)
         {
-            ApplicationUser model = UserManager.FindById(User.Identity.GetUserId());
+            ApplicationUser model = null;
+            if (userName == "")
+            {
+                model = UserManager.FindById(User.Identity.GetUserId());
+            }
+            else
+            {
+                model = UserManager.FindByName(userName);
+            }
+
 
             var courses = new List<SelectListItem>();
 
-            foreach(Course c in db.Courses)
+            foreach (Course c in db.Courses)
             {
                 courses.Add(new SelectListItem { Text = c.CourseName, Value = c.CourseCode });
             }
@@ -142,7 +218,7 @@ namespace Lexicon_LMS.Controllers
                 var targetUser = UserManager.FindById(user.Id);
                 ApplicationDbContext db = new ApplicationDbContext();
                 Course newCourse = db.Courses.Where(c => c.CourseCode == user.UserCourseCode).FirstOrDefault();
-                Course oldCourse = db.Courses.Where(c=>c.CourseCode == (TempData["PreviousCourse"]).ToString()).FirstOrDefault();
+                Course oldCourse = db.Courses.Where(c => c.CourseCode == (TempData["PreviousCourse"]).ToString()).FirstOrDefault();
 
                 newCourse.CourseParticipants.Add(user);
                 oldCourse.CourseParticipants.Remove(user);
@@ -400,7 +476,7 @@ namespace Lexicon_LMS.Controllers
             base.Dispose(disposing);
         }
 
-#region Helpers
+        #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
@@ -451,6 +527,6 @@ namespace Lexicon_LMS.Controllers
             Error
         }
 
-#endregion
+        #endregion
     }
 }
