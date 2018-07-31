@@ -7,9 +7,12 @@
         @Html.ActionLink("Create New", "Create")
     </p>
 }
+
+<link href="~/Content/collapsestyle.css" rel="stylesheet" />
+
 <table class="table">
     <tr>
-        <th>
+        <th class="content">
             @Html.DisplayNameFor(model => model.StartDate)
         </th>
         <th>
@@ -18,16 +21,13 @@
         <th>
             @Html.DisplayNameFor(model => model.Description)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CourseCode)
-        </th>
         <th></th>
     </tr><!--collapsable-->
 
         @foreach (var item in Model)
         {
             <tr class="collapsible">
-                <td>
+                <td class="content">
                     @Html.DisplayFor(modelItem => item.StartDate)
                 </td>
                 <td>
@@ -35,9 +35,6 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CourseCode)
                 </td>
                 <td>
                     @if (User.IsInRole("Teacher"))
@@ -51,21 +48,21 @@
                     }
                 </td>
             </tr>
-            <tr>
-                <th>
+            <tr class="collapse">
+                <th class="content" style="border-top:none;">
                     @Html.DisplayNameFor(model => model.ModuleActivities):
                 </th>
                 @foreach (var activity in item.ModuleActivities)
                 {
-                    <td>
+                    <td style="border-top:none;">
                         @Html.ActionLink(activity.Name, "Details", new { Controller = "Activities", action = "Details", id = activity.ID })
                     </td>
                 }
 
-                  <th>
+                  <th style="border-top:none;">
                     @if (User.IsInRole("Teacher"))
                         {
-                            @Html.ActionLink("Add Activity", "Create", new { Controller = "Activities", action = "Create", @class = "btn btn-default" }, new { @class = "btn btn-default" })
+                            @Html.ActionLink("Add Activity", "Create", new { Controller = "Activities", action = "Create", @class = "btn btn-default" }, new { @class = "btn btn-primary" })
                         }
                   </th>
             </tr>
