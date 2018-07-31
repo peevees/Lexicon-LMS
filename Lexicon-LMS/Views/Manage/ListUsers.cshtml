@@ -84,7 +84,9 @@
 				@Html.ActionLink("Show Profile", "ShowProfile", new { userName = item.UserName }) |
 				@if (User.Identity.Name != item.UserName)
 				{
+					/*
 					@Html.ActionLink("Remove User", "Delete", new { id = item.Id })
+					  */
 				}
 
 			</td>
