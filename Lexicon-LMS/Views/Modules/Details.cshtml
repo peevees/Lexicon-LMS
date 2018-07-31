@@ -12,7 +12,6 @@
     <div>
         <h2 class="h2-override">@ViewBag.Title</h2>
 
-        <div>
             <h4>Module</h4>
             <hr />
             <dl class="dl-horizontal">
@@ -76,8 +75,11 @@
             @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
             @Html.ActionLink("Back to List", "Index")
         </p>
-        @Html.ActionLink("Add Activity", "Create", new { Controller = "Activities", action = "Create", id = Model.ID, @class = "btn btn-default" }, new { @class = "btn btn-default" })
-    </div>
+        @if (User.IsInRole("Teacher"))
+        {
+           @Html.ActionLink("Add Activity", "Create", new { Controller = "Activities", action = "Create", id = Model.ID, @class = "btn btn-default" }, new { @class = "btn btn-default" })
+        }
 </div>
+
 
 @* TODO: too many divs ?*@
