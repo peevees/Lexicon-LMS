@@ -31,11 +31,11 @@ namespace Lexicon_LMS.Models
 
         public string Description { get; set; }
 
-        [Display(Name = "Course modules")]
+        [Display(Name = "Number of modules")]
         public virtual ICollection<Module> CourseModules { get; set; }
 
-        [Display(Name = "Course documents")]
-        public virtual ICollection<Document> CourseDocuments { get; set; }
+        [Display(Name = "Course document")]
+        public virtual ICollection<Document> Documents { get; set; }
 
         public virtual ApplicationUser Teacher { get; set; }
         public string TeacherID { get; set; }

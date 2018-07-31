@@ -12,7 +12,7 @@
     <h2 class="h2-override">@ViewBag.Title</h2>
 
 
-    @using (Html.BeginForm())
+    @using (Html.BeginForm("Create", "Modules", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
 
@@ -56,11 +56,17 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.CourseCode, "CourseCode", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @*@Html.EditorFor(m => m.Course.CourseName, new { @Value = ViewBag.CourseLabel, @class = "form-control", @readonly = "readonly" })*@
                     @Html.HiddenFor(model => model.CourseCode, htmlAttributes: new { value = Html.ValueFor(model => model.Course.ID), id = "CourseCode", @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.CourseCode, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Documents, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <input type="file" id="file" name="upload" />
                 </div>
             </div>
 

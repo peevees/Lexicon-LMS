@@ -97,13 +97,14 @@
                                             Are you sure you want to delete: <span><b>@item.CourseName</b></span>?
                                         </div>
                                         <div class="modal-footer">
-
+                                          
                                         @using (Html.BeginForm("Delete", "Courses", new { id = item.ID }, FormMethod.Post, null))
                                         {
                                             @Html.AntiForgeryToken()
                                             <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                                             <input type="submit" value="Delete" class="btn btn-danger" />
                                         }
+
 
                                     </div>
                                 </div>
