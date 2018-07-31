@@ -88,7 +88,7 @@ namespace Lexicon_LMS.Migrations
                     Password = "P@$$w0rd",
                     Forename = "Mr. ",
                     Surname = "Teacher",
-                    TimeofRegistration = new DateTime(),
+                    TimeofRegistration = new DateTime(1990, 01, 01),
                     Street = "SomeStreetName 0",
                     Postcode = "00000",
                     City = "SomeCityName",
@@ -172,7 +172,7 @@ namespace Lexicon_LMS.Migrations
                     Street = "Roberts Road 1",
                     Postcode = GetRandomNumber().ToString(),
                     City = "Medvik",
-                    IsStudent = false
+                    IsStudent = true
                 }
 #endregion
             };
@@ -218,51 +218,86 @@ namespace Lexicon_LMS.Migrations
         #region Utilities
         private ApplicationUser GetRandomTeacher(ApplicationDbContext db)
         {
+            List<ApplicationUser> Teachers = new List<ApplicationUser>();
             var Users = db.Users.Include(u => u.Roles);
             var role = db.Roles.ToList();
+            var usersinRole = role[0].Users;
+            ApplicationUser Teacher = null;
+            foreach (var teacher in Users)
+            {
+                foreach (var userin in usersinRole)
+                {
+                    if (teacher.Id == userin.UserId)
+                    {
+                        Teachers.Add(teacher);
+                        break;
+                    }
+                }
+            }
+            for (int i = 0; i < Teachers.Count; i++)
+            {
+                Teacher = Teachers[Rnd.Next(0, (Teachers.Count))];
+                if (Teacher.UserCourse == null)
+                {
+                    break;
+                }
+                Teacher = null;
+            }
 
-
-            List<ApplicationUser> Teacher = new List<ApplicationUser>();
-
-            //foreach (var user in Users)
-            //{
-
-            //    Teacher.Add(user.Roles.Where(r => r.UserId == user.Id));
-            //}
-
-
-
-            //Users[] teachersToFind = users.Where(u => u.IsStudent == false).ToArray();
-            //List<ApplicationUser> Teachers = new List<ApplicationUser>();
-
-            //foreach (var teacher in teachersToFind)
-            //{
-            //    ApplicationUser toAdd = (ApplicationUser)db.Users.Where(u => u.UserName == teacher.Username);
-            //    Teachers.Add(toAdd);
-            //}
-            //if (Teachers.Count() == 0)
-            //{
-            //    throw new Exception("Failed to get random teacher");
-            //}
-            return null; //Teachers[Rnd.Next(0, (Teachers.Capacity) + 1)];
+            if (Teacher == null)
+            {
+                return null;//no teachers left to add?
+            }
+            else
+            {
+                return Teacher;
+            }
 
         }
 
-        private ApplicationUser GetStudent(ApplicationDbContext db, Users[] users)
+        private ICollection<ApplicationUser> GetRandomStudent(ApplicationDbContext db, Users[] users)
         {
-            Users[] studentToFind = users.Where(u => u.IsStudent == true).ToArray();
-            ApplicationUser[] Students = new ApplicationUser[studentToFind.Length];
-
-            foreach (var teacher in studentToFind)
+            List<ApplicationUser> Students = new List<ApplicationUser>();
+            var Users = db.Users.Include(u => u.Roles);
+            var role = db.Roles.ToList();
+            var usersinRole = role[0].Users;
+            ApplicationUser student = null;
+            foreach (var studentInUsers in Users)
             {
-                Students = db.Users.Where(u => u.UserName == teacher.Username).ToArray();
-            }
-            if (Students.Count() == 0)
-            {
-                throw new Exception("Failed to get random student");
-            }
-            return Students[Rnd.Next(0, (Students.Length) + 1)];
+                foreach (var user in users)
+                {
+                    if (user.IsStudent)
+                    {
+                        if (studentInUsers.Email == user.Email)
+                        {
 
+                            Students.Add(studentInUsers);
+                            break;
+
+                        }
+                    }
+
+                }
+            }
+
+            List<ApplicationUser> StudentsToAdd = new List<ApplicationUser>();
+            for (int i = 0; i < 3; i++)
+            {
+                student = Students[Rnd.Next(0, (Students.Count))];
+                if (student.UserCourse == null)
+                {
+                    StudentsToAdd.Add(student);
+                }
+                student = null;
+            }
+            if (Students == null)
+            {
+                return null;//no more students to add
+            }
+            else
+            {
+                return StudentsToAdd;
+            }
         }
 
         private int GetRandomNumber()
@@ -293,6 +328,7 @@ namespace Lexicon_LMS.Migrations
                 throw new Exception(string.Join("/n", confirmResult.Errors));
             }
         }
+
         #endregion
 
         private void AddRoles(ApplicationDbContext db, string[] roles)
@@ -366,16 +402,19 @@ namespace Lexicon_LMS.Migrations
 
         private void AddCourse(ApplicationDbContext context, Courses[] coursesToCreate, Users[] users)
         {
-            /*
+
             foreach (var course in coursesToCreate)
             {
-                var teacher = GetRandomTeacher(context, users);
-                context.Courses.AddOrUpdate(c => c.CourseName, new Course { CourseCode = course.CourseCode, CourseName = course.CourseName, StartDate = course.StartDate, EndDate = course.EndDate, Teacher = teacher, TeacherID = teacher.Id, Description = course.Description, CourseParticipants = (ICollection<ApplicationUser>)GetStudent(context, users) });
+                var teacher = GetRandomTeacher(context);
+                var students = GetRandomStudent(context, users);
+                context.Courses.AddOrUpdate(c => c.CourseName, new Course { CourseCode = course.CourseCode, CourseName = course.CourseName, StartDate = course.StartDate, EndDate = course.EndDate, Teacher = teacher, TeacherID = teacher.Id, Description = course.Description, CourseParticipants = students });
                 context.SaveChanges();
+                teacher = null;
+                students = null;
             }
-              */
 
 
+            /*
             var CourseTeacher = context.Users.Where(u => u.Email == "teacher@shit.se").FirstOrDefault();
             var CourseTeacher2 = context.Users.Where(u => u.Email == "teacher2@shit.se").FirstOrDefault();
             var CourseTeacher3 = context.Users.Where(u => u.Email == "teacher3@shit.se").FirstOrDefault();
@@ -424,15 +463,16 @@ namespace Lexicon_LMS.Migrations
 
 
             context.SaveChanges();
+                      */
             Course seededCourse = context.Courses.Where(c => c.CourseCode == "DN-18").FirstOrDefault();
             Course seededCoursejava = context.Courses.Where(c => c.CourseCode == "JD-18").FirstOrDefault();
             Course seededCourseoffice = context.Courses.Where(c => c.CourseCode == "MO-19").FirstOrDefault();
-
+            /*
             seededCourse.CourseParticipants.Add(CourseStudent);
             CourseStudent.UserCourse = seededCourse;
             CourseStudent.UserCourseCode = seededCourse.CourseCode;
 
-
+            */
             context.Modules.AddOrUpdate(
                 m => m.Description,
                 new Module
