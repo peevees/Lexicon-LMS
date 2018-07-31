@@ -2,96 +2,97 @@
 
 @if (User.IsInRole("Teacher"))
 {
-    <p>
-        @Html.ActionLink("Add participant", "Create")
-    </p>
+	<p>
+		@Html.ActionLink("Add participant", "Register", "Account")
+		@* TODO: pass course id to add user to *@
+	</p>
 }
 <table class="table">
-    <tr>
-        @if (User.IsInRole("Teacher"))
-        {
-            <th>
-                @Html.DisplayNameFor(model => model.UserCourseCode)
-            </th>
-        }
-        <th>
-            @Html.DisplayNameFor(model => model.Forename)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Surname)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Email)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PhoneNumber)
-        </th>
-        @if (User.IsInRole("Teacher"))
-        {
-            <th>
-                @Html.DisplayNameFor(model => model.Street)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Postcode)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.City)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TimeOfRegistration)
-            </th>
-        }
-        <th></th>
-    </tr><!--collapsable-->
+	<tr>
+		@if (User.IsInRole("Teacher"))
+		{
+			<th>
+				@Html.DisplayNameFor(model => model.UserCourseCode)
+			</th>
+		}
+		<th>
+			@Html.DisplayNameFor(model => model.Forename)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.Surname)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.Email)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.PhoneNumber)
+		</th>
+		@if (User.IsInRole("Teacher"))
+		{
+			<th>
+				@Html.DisplayNameFor(model => model.Street)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Postcode)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.City)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.TimeOfRegistration)
+			</th>
+		}
+		<th></th>
+	</tr><!--collapsable-->
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            @if (User.IsInRole("Teacher"))
-            {
-                <td>
-                    @Html.DisplayFor(modelItem => item.UserCourseCode)
-                </td>
-            }
-                <td>
-                    @Html.DisplayFor(modelItem => item.Forename)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Surname)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PhoneNumber)
-                </td>
-                @if (User.IsInRole("Teacher"))
-                {
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Street)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Postcode)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.City)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TimeOfRegistration)
-                    </td>
-                }
-                <td>
-                    @if (User.IsInRole("Teacher"))
-                    {
-                        @Html.ActionLink("Edit", "EditProfile", "Manage", new { id = item.Id }, null) <span>|</span>
-                    }
-                    @Html.ActionLink("Details", "ShowProfile", "Manage", new { UserName = item.UserName }, null)
-                    @if (User.IsInRole("Teacher"))
-                    {
-                        <span> | </span> @Html.ActionLink("Delete", "Delete", "Account", new { id = item.Id }, null)
-                    }
-                </td>
-            </tr>
-        }
+	@foreach (var item in Model)
+	{
+		<tr>
+			@if (User.IsInRole("Teacher"))
+			{
+				<td>
+					@Html.DisplayFor(modelItem => item.UserCourseCode)
+				</td>
+			}
+				<td>
+					@Html.DisplayFor(modelItem => item.Forename)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Surname)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Email)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.PhoneNumber)
+				</td>
+				@if (User.IsInRole("Teacher"))
+				{
+					<td>
+						@Html.DisplayFor(modelItem => item.Street)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Postcode)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.City)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.TimeOfRegistration)
+					</td>
+				}
+				<td>
+					@if (User.IsInRole("Teacher"))
+					{
+						@Html.ActionLink("Edit", "EditProfile", "Manage", new { id = item.Id }, null) <span>|</span>
+					}
+					@Html.ActionLink("Details", "ShowProfile", "Manage", new { UserName = item.UserName }, null)
+					@if (User.IsInRole("Teacher"))
+					{
+						<span> | </span> @Html.ActionLink("Delete", "Delete", "Account", new { id = item.Id }, null)
+					}
+				</td>
+			</tr>
+		}
 
-    </table>
+	</table>
