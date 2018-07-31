@@ -3,55 +3,57 @@
 @if (User.IsInRole("Teacher"))
 {
     <p>
-
-        @Html.ActionLink("Create New", "Create")
+        @*TODO:send course code or id to module create action*@
+        @Html.ActionLink("Create New", "Create", "Modules", null, null)
     </p>
 }
 <table class="table">
     <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.StartDate)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.EndDate)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CourseCode)
-        </th>
+
+        @*<th>
+                @Html.DisplayNameFor(model => model.CourseCode)
+            </th>*@
         <th></th>
     </tr><!--collapsable-->
 
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StartDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EndDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndDate)
+            </td>
+
+            @*<td>
                     @Html.DisplayFor(modelItem => item.CourseCode)
-                </td>
-                <td>
-                    @if (User.IsInRole("Teacher"))
-                    {<!--fix edit to modules instead of courses-->
-                        @Html.ActionLink("Edit", "Edit", "Modules", new { id=item.ID }, null) <span>| </span>
-                    }
-                    @Html.ActionLink("Details", "Details", "Modules", new { id=item.ID }, null)
-                    @if (User.IsInRole("Teacher"))
-                    {
-                        <span> | </span> @Html.ActionLink("Delete", "Delete", "Modules", new { id=item.ID }, null)
-                    }
-                </td>
-            </tr>
-        }
+                </td>*@
+            <td>
+                @if (User.IsInRole("Teacher"))
+                {<!--fix edit to modules instead of courses-->
+                    @Html.ActionLink("Edit", "Edit", "Modules", new { id = item.ID }, null) <span>| </span>
+                }
+                @Html.ActionLink("Details", "Details", "Modules", new { id = item.ID }, null)
+                @if (User.IsInRole("Teacher"))
+                {
+                    <span> | </span> @Html.ActionLink("Delete", "Delete", "Modules", new { id = item.ID }, null)
+                }
+            </td>
+        </tr>
+    }
 
 
 </table>

@@ -161,7 +161,7 @@ namespace Lexicon_LMS.Migrations
                     StartDate = new DateTime(2018, 7, 19),
                     EndDate = new DateTime(2018, 7, 31),
                     Course = seededCourse,
-                    CourseCode = seededCourse.ID
+                    CourseCode = seededCourse.CourseCode
                 });
 
             context.Modules.AddOrUpdate(
@@ -172,7 +172,7 @@ namespace Lexicon_LMS.Migrations
                     StartDate = new DateTime(2018, 8, 19),
                     EndDate = new DateTime(2018, 8, 31),
                     Course = seededCoursejava,
-                    CourseCode = seededCoursejava.ID
+                    CourseCode = seededCoursejava.CourseCode
                 });
 
             context.Modules.AddOrUpdate(
@@ -183,13 +183,13 @@ namespace Lexicon_LMS.Migrations
                     StartDate = new DateTime(2019, 8, 19),
                     EndDate = new DateTime(2019, 8, 31),
                     Course = seededCourseoffice,
-                    CourseCode = seededCourseoffice.ID
+                    CourseCode = seededCourseoffice.CourseCode
                 });
 
             context.SaveChanges();
-            Module seededModule = context.Modules.Where(c => c.CourseCode == seededCourse.ID).FirstOrDefault();
-            Module seededModulejava = context.Modules.Where(c => c.CourseCode == seededCoursejava.ID).FirstOrDefault();
-            Module seededModuleoffice = context.Modules.Where(c => c.CourseCode == seededCourseoffice.ID).FirstOrDefault();
+            Module seededModule = context.Modules.Where(c => c.CourseCode == seededCourse.CourseCode).FirstOrDefault();
+            Module seededModulejava = context.Modules.Where(c => c.CourseCode == seededCoursejava.CourseCode).FirstOrDefault();
+            Module seededModuleoffice = context.Modules.Where(c => c.CourseCode == seededCourseoffice.CourseCode).FirstOrDefault();
 
             seededCourse.CourseModules.Add(seededModule);
             seededCoursejava.CourseModules.Add(seededModulejava);
