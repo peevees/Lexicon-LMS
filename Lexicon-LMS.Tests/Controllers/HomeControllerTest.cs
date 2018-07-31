@@ -6,9 +6,17 @@ using System.Web.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Lexicon_LMS;
 using Lexicon_LMS.Controllers;
+using System.Data.Entity;
 
 namespace Lexicon_LMS.Tests.Controllers
 {
+    public class MyDbContext : DbContext
+    {
+        public MyDbContext()
+        {
+        }
+    }
+
     [TestClass]
     public class HomeControllerTest
     {

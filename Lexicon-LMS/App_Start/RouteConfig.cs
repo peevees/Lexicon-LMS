@@ -23,11 +23,6 @@ namespace Lexicon_LMS
                 defaults: new { controller = "Courses", action = "Index", id = UrlParameter.Optional }
             );
 
-            routes.MapRoute(
-                name: "Notif",
-                url: "Notificaitons/{action}/{id}",
-                defaults: new { action = "Create", id = UrlParameter.Optional }
-            );
         }
 
 
