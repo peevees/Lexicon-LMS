@@ -156,7 +156,7 @@ namespace Lexicon_LMS.Controllers
             }
             else
             {
-                return
+                return View();
             }
         }
 
