@@ -114,50 +114,46 @@ namespace Lexicon_LMS.Controllers
             }
             return View(course);
             */
-            return RedirectToAction("DeleteConfirmed", new { id });
+            return RedirectToAction("DeleteConfirmed", "Manage", new { id });
         }
 
         // POST: /Users/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Teacher")]
+        [HttpPost, ActionName("ListUser")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
-            if (ModelState.IsValid)
+
+            if (id == null)
             {
-                if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var user = _userManager.FindById(id);
+            var logins = user.Logins;
+            var rolesForUser = _userManager.GetRoles(id);
+
+            using (var transaction = db.Database.BeginTransaction())
+            {
+                foreach (var login in logins.ToList())
                 {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                    _userManager.RemoveLogin(login.UserId, new UserLoginInfo(login.LoginProvider, login.ProviderKey));
                 }
 
-                var user = _userManager.FindById(id);
-                var logins = user.Logins;
-                var rolesForUser = _userManager.GetRoles(id);
-
-                using (var transaction = db.Database.BeginTransaction())
+                if (rolesForUser.Count() > 0)
                 {
-                    foreach (var login in logins.ToList())
+                    foreach (var item in rolesForUser.ToList())
                     {
-                        _userManager.RemoveLogin(login.UserId, new UserLoginInfo(login.LoginProvider, login.ProviderKey));
+                        // item should be the name of the role
+                        var result = _userManager.RemoveFromRoleAsync(user.Id, item);
                     }
-
-                    if (rolesForUser.Count() > 0)
-                    {
-                        foreach (var item in rolesForUser.ToList())
-                        {
-                            // item should be the name of the role
-                            var result = _userManager.RemoveFromRoleAsync(user.Id, item);
-                        }
-                    }
-
-                    _userManager.Delete(user);
-                    transaction.Commit();
                 }
-                return RedirectToAction("ListUsers");
+
+                _userManager.Delete(user);
+                transaction.Commit();
             }
-            else
-            {
-                return View();
-            }
+            return RedirectToAction("ListUsers");
+
         }
 
         //
@@ -187,7 +183,7 @@ namespace Lexicon_LMS.Controllers
         public ActionResult EditProfile(string userName)
         {
             ApplicationUser model = null;
-            if (userName == "")
+            if (userName == null)
             {
                 model = UserManager.FindById(User.Identity.GetUserId());
             }
