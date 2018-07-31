@@ -26,7 +26,7 @@
 
         @foreach (var item in Model)
         {
-            <tr>
+            <tr class="collapsible">
                 <td>
                     @Html.DisplayFor(modelItem => item.StartDate)
                 </td>
@@ -51,7 +51,27 @@
                     }
                 </td>
             </tr>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.ModuleActivities):
+                </th>
+                @foreach (var activity in item.ModuleActivities)
+                {
+                    <td>
+                        @Html.ActionLink(activity.Name, "Details", new { Controller = "Activities", action = "Details", id = activity.ID })
+                    </td>
+                }
+
+                  <th>
+                    @if (User.IsInRole("Teacher"))
+                        {
+                            @Html.ActionLink("Add Activity", "Create", new { Controller = "Activities", action = "Create", @class = "btn btn-default" }, new { @class = "btn btn-default" })
+                        }
+                  </th>
+            </tr>
         }
 
 
 </table>
+
+@Scripts.Render("~/Scripts/collapse.js")

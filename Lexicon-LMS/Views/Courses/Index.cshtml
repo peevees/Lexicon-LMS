@@ -52,7 +52,7 @@
 
 
                 var myModal = "myModal" + item.ID;
-            <tr class="collapsible">
+            <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.CourseCode)
                 </td>
@@ -113,12 +113,6 @@
                     }
                 </td>
             </tr>
-            <tr>
-                <th>
-                    @Html.DisplayFor(modelItem => item.CourseModules)
-                </th>
-            </tr>
-
             }
         </table>
     </div> 
