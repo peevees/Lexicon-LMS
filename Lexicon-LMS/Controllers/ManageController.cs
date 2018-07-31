@@ -8,7 +8,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Lexicon_LMS.Models;
-
+using System.Net;
 
 namespace Lexicon_LMS.Controllers
 {
@@ -17,6 +17,7 @@ namespace Lexicon_LMS.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         public ManageController()
         {
@@ -34,9 +35,9 @@ namespace Lexicon_LMS.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -76,6 +77,21 @@ namespace Lexicon_LMS.Controllers
             };
             return View(model);
         }
+        public async Task<ActionResult> ShowProfile(string userName)
+        {
+            if (userName == "")
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ApplicationUser model = UserManager.FindByName(userName);
+
+            if (model == null)
+            {
+                return HttpNotFound();
+            }
+            return View(model);
+        }
+
 
         //
         // POST: /Manage/RemoveLogin
@@ -101,39 +117,10 @@ namespace Lexicon_LMS.Controllers
             return RedirectToAction("ManageLogins", new { Message = message });
         }
 
-        public ActionResult UserProfile(string id)
+        public ActionResult EditProfile()
         {
-            ApplicationUser viewer = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(User.Identity.GetUserId());
-            ApplicationUser model = UserManager.FindById(id);
+            ApplicationUser model = UserManager.FindById(User.Identity.GetUserId());
 
-            if(id == null)
-            { return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest); }
-
-            if(id == User.Identity.GetUserId())
-            {
-                return RedirectToAction("Index");
-            }
-
-            if(User.IsInRole("Teacher") || viewer.UserCourse == model.UserCourse)
-            {
-                return View(model);
-            }
-            else
-            {
-                return View("Error");
-            }
-            
-        }
-
-
-        public ActionResult EditProfile(string id)
-        {
-            ApplicationUser model = null;
-            if (id == null) {model = UserManager.FindById(User.Identity.GetUserId());}
-            else if(User.IsInRole("Teacher")){ model = UserManager.FindById(id); }
-            else { return View("Error"); }
-            
-            ApplicationDbContext db = new ApplicationDbContext();
             var courses = new List<SelectListItem>();
 
             foreach(Course c in db.Courses)
@@ -142,7 +129,7 @@ namespace Lexicon_LMS.Controllers
             }
 
             ViewBag.coursesList = courses;
-                
+
             return View(model);
         }
 
@@ -170,7 +157,7 @@ namespace Lexicon_LMS.Controllers
                 targetUser.UserCourse = newCourse;
                 targetUser.UserCourseCode = newCourse.CourseCode;
 
-                
+
 
                 UserManager.Update(targetUser);
 

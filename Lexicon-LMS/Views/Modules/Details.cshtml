@@ -1,4 +1,5 @@
 ﻿@model Lexicon_LMS.Models.Module
+@using Lexicon_LMS.Models;
 
 @{
     ViewBag.Title = "Details";
@@ -50,12 +51,25 @@
                 <dt>
                     @Html.DisplayNameFor(model => model.ModuleActivities)
                 </dt>
-                @foreach (var activity in Model.ModuleActivities)
-                {
-                    <dd>
+                <dd>
+                    @foreach (var activity in Model.ModuleActivities)
+                    {
+
                         @Html.ActionLink(activity.Name, "Details", new { Controller = "Activities", action = "Details", id = activity.ID })
-                    </dd>
-                }
+
+                    }
+                </dd>
+
+                <dt>@Html.DisplayNameFor(model => model.Documents)</dt>
+                <dd>
+                    @foreach (Document document in Model.Documents)
+                    {
+
+                        @Html.ActionLink("Download: " + document.DisplayName, "Download", new { filePath = document.Filepath, fileName = document.FileName, saveName = document.DisplayName })
+
+                    }
+                </dd>
+
             </dl>
         </div>
         <p>

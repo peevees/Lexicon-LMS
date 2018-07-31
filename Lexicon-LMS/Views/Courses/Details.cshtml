@@ -8,190 +8,219 @@
 
 <p class="text-success">@ViewBag.StatusMessage</p>
 <div style="background-color:#e2e1e1; border-radius:12px; background: linear-gradient( rgba(126, 126, 126, 0.65), rgba(126, 126, 126, 0.45)); margin-top: 20px;">
-	<h2 style="margin-left:5px; margin-top: 10px;">@Html.DisplayFor(model => model.CourseName)</h2>	<!--fix design-->
-	<hr />
+    <h2 style="margin-left:5px; margin-top: 10px;">@Html.DisplayFor(model => model.CourseName)</h2>	<!--fix design-->
+    <hr />
 
-	<ul class="nav nav-tabs" id="myTab" role="tablist" style="background-color:#e2e1e1; background: linear-gradient( rgba(126, 126, 126, 0.65), rgba(126, 126, 126, 0.25));">
-		<li class="nav-item active">
-			<a class="nav-link active" id="overview-tab" data-toggle="tab" href="#overview" role="tab" aria-controls="overview" aria-selected="true">Overview</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link" id="modules-tab" data-toggle="tab" href="#modules" role="tab" aria-controls="modules" aria-selected="false">Modules</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link" id="members-tab" data-toggle="tab" href="#coursemembers" role="tab" aria-controls="coursemembers" aria-selected="false">Course members</a>
-		</li>
-	</ul>
+    <ul class="nav nav-tabs" id="myTab" role="tablist" style="background-color:#e2e1e1; background: linear-gradient( rgba(126, 126, 126, 0.65), rgba(126, 126, 126, 0.25));">
+        <li class="nav-item active">
+            <a class="nav-link active" id="overview-tab" data-toggle="tab" href="#overview" role="tab" aria-controls="overview" aria-selected="true">Overview</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="modules-tab" data-toggle="tab" href="#modules" role="tab" aria-controls="modules" aria-selected="false">Modules</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="members-tab" data-toggle="tab" href="#coursemembers" role="tab" aria-controls="coursemembers" aria-selected="false">Course members</a>
+        </li>
+    </ul>
 
-	<div class="tab-content" id="myTabContent" style="background-color:#fff; border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; opacity:.75">
+    <div class="tab-content" id="myTabContent" style="background-color:#fff; border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; opacity:.75">
 
-		<div class="tab-pane fade active in" id="overview" role="tabpanel" aria-labelledby="overview-tab">
+        <div class="tab-pane fade active in" id="overview" role="tabpanel" aria-labelledby="overview-tab">
 
-			<br />
-			@*<hr />*@
-			<dl class="dl-horizontal">
-				<dt>
-					@Html.DisplayNameFor(model => model.CourseCode)
-				</dt>
+            <br />
+            @*<hr />*@
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.CourseCode)
+                </dt>
 
-				<dd>
-					@Html.DisplayFor(model => model.CourseCode)
-				</dd>
+                <dd>
+                    @Html.DisplayFor(model => model.CourseCode)
+                </dd>
 
-				<dt>
-					@Html.DisplayNameFor(model => model.CourseName)
-				</dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.CourseName)
+                </dt>
 
-				<dd>
-					@Html.DisplayFor(model => model.CourseName)
-				</dd>
+                <dd>
+                    @Html.DisplayFor(model => model.CourseName)
+                </dd>
 
-				<dt>
-					@Html.DisplayNameFor(model => model.StartDate)
-				</dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.StartDate)
+                </dt>
 
-				<dd>
-					@Html.DisplayFor(model => model.StartDate)
-				</dd>
+                <dd>
+                    @Html.DisplayFor(model => model.StartDate)
+                </dd>
 
-				<dt>
-					@Html.DisplayNameFor(model => model.EndDate)
-				</dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.EndDate)
+                </dt>
 
-				<dd>
-					@Html.DisplayFor(model => model.EndDate)
-				</dd>
+                <dd>
+                    @Html.DisplayFor(model => model.EndDate)
+                </dd>
 
-				<dt>
-					@Html.DisplayNameFor(model => model.Description)
-				</dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
 
-				<dd>
-					@Html.DisplayFor(model => model.Description)
-				</dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
 
-				<dt>
-					@Html.DisplayNameFor(model => model.CourseModules)
-				</dt>
-				@foreach (var module in Model.CourseModules)
-				{
-					<dd>
-						@Html.ActionLink(module.Description, "Details", new { Controller = "Modules", action = "Details", id = module.ID })
-					</dd>
-				}
+                <dt>
+                    @Html.DisplayNameFor(model => model.CourseModules)
+                </dt>
 
-				<dt>@Html.DisplayNameFor(model => model.Teacher)</dt>
-                <dd>@Html.ActionLink(Model.Teacher.FullName, "UserProfile", new { Controller = "Manage", action = "UserProfile", id = Model.Teacher.Id })</dd>
+                <dd>
+                    @*<a id="modules-tab" href="#modules" data-toggle="tab" aria-controls="modules" aria-selected="true">@Html.ViewData.Model.CourseModules.Count</a>*@
 
-				<dt>@Html.DisplayNameFor(model => model.CourseParticipants)</dt>
-				@foreach (ApplicationUser participant in Model.CourseParticipants)
-				{
-                    <dd>@Html.ActionLink(participant.FullName, "UserProfile", new {Controller = "Manage", action ="UserProfile", id = participant.Id})</dd>
-                }
-			</dl>
-			@if (User.IsInRole("Teacher"))
-			{
-				<p style="margin-left: 5px;">
-					<span class="glyphicon glyphicon-pencil"> </span>
-					@Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-					<span class="glyphicon glyphicon-arrow-left"> </span>
-					@Html.ActionLink("Back to List", "Index")
-				</p>
-				<p style="padding-bottom: 10px;">
-					@Html.ActionLink("Add Module", "Create", new { Controller = "Modules", action = "Create", id = Model.ID }, new { @class = "btn btn-primary" })
-				</p>
-			}
+                    @Html.ViewData.Model.CourseModules.Count
 
-		</div>
+                    @*@foreach (var module in Model.CourseModules)
+        {
 
-		<div class="tab-pane fade" id="modules" role="tabpanel" aria-labelledby="contact-tab">
-			@Html.Partial("_ModulesList", Model.CourseModules)
+            @Html.ActionLink(module.Description, "Details", new { Controller = "Modules", action = "Details", id = module.ID })
 
-		</div>
+        }*@
 
-		<div class="tab-pane fade" id="coursemembers" role="tabpanel" aria-labelledby="overview-tab">
-			@Html.Partial("_CourseMembers", Model.CourseParticipants);
+                </dd>
 
-		</div>
-	</div>
+                <dt>@Html.DisplayNameFor(model => model.Teacher)</dt>
+                <dd>@Html.DisplayFor(model => model.Teacher.FullName)</dd>
+
+                @*<dt>@Html.DisplayNameFor(model => model.CourseParticipants)</dt>
+                    <dd>
+                        @foreach (ApplicationUser participant in Model.CourseParticipants)
+                        {
+
+                            @participant.FullName
+                        }
+                    </dd>*@
+
+                <dt>@Html.DisplayNameFor(model => model.Documents)</dt>
+                <dd>
+                    @foreach (Document document in Model.Documents)
+                    {
+
+                        @Html.ActionLink("Download: " + document.DisplayName, "Download", new { filePath = document.Filepath, fileName = document.FileName, saveName = document.DisplayName })
+
+                    }
+                </dd>
+            </dl>
+            @if (User.IsInRole("Teacher"))
+            {
+                <span style="margin-left: 5px;">
+                    <span class="glyphicon glyphicon-pencil"> </span>
+                    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+                </span>
+            }
+
+            <span>
+                <span class="glyphicon glyphicon-arrow-left"> </span>
+                @Html.ActionLink("Back to List", "Index")
+            </span>
+            @if (User.IsInRole("Teacher"))
+            {
+                <p style="padding-bottom: 10px;">
+                    @Html.ActionLink("Add Module", "Create", new { Controller = "Modules", action = "Create", id = Model.ID }, new { @class = "btn btn-primary" })
+                </p>
+            }
+
+        </div>
+
+        <div class="tab-pane fade" id="modules" role="tabpanel" aria-labelledby="modules-tab">
+            @Html.Partial("_ModulesList", Model.CourseModules)
+
+        </div>
+
+        <div class="tab-pane fade" id="coursemembers" role="tabpanel" aria-labelledby="coursemembers-tab">
+            @Html.Partial("_CourseMembers", Model.CourseParticipants)
+
+        </div>
+    </div>
 </div>
 
-
+@*<script>$(function () {
+    $('#DownloadLink')
+    })</script>*@
 
 @*<div style="background-color: #ededed; border-radius: 12px; opacity:.92;">
-		<h2 style="margin-left: 5px;">Details</h2>
+        <h2 style="margin-left: 5px;">Details</h2>
 
-		<h4 style="margin-left: 5px;">Course</h4>
-		<hr />
-		<dl class="dl-horizontal">
-			<dt>
-				@Html.DisplayNameFor(model => model.CourseCode)
-			</dt>
+        <h4 style="margin-left: 5px;">Course</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.CourseCode)
+            </dt>
 
-			<dd>
-				@Html.DisplayFor(model => model.CourseCode)
-			</dd>
+            <dd>
+                @Html.DisplayFor(model => model.CourseCode)
+            </dd>
 
-			<dt>
-				@Html.DisplayNameFor(model => model.CourseName)
-			</dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.CourseName)
+            </dt>
 
-			<dd>
-				@Html.DisplayFor(model => model.CourseName)
-			</dd>
+            <dd>
+                @Html.DisplayFor(model => model.CourseName)
+            </dd>
 
-			<dt>
-				@Html.DisplayNameFor(model => model.StartDate)
-			</dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.StartDate)
+            </dt>
 
-			<dd>
-				@Html.DisplayFor(model => model.StartDate)
-			</dd>
+            <dd>
+                @Html.DisplayFor(model => model.StartDate)
+            </dd>
 
-			<dt>
-				@Html.DisplayNameFor(model => model.EndDate)
-			</dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.EndDate)
+            </dt>
 
-			<dd>
-				@Html.DisplayFor(model => model.EndDate)
-			</dd>
+            <dd>
+                @Html.DisplayFor(model => model.EndDate)
+            </dd>
 
-			<dt>
-				@Html.DisplayNameFor(model => model.Description)
-			</dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
 
-			<dd>
-				@Html.DisplayFor(model => model.Description)
-			</dd>
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
 
-			<dt>
-				@Html.DisplayNameFor(model => model.CourseModules)
-			</dt>
-			@foreach (var module in Model.CourseModules)
-			{
-				<dd>
-					@Html.ActionLink(module.Description, "Details", new { Controller = "Modules", action = "Details", id = module.ID })
-				</dd>
-			}
+            <dt>
+                @Html.DisplayNameFor(model => model.CourseModules)
+            </dt>
+            @foreach (var module in Model.CourseModules)
+            {
+                <dd>
+                    @Html.ActionLink(module.Description, "Details", new { Controller = "Modules", action = "Details", id = module.ID })
+                </dd>
+            }
 
-			<dt>@Html.DisplayNameFor(model => model.Teacher)</dt>
-			<dd>@Html.DisplayFor(model => model.Teacher.FullName)</dd>
+            <dt>@Html.DisplayNameFor(model => model.Teacher)</dt>
+            <dd>@Html.DisplayFor(model => model.Teacher.FullName)</dd>
 
-			<dt>@Html.DisplayNameFor(model => model.CourseParticipants)</dt>
-			@foreach (ApplicationUser participant in Model.CourseParticipants)
-			{
-				<dd>@participant.FullName</dd>}
-		</dl>
-		@if (User.IsInRole("Teacher"))
-		{
-			<p style="margin-left: 5px;">
-				<span class="glyphicon glyphicon-pencil"> </span>
-				@Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-				<span class="glyphicon glyphicon-arrow-left"> </span>
-				@Html.ActionLink("Back to List", "Index")
-			</p>
-			<p style="padding-bottom: 10px;">
-				@Html.ActionLink("Add Module", "Create", new { Controller = "Modules", action = "Create", id = Model.ID }, new { @class = "btn btn-primary" })
-			</p>
-		}
-	</div>*@
+            <dt>@Html.DisplayNameFor(model => model.CourseParticipants)</dt>
+            @foreach (ApplicationUser participant in Model.CourseParticipants)
+            {
+                <dd>@participant.FullName</dd>}
+        </dl>
+        @if (User.IsInRole("Teacher"))
+        {
+            <p style="margin-left: 5px;">
+                <span class="glyphicon glyphicon-pencil"> </span>
+                @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+                <span class="glyphicon glyphicon-arrow-left"> </span>
+                @Html.ActionLink("Back to List", "Index")
+            </p>
+            <p style="padding-bottom: 10px;">
+                @Html.ActionLink("Add Module", "Create", new { Controller = "Modules", action = "Create", id = Model.ID }, new { @class = "btn btn-primary" })
+            </p>
+        }
+    </div>*@
