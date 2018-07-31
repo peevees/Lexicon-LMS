@@ -210,6 +210,10 @@
     <Compile Include="Migrations\201807261231101_Notifications.Designer.cs">
       <DependentUpon>201807261231101_Notifications.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807311325331_cantlogin.cs" />
+    <Compile Include="Migrations\201807311325331_cantlogin.Designer.cs">
+      <DependentUpon>201807311325331_cantlogin.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ViewModel\AccountViewModels.cs" />
     <Compile Include="Models\Activity.cs" />
@@ -355,6 +359,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201807261231101_Notifications.resx">
       <DependentUpon>201807261231101_Notifications.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807311325331_cantlogin.resx">
+      <DependentUpon>201807311325331_cantlogin.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

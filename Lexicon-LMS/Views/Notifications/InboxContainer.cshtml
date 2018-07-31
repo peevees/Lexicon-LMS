@@ -3,6 +3,7 @@
 @using Microsoft.AspNet.Identity.Owin;
 @using Lexicon_LMS.Models;
 
+
 @{
 
     ApplicationUser user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(User.Identity.GetUserId());
@@ -32,11 +33,13 @@
 <script>
     var pageindex = getQueryString('p');
 
-    var inbox = '@Url.Action("Inbox", "Notifications")'
+    var inbox = '@Url.Action("Inbox", "Notifications")';
+
     $(document).ready(function () {
+
+        $('#inbox-container').load(inbox, { page: pageindex });
         disable();
         activate(pageindex);
-        $('#inbox-container').load(inbox, { page: pageindex})
     });
 
     function getQueryString(field, url) {
@@ -99,3 +102,5 @@
     }
 
 </script>
+
+

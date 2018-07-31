@@ -25,7 +25,7 @@
         <th></th>
     </tr>
 
-    @foreach (var item in Model.OrderByDescending(item=>item.DateSent).Skip(0))
+    @foreach (var item in Model.Skip(0))
     {
         <tr >
             <td>

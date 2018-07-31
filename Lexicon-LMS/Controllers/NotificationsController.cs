@@ -34,7 +34,7 @@ namespace Lexicon_LMS.Controllers
             int pageNumber = (page ?? 1);
 
             ApplicationUser user = db.Users.Find(User.Identity.GetUserId());
-            return PartialView(user.Notifications.ToPagedList(pageNumber,pageSize));
+            return PartialView(user.Notifications.OrderByDescending(l => l.DateSent).ToPagedList(pageNumber,pageSize));
         }
 
         public ActionResult InboxMsg(int notif)
