@@ -40,5 +40,26 @@ textarea {
 }
 .h2-override{
     padding-top: 10px;
-    margin-left: 5px;
+    margin-left: 10px;
+}
+
+.nav-tabs li.active a {
+    color: #555;
+    cursor: default;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    opacity: .76;
+    border-bottom-color: none;
+}
+
+.a-override{
+    color:#000
+}
+
+.coursename {
+    background-color: #ddd;
+    border-radius: 12px;
+    background: linear-gradient( rgba(126, 126, 126, 0.65), rgba(126, 126, 126, 0.65));
+    margin-top: 20px;
+    border-bottom:black;
 }
