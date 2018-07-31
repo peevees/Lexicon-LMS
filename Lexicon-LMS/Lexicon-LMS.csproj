@@ -214,6 +214,10 @@
     <Compile Include="Migrations\201807311325331_cantlogin.Designer.cs">
       <DependentUpon>201807311325331_cantlogin.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807311339435_documents.cs" />
+    <Compile Include="Migrations\201807311339435_documents.Designer.cs">
+      <DependentUpon>201807311339435_documents.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ViewModel\AccountViewModels.cs" />
     <Compile Include="Models\Activity.cs" />
@@ -348,6 +352,7 @@
     <Content Include="Views\Notifications\Inbox.cshtml" />
     <Content Include="Views\Notifications\InboxMsg.cshtml" />
     <Content Include="Views\Notifications\InboxContainer.cshtml" />
+    <Content Include="Views\Manage\ListUsers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -364,6 +369,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807311325331_cantlogin.resx">
       <DependentUpon>201807311325331_cantlogin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807311339435_documents.resx">
+      <DependentUpon>201807311339435_documents.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
