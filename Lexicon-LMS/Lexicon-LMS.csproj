@@ -247,13 +247,13 @@
     <Compile Include="Migrations\201807251145458_sendernotrequired.Designer.cs">
       <DependentUpon>201807251145458_sendernotrequired.cs</DependentUpon>
       </Compile>-->
-    <Compile Include="Migrations\201807261231101_Notifications.cs" />
-    <Compile Include="Migrations\201807261231101_Notifications.Designer.cs">
-      <DependentUpon>201807261231101_Notifications.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201807311339435_documents.cs" />
     <Compile Include="Migrations\201807311339435_documents.Designer.cs">
       <DependentUpon>201807311339435_documents.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808011349147_notifs.cs" />
+    <Compile Include="Migrations\201808011349147_notifs.Designer.cs">
+      <DependentUpon>201808011349147_notifs.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Controllers\FileHandler.cs" />
@@ -430,11 +430,11 @@
     <EmbeddedResource Include="Migrations\201807251145458_sendernotrequired.resx">
       <DependentUpon>201807251145458_sendernotrequired.cs</DependentUpon>
     </EmbeddedResource>-->
-    <EmbeddedResource Include="Migrations\201807261231101_Notifications.resx">
-      <DependentUpon>201807261231101_Notifications.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807311339435_documents.resx">
       <DependentUpon>201807311339435_documents.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808011349147_notifs.resx">
+      <DependentUpon>201808011349147_notifs.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
