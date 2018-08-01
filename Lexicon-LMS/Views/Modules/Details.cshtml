@@ -2,83 +2,81 @@
 @using Lexicon_LMS.Models;
 
 @{
-    ViewBag.Title = "Details";
+	ViewBag.Title = "Details";
 }
 
 <link href="~/Content/icecreamstyle.css" rel="stylesheet" />
 
 <div class="main-div">
 
-    <div>
-        <h2 class="h2-override">@ViewBag.Title</h2>
+	<div>
+		<h2 class="h2-override">@ViewBag.Title</h2>
 
-            <h4>Module</h4>
-            <hr />
-            <dl class="dl-horizontal">
-                <dt>
-                    @Html.DisplayNameFor(model => model.Course.CourseCode)
-                </dt>
+		<h4>Module</h4>
+		<hr />
+		<dl class="dl-horizontal">
+			<dt>
+				@Html.DisplayNameFor(model => model.Course.CourseCode)
+			</dt>
 
-                <dd>
-                    @Html.DisplayFor(model => model.Course.CourseCode)
-                </dd>
+			<dd>
+				@Html.DisplayFor(model => model.Course.CourseCode)
+			</dd>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.StartDate)
-                </dt>
+			<dt>
+				@Html.DisplayNameFor(model => model.StartDate)
+			</dt>
 
-                <dd>
-                    @Html.DisplayFor(model => model.StartDate)
-                </dd>
+			<dd>
+				@Html.DisplayFor(model => model.StartDate)
+			</dd>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.EndDate)
-                </dt>
+			<dt>
+				@Html.DisplayNameFor(model => model.EndDate)
+			</dt>
 
-                <dd>
-                    @Html.DisplayFor(model => model.EndDate)
-                </dd>
+			<dd>
+				@Html.DisplayFor(model => model.EndDate)
+			</dd>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.Description)
-                </dt>
+			<dt>
+				@Html.DisplayNameFor(model => model.Description)
+			</dt>
 
-                <dd>
-                    @Html.DisplayFor(model => model.Description)
-                </dd>
+			<dd>
+				@Html.DisplayFor(model => model.Description)
+			</dd>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.ModuleActivities)
-                </dt>
-                <dd>
-                    @foreach (var activity in Model.ModuleActivities)
-                    {
+			<dt>
+				@Html.DisplayNameFor(model => model.ModuleActivities)
+			</dt>
+			<dd>
+				@foreach (var activity in Model.ModuleActivities)
+				{
 
-                        @Html.ActionLink(activity.Name, "Details", new { Controller = "Activities", action = "Details", id = activity.ID })
+					@Html.ActionLink(activity.Name, "Details", new { Controller = "Activities", action = "Details", id = activity.ID })
 
-                    }
-                </dd>
+				}
+			</dd>
 
-                <dt>@Html.DisplayNameFor(model => model.Documents)</dt>
-                <dd>
-                    @foreach (Document document in Model.Documents)
-                    {
+			<dt>@Html.DisplayNameFor(model => model.Documents)</dt>
+			<dd>
+				@foreach (Document document in Model.Documents)
+				{
+					@Html.ActionLink("Download: " + document.DisplayName, "Download", new { filePath = document.Filepath, fileName = document.FileName })
+				}
+			</dd>
 
-                        @Html.ActionLink("Download: " + document.DisplayName, "Download", new { filePath = document.Filepath, fileName = document.FileName, saveName = document.DisplayName })
-
-                    }
-                </dd>
-
-            </dl>
-        </div>
-        <p>
-            @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-            @Html.ActionLink("Back to List", "Index")
-        </p>
-        @if (User.IsInRole("Teacher"))
-        {
-           @Html.ActionLink("Add Activity", "Create", new { Controller = "Activities", action = "Create", id = Model.ID, @class = "btn btn-default" }, new { @class = "btn btn-default" })
-        }
+		</dl>
+	</div>
+	<p>
+		@Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+		@Html.ActionLink("Back to Course", "Details", "Courses", new { id = Model.Course.ID }, null)
+	</p>
+	@if (User.IsInRole("Teacher"))
+	{
+		@Html.ActionLink("Add Activity", "Create", new { Controller = "Activities", action = "Create", id = Model.ID, @class = "btn btn-default" }, new { @class = "btn btn-default" })
+	}
 </div>
 
 

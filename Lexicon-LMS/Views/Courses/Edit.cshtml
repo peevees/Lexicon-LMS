@@ -1,4 +1,5 @@
 ﻿@model Lexicon_LMS.Models.Course
+@using Lexicon_LMS.Models;
 
 @{
     ViewBag.Title = "Edit";
@@ -11,10 +12,10 @@
     <div>
         <h2 class="h2-override">@ViewBag.Title</h2>
 
-        @using (Html.BeginForm())
+        @using (Html.BeginForm("Edit", "Courses", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
             @Html.AntiForgeryToken()
-            <h4 style="margin-left:10px;">Course</h4>  @* TODO: fix design *@
+            <h4 style="margin-left:10px;">Course</h4> @* TODO: fix design *@
 
             <div class="form-horizontal">
 
@@ -69,6 +70,30 @@
                         @Html.ValidationMessageFor(model => model.TeacherID, "", new { @class = "text-danger" })
                     </div>
                 </div>
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Documents, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @if (Model.Documents.Count > 0)
+                        {
+                            foreach (Document document in Model.Documents)
+                            {
+                                @Html.ActionLink("Delete: " + document.DisplayName, "DeleteFile", new { courseID = Model.ID, filePath = document.Filepath, fileName = document.FileName, documentID = document.ID })
+                            }
+                        }
+                        else
+                        {
+                            <input type = "file" id = "file" name = "upload"/>
+
+                        }
+
+                    </div>
+                </div>
+
+
+
+
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
                         <input type="submit" value="Save" class="btn btn-success" />
@@ -86,6 +111,6 @@
 </div>
 
 
-    @section Scripts {
-        @Scripts.Render("~/bundles/jqueryval")
-    }
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

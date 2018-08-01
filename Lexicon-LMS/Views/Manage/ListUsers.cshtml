@@ -4,10 +4,13 @@
 	ViewBag.Title = "Users";
 }
 
-<h2>@ViewBag.Title</h2>
+<link href="~/Content/icecreamstyle.css" rel="stylesheet" />
+<link href="~/Content/Site.css" rel="stylesheet" />
+      <div class="main-div">
+<h2 class="h2-override">@ViewBag.Title</h2>
 
 <p>
-	@Html.ActionLink("Add user", "Register", "Account")
+	@Html.ActionLink("Add user", "Register", "Account", new { @class = "btn btn-primary" })
 </p>
 <table class="table">
 	<tr>
@@ -21,25 +24,7 @@
 			@Html.DisplayNameFor(model => model.TimeOfRegistration)
 		</th>
 		<th>
-			@Html.DisplayNameFor(model => model.UserCourseCode)
-		</th>
-		<th>
-			@Html.DisplayNameFor(model => model.Street)
-		</th>
-		<th>
-			@Html.DisplayNameFor(model => model.Postcode)
-		</th>
-		<th>
-			@Html.DisplayNameFor(model => model.City)
-		</th>
-		<th>
 			@Html.DisplayNameFor(model => model.UserName)
-		</th>
-		<th>
-			@Html.DisplayNameFor(model => model.Email)
-		</th>
-		<th>
-			@Html.DisplayNameFor(model => model.PhoneNumber)
 		</th>
 
 		<th></th>
@@ -57,30 +42,14 @@
 			<td>
 				@Html.DisplayFor(modelItem => item.TimeOfRegistration)
 			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.UserCourseCode)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.Street)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.Postcode)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.City)
-			</td>
+			
 			<td>
 				@Html.DisplayFor(modelItem => item.UserName)
 			</td>
 			<td>
-				@Html.DisplayFor(modelItem => item.Email)
-			</td>
-
-			<td>
-				@Html.DisplayFor(modelItem => item.PhoneNumber)
-			</td>
-			<td>
+      <span class="glyphicon glyphicon-pencil"> </span>
 				@Html.ActionLink("Edit User", "EditProfile", new { userName = item.UserName }) |
+         <span class="glyphicon glyphicon-user"> </span>
 				@Html.ActionLink("Show Profile", "ShowProfile", new { userName = item.UserName }) |
 				@if (User.Identity.Name != item.UserName)
 				{
@@ -94,3 +63,4 @@
 	}
 
 </table>
+</div>
