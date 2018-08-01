@@ -32,7 +32,7 @@ namespace Lexicon_LMS.Models
         public string Postcode { get; set; }
         public string City { get; set; }
 
-        [Display(Name ="Phone number")]
+        [Display(Name = "Phone number")]
         public override string PhoneNumber { get; set; }
 
 

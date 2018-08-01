@@ -2,44 +2,47 @@
 @using Lexicon_LMS.Models;
 
 @{
-    ViewBag.Title = "Details";
+	ViewBag.Title = "Details";
 }
 
 <h2>Details</h2>
 
 <div>
-    <h4>Activity</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+	<h4>Activity</h4>
+	<hr />
+	<dl class="dl-horizontal">
+		<dt>
+			@Html.DisplayNameFor(model => model.Name)
+		</dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+		<dd>
+			@Html.DisplayFor(model => model.Name)
+		</dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Deadline)
-        </dt>
+		<dt>
+			@Html.DisplayNameFor(model => model.Deadline)
+		</dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Deadline)
-        </dd>
+		<dd>
+			@Html.DisplayFor(model => model.Deadline)
+		</dd>
 
-        <dt>@Html.DisplayNameFor(model => model.Documents)</dt>
-        <dd>
-            @foreach (Document document in Model.Documents)
-            {
+		<dt>@Html.DisplayNameFor(model => model.Documents)</dt>
+		<dd>
+			@foreach (Document document in Model.Documents)
+			{
 
-                @Html.ActionLink("Download: " + document.DisplayName, "Download", new { filePath = document.Filepath, fileName = document.FileName, saveName = document.DisplayName })
+				@Html.ActionLink("Download: " + document.DisplayName, "Download", new { filePath = document.Filepath, fileName = document.FileName, saveName = document.DisplayName })
 
-            }
-        </dd>
+			}
+		</dd>
 
-    </dl>
+	</dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-    @Html.ActionLink("Back to Course", "Details", "Courses", new { id = Model.Module.Course.ID}, null)
+	@if (User.IsInRole("Teacher"))
+	{
+		@Html.ActionLink("Edit", "Edit", new { id = Model.ID }) <span> | </span>
+	}
+	@Html.ActionLink("Back to Course", "Details", "Courses", new { id = Model.Module.Course.ID }, null)
 </p>
