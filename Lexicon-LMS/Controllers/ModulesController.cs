@@ -83,11 +83,9 @@ namespace Lexicon_LMS.Controllers
 
                 Course targetCourse = db.Courses.Where(course => course.CourseCode == module.CourseCode).FirstOrDefault();
                 targetCourse.CourseModules.Add(module);
-
                 db.Modules.Add(module);
                 db.SaveChanges();
             }
-           
 
             ViewBag.CourseCode = new SelectList(db.Courses, "ID", "CourseCode", module.CourseCode);
             return RedirectToAction("Details", "Courses", new { id = module.Course.ID });
@@ -126,23 +124,6 @@ namespace Lexicon_LMS.Controllers
             // contentType
             // );
         }
-
-        //private byte[] GetFile(string fullName)
-        //{
-
-        //    //is null check filepath
-        //    //https://stackoverflow.com/questions/3597179/file-download-in-asp-net-mvc-2
-
-        //    FileStream fs = System.IO.File.OpenRead(fullName);
-
-        //    byte[] data = new byte[fs.Length];
-        //    int br = fs.Read(data, 0, data.Length);
-        //    if (br != fs.Length)
-        //        throw new IOException(fullName);
-
-        //    return data;
-        //}
-
 
         // GET: Modules/Edit/5
         [Authorize(Roles = "Teacher")]

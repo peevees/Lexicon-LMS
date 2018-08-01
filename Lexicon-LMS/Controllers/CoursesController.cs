@@ -11,7 +11,6 @@ using System.Web;
 using System.IO;
 using System.Reflection;
 
-
 namespace Lexicon_LMS.Controllers
 {
     [Authorize]
@@ -75,6 +74,7 @@ namespace Lexicon_LMS.Controllers
         {
             if (ModelState.IsValid)
             {
+
                 var file = fileHandler.UploadFile(upload);   
                 if(file != null)
                 {
@@ -87,6 +87,7 @@ namespace Lexicon_LMS.Controllers
                 }
                 
                 course.Teacher = db.Users.Where(u => u.Id == course.TeacherID).FirstOrDefault();
+                
                 db.Courses.Add(course);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -103,7 +104,7 @@ namespace Lexicon_LMS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "File was not found");
             }
-
+            
             return file;
 
             //string fullName = Path.Combine(Assembly.GetExecutingAssembly().CodeBase, filePath, fileName);
@@ -153,7 +154,6 @@ namespace Lexicon_LMS.Controllers
             return RedirectToAction("Edit", new { id = courseID });
 
         }
-
 
         // GET: Courses/Edit/5
         [Authorize(Roles = "Teacher")]
