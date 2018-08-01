@@ -24,8 +24,8 @@ namespace Lexicon_LMS.Migrations
             //  to avoid creating duplicate seed data.
 
             //HACK: SEED DEBUGGER
-            //if (!System.Diagnostics.Debugger.IsAttached)
-            //    System.Diagnostics.Debugger.Launch();
+            if (!System.Diagnostics.Debugger.IsAttached)
+                System.Diagnostics.Debugger.Launch();
 
             var roleNames = new[] { "Teacher" };//REMINDER: add roles here!
             AddRoles(context, roleNames);

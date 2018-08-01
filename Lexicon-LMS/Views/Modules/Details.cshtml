@@ -65,7 +65,7 @@
                     @foreach (Document document in Model.Documents)
                     {
 
-                        @Html.ActionLink("Download: " + document.DisplayName, "Download", new { filePath = document.Filepath, fileName = document.FileName, saveName = document.DisplayName })
+                        @Html.ActionLink("Download: " + document.DisplayName, "Download", new { filePath = document.Filepath, fileName = document.FileName })
 
                     }
                 </dd>
