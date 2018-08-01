@@ -3,7 +3,7 @@ namespace Lexicon_LMS.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class nonvirtual : DbMigration
+    public partial class notifs : DbMigration
     {
         public override void Up()
         {

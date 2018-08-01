@@ -1,0 +1,47 @@
+﻿@model Lexicon_LMS.Models.Notification
+@using Microsoft.AspNet.Identity;
+
+<script>
+    var url = '@Url.Action("InboxContainer", "Notifications")';
+
+</script>
+
+<div>
+    <h4>Notification</h4>
+    <hr />
+    <dl>
+        <dt>From:</dt>
+        <dd>
+            @Html.ActionLink(Model.Sender.FullName, "UserProfile", new { Controller = "Manage", action = "UserProfile", id = Model.Sender.Id })
+        </dd>
+        <dt>To:</dt>
+        @foreach (var recipient in Model.Recipients)
+        {
+            <dd>@Html.ActionLink(recipient.FullName, "UserProfile", new { Controller = "Manage", action = "UserProfile", id = recipient.Id })</dd>
+        }
+        <dt>
+            @Html.DisplayNameFor(model => model.Subject)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Subject)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Body)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Body)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Reply","Create", new { Controller = "Notifications",
+    action = "Create",
+    uid = Model.Sender.Id,
+    subject = "re: " + Model.Subject,
+    body ="On "+Model.DateSent+" "+Model.Sender.FullName+" wrote:" + Environment.NewLine + ">"+ Model.Body + Environment.NewLine + ">>>" + Environment.NewLine}) |
+    <a href="#&p=@TempData["page"]" onclick="$('#inbox').load(url),{page : @TempData["page"] }">Back to Inbox</a>
+</p>
