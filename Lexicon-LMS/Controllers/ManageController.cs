@@ -213,6 +213,7 @@ namespace Lexicon_LMS.Controllers
             {
                 var targetUser = UserManager.FindById(user.Id);
                 ApplicationDbContext db = new ApplicationDbContext();
+                //TODO: will crash probably because of coure problems
                 Course newCourse = db.Courses.Where(c => c.CourseCode == user.UserCourseCode).FirstOrDefault();
                 Course oldCourse = db.Courses.Where(c => c.CourseCode == (TempData["PreviousCourse"]).ToString()).FirstOrDefault();
 

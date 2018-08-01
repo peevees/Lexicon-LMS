@@ -1,12 +1,15 @@
 ﻿@model IEnumerable<Lexicon_LMS.Models.Module>
 
-@if (User.IsInRole("Teacher"))
-{
-    <p>
-        @*TODO:send course code or id to module create action*@
-        @Html.ActionLink("Create New", "Create", "Modules", null, null)
-    </p>
+
+@*@if (User.IsInRole("Teacher"))
+	{
+		<p>
+			<!--TODO:send course code or id to module create action-->
+			@Html.ActionLink("Add new Module", "Create", "Module", null, null)<!--TODO:should perhaps not be null?-->
+		</p>
 }
+*@
+
 
 <link href="~/Content/collapsestyle.css" rel="stylesheet" />
 

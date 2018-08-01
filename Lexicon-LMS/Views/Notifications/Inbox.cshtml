@@ -1,0 +1,49 @@
+﻿@model PagedList.IPagedList<Lexicon_LMS.Models.Notification>
+    @using PagedList.Mvc;
+
+@{ 
+    TempData["page"] = Model.PageNumber;
+}
+
+<script>
+    var url = '@Url.Action("InboxMsg", "Notifications")';
+
+</script>
+
+<table class="table">
+    <tr>
+        <th></th>
+        <th>
+            Subject
+        </th>
+        <th>
+            Date
+        </th>
+        <th>
+
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Skip(0))
+    {
+        <tr >
+            <td>
+                @if (!item.Read) { <span class="badge badge-success">New!</span>}
+            </td>
+            <td>
+                <a href="#" onclick="$('#inbox').load(url, {notif: @item.ID});">@item.Subject</a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateSent)
+            </td>
+            <td></td>
+            <td>
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            </td>
+        </tr>
+    }
+</table>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
