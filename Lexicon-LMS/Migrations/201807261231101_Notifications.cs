@@ -10,13 +10,16 @@ namespace Lexicon_LMS.Migrations
             AddColumn("dbo.Notifications", "DateSent", c => c.DateTime(nullable: false));
             AlterColumn("dbo.AspNetUsers", "Forename", c => c.String(nullable: false));
             AlterColumn("dbo.AspNetUsers", "Surname", c => c.String(nullable: false));
+            AddColumn("dbo.Notifications", "RecipientID", c => c.String(nullable: false));
+
         }
-        
+
         public override void Down()
         {
             AlterColumn("dbo.AspNetUsers", "Surname", c => c.String());
             AlterColumn("dbo.AspNetUsers", "Forename", c => c.String());
             DropColumn("dbo.Notifications", "DateSent");
+            DropColumn("dbo.Notifications", "RecipientID");
         }
     }
 }

@@ -10,7 +10,6 @@ namespace Lexicon_LMS.Migrations
             DropForeignKey("dbo.Notifications", "Sender_Id", "dbo.AspNetUsers");
             DropIndex("dbo.Notifications", new[] { "Sender_Id" });
             AddColumn("dbo.AspNetUsers", "Notification_ID", c => c.Int());
-            AddColumn("dbo.Notifications", "RecipientID", c => c.String(nullable: false));
             AddColumn("dbo.Notifications", "DateSent", c => c.DateTime(nullable: false));
             AddColumn("dbo.Notifications", "ApplicationUser_Id", c => c.String(maxLength: 128));
             AlterColumn("dbo.Notifications", "Sender_Id", c => c.String(maxLength: 128));
@@ -33,7 +32,6 @@ namespace Lexicon_LMS.Migrations
             AlterColumn("dbo.Notifications", "Sender_Id", c => c.String(nullable: false, maxLength: 128));
             DropColumn("dbo.Notifications", "ApplicationUser_Id");
             DropColumn("dbo.Notifications", "DateSent");
-            DropColumn("dbo.Notifications", "RecipientID");
             DropColumn("dbo.AspNetUsers", "Notification_ID");
             CreateIndex("dbo.Notifications", "Sender_Id");
             AddForeignKey("dbo.Notifications", "Sender_Id", "dbo.AspNetUsers", "Id", cascadeDelete: true);
