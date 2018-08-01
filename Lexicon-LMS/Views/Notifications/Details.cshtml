@@ -10,6 +10,16 @@
     <h4>Notification</h4>
     <hr />
     <dl class="dl-horizontal">
+        <dt>From:</dt>
+        <dd>
+            @Html.ActionLink(Model.Sender.FullName, "UserProfile", new { Controller = "Manage", action = "UserProfile", id = Model.Sender.Id })
+        </dd>
+        <dt>To:</dt>
+        @foreach (var recipient in Model.Recipients)
+    {
+        <dd>@Html.ActionLink(recipient.FullName, "UserProfile", new { Controller = "Manage", action = "UserProfile", id = recipient.Id })</dd>
+}
+        <dt>
         <dt>
             @Html.DisplayNameFor(model => model.Subject)
         </dt>
@@ -24,14 +34,6 @@
 
         <dd>
             @Html.DisplayFor(model => model.Body)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Read)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Read)
         </dd>
 
     </dl>

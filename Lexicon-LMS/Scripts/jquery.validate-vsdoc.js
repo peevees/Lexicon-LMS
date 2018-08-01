@@ -667,7 +667,7 @@ $.extend($.validator, {
 			if ( typeof message == "function" ) {
 				message = message.call(this, rule.parameters, element);
 			} else if (theregex.test(message)) {
-				message = jQuery.format(message.replace(theregex, '{$1}'), rule.parameters);
+				message = $.format(message.replace(theregex, '{$1}'), rule.parameters);
 			}			
 			this.errorList.push({
 				message: message,
@@ -1207,7 +1207,7 @@ $.extend($.validator, {
 // deprecated, use $.validator.format instead
 $.format = $.validator.format;
 
-})(jQuery);
+})($);
 
 // ajax mode: abort
 // usage: $.ajax({ mode: "abort"[, port: "uniqueport"]});
@@ -1240,7 +1240,7 @@ $.format = $.validator.format;
 		    return ajax.apply(this, arguments);
 	    };
     }
-})(jQuery);
+})($);
 
 // provides cross-browser focusin and focusout events
 // IE has native support, in other browsers, use event caputuring (neither bubbles)
@@ -1250,7 +1250,7 @@ $.format = $.validator.format;
 ;(function($) {
 	// only implement if not provided by jQuery core (since 1.4)
 	// TODO verify if jQuery 1.4's implementation is compatible with older jQuery special-event APIs
-	if (!jQuery.event.special.focusin && !jQuery.event.special.focusout && document.addEventListener) {
+	if (!$.event.special.focusin && !$.event.special.focusout && document.addEventListener) {
 		$.each({
 			focus: 'focusin',
 			blur: 'focusout'	
@@ -1285,4 +1285,4 @@ $.format = $.validator.format;
 			});
 		}
 	});
-})(jQuery);
+})($);
