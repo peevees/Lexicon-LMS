@@ -184,7 +184,7 @@ namespace Lexicon_LMS.Controllers
                     UserCourseCode = model.UserCourseCode
                 };
 
-                var result = await UserManager.CreateAsync(user, model.Password);
+                var result = UserManager.Create(user, model.Password);
                 if (result.Succeeded)
                 {
                     Course userCourse = db.Courses.Where(c => c.CourseCode == user.UserCourseCode).FirstOrDefault();
@@ -204,6 +204,14 @@ namespace Lexicon_LMS.Controllers
             }
 
             // If we got this far, something failed, redisplay form
+            var courses = new List<SelectListItem>();
+
+            foreach (Course c in db.Courses)
+            {
+                courses.Add(new SelectListItem { Text = c.CourseName, Value = c.CourseCode });
+            }
+
+            ViewBag.coursesList = courses;
             return View(model);
         }
 
