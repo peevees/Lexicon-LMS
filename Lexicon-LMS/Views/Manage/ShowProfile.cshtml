@@ -93,6 +93,13 @@
 	</dl>
 </div>
 <p>
-	@Html.ActionLink("Edit", "EditProfile", "Manage",  new { userName = Model.UserName }, null) |
-	@Html.ActionLink("Back to List", "ListUsers")
+	@Html.ActionLink("Edit", "EditProfile", "Manage", new { userName = Model.UserName }, null) |
+	@if (User.IsInRole("Teacher"))
+	{
+		@Html.ActionLink("Back to List", "ListUsers")
+	}
+	else
+	{
+		@Html.ActionLink("Back to Course", "Details", "Courses", new { id = Model.UserCourse.ID}, null)
+	}
 </p>
