@@ -12,44 +12,44 @@
 
 <table class="table">
     <tr>
+        
         <th class="content">
             @Html.DisplayNameFor(model => model.StartDate)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.EndDate)
           </th>
-        <th>
+          <th>
             @Html.DisplayNameFor(model => model.Description)
         </th>
-
         <th></th>
     </tr><!--collapsable-->
 
-        @foreach (var item in Model)
-        {
-            <tr class="collapsible">
-                <td class="content">
-                    @Html.DisplayFor(modelItem => item.StartDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EndDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @if (User.IsInRole("Teacher"))
-                    {
-                        @Html.ActionLink("Edit", "Edit", "Modules", new { id=item.ID }, null) <span>| </span>
-                    }
-                    @Html.ActionLink("Details", "Details", "Modules", new { id=item.ID }, null)
-                    @if (User.IsInRole("Teacher"))
-                    {
-                        <span> | </span> @Html.ActionLink("Delete", "Delete", "Modules", new { id=item.ID }, null)
-                    }
-                </td>
-            </tr>
-            <tr class="collapse">
+    @foreach (var item in Model)
+    {
+        <tr class="collapsible">
+            <td class="content">
+                @Html.DisplayFor(modelItem => item.StartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @if (User.IsInRole("Teacher"))
+                {
+                    @Html.ActionLink("Edit", "Edit", "Modules", new { id = item.ID }, null) <span>| </span>
+                }
+                @Html.ActionLink("Details", "Details", "Modules", new { id = item.ID }, null)
+                @if (User.IsInRole("Teacher"))
+                {
+                    <span> | </span> @Html.ActionLink("Delete", "Delete", "Modules", new { id = item.ID }, null)
+                }
+            </td>
+        </tr>
+<tr class="collapse">
                 <th class="content" style="border-top:none;">
                     @Html.DisplayNameFor(model => model.ModuleActivities):
                 </th>
@@ -67,9 +67,7 @@
                         }
                   </th>
             </tr>
-        }
-
-
+    }
 </table>
 
 @Scripts.Render("~/Scripts/collapse.js")
