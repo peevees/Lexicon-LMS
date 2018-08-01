@@ -6,7 +6,6 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
-using Lexicon_LMS.Models;
 using System.Web.Security;
 using System.Web;
 using System.IO;
@@ -18,6 +17,7 @@ namespace Lexicon_LMS.Controllers
     public class CoursesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private FileHandler fileHandler = new FileHandler();
 
         // GET: Courses
         //[Authorize(Roles = "Teacher")]
@@ -74,35 +74,20 @@ namespace Lexicon_LMS.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (upload != null && upload.ContentLength > 0)
+
+                var file = fileHandler.UploadFile(upload);   
+                if(file != null)
                 {
-                    var originalFilename = Path.GetFileName(upload.FileName);
                     var user = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
-
-                    string fileId = Guid.NewGuid().ToString().Replace("-", "");
-
-                    var fileName =  user.Forename + "_" + user.Surname + "_" + fileId + "_" + originalFilename;
-
-                    var path = Path.Combine(Server.MapPath("~/Uploads"));
-                    var save = Path.Combine(Server.MapPath("~/Uploads"), fileName);
-                    upload.SaveAs(save);
-
-                    var file = new Document
-                    {
-                        FileName = fileName,
-                        DisplayName = originalFilename,
-                        UploadDate = DateTime.Now,
-                        CourseID = course.ID,
-                        Filepath = path,
-                        User = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault()
-                    };
+                    file.CourseID = course.ID;
+                    file.User = user;
 
                     course.Documents = new List<Document>();
                     course.Documents.Add(file);
-
                 }
-
-                //course.Teacher = db.Users.Where(u => u.Id == course.TeacherID).FirstOrDefault();
+                
+                course.Teacher = db.Users.Where(u => u.Id == course.TeacherID).FirstOrDefault();
+                
                 db.Courses.Add(course);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -112,8 +97,45 @@ namespace Lexicon_LMS.Controllers
         }
 
         [Authorize]
-        public ActionResult Download(string filePath, string fileName, string saveName)
+        public ActionResult Download(string filePath, string fileName)
         {
+            var file = fileHandler.DownloadFile(filePath, fileName);
+            if(file == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "File was not found");
+            }
+            
+            return file;
+
+            //string fullName = Path.Combine(Assembly.GetExecutingAssembly().CodeBase, filePath, fileName);
+
+            //if (!System.IO.File.Exists(fullName))
+            //{
+            //    return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "File was not found");
+            //}
+
+            //string contentType = MimeMapping.GetMimeMapping(filePath);
+            //byte[] fileBytes = GetFile(fullName);
+            //var cd = new System.Net.Mime.ContentDisposition
+            //{
+            //    FileName = saveName,
+            //    Inline = false
+            //};
+
+            //Response.AppendHeader("Content-Disposition", cd.ToString());
+            //return File(
+            // fileBytes,
+            // contentType
+         
+            // );
+        }
+
+       
+
+        [Authorize]
+        public ActionResult DeleteFile(int courseID, string filePath, string fileName, int documentID)
+        {
+            //TODO: maybe filehandler should handle delete?
             string fullName = Path.Combine(Assembly.GetExecutingAssembly().CodeBase, filePath, fileName);
 
             if (!System.IO.File.Exists(fullName))
@@ -121,45 +143,22 @@ namespace Lexicon_LMS.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "File was not found");
             }
 
-            string contentType = MimeMapping.GetMimeMapping(filePath);
-            byte[] fileBytes = GetFile(fullName);
-            var cd = new System.Net.Mime.ContentDisposition
-            {
-                FileName = saveName,
-                Inline = false
-            };
 
-            Response.AppendHeader("Content-Disposition", cd.ToString());
-            return File(
-             fileBytes,
-             contentType
-             );
+            //Document document = db.Documents.Find(document2);
+
+            Document document = db.Documents.Find(documentID);
+            db.Documents.Remove(document);
+            System.IO.File.Delete(fullName);
+            db.SaveChanges();
+
+            return RedirectToAction("Edit", new { id = courseID });
+
         }
-
-        private byte[] GetFile(string fullName)
-        {
-
-            //is null check filepath
-            //https://stackoverflow.com/questions/3597179/file-download-in-asp-net-mvc-2
-
-            FileStream fs = System.IO.File.OpenRead(fullName);
-
-            byte[] data = new byte[fs.Length];
-            int br = fs.Read(data, 0, data.Length);
-            if (br != fs.Length)
-                throw new IOException(fullName);
-
-            return data;
-        }
-
-
-
 
         // GET: Courses/Edit/5
         [Authorize(Roles = "Teacher")]
         public ActionResult Edit(int? id)
         {
-
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -184,15 +183,29 @@ namespace Lexicon_LMS.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Teacher")]
-        public ActionResult Edit([Bind(Include = "ID,CourseCode,CourseName,StartDate,EndDate,Description,TeacherID")] Course course)
+        public ActionResult Edit([Bind(Include = "ID,CourseCode,CourseName,StartDate,EndDate,Description,TeacherID")] Course course, HttpPostedFileBase upload)
         {
             if (ModelState.IsValid)
             {
+                var file = fileHandler.UploadFile(upload);
+                if (file != null)
+                {
+                    var user = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
+                    file.CourseID = course.ID;
+                    file.User = user;
+
+                    db.Documents.Add(file);
+                    db.SaveChanges();
+                    course.Documents = new List<Document>();
+                    course.Documents.Add(file);
+                }
+
                 course.Teacher = db.Users.Where(u => u.Id == course.TeacherID).FirstOrDefault();
                 db.Entry(course).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+
             return View(course);
         }
 
