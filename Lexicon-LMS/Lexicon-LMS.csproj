@@ -218,6 +218,10 @@
     <Compile Include="Migrations\201807311339435_documents.Designer.cs">
       <DependentUpon>201807311339435_documents.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201808010934214_Remove datesent error.cs" />
+    <Compile Include="Migrations\201808010934214_Remove datesent error.Designer.cs">
+      <DependentUpon>201808010934214_Remove datesent error.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Controllers\FileHandler.cs" />
     <Compile Include="ViewModel\AccountViewModels.cs" />
@@ -374,6 +378,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807311339435_documents.resx">
       <DependentUpon>201807311339435_documents.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808010934214_Remove datesent error.resx">
+      <DependentUpon>201808010934214_Remove datesent error.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

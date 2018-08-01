@@ -2,11 +2,12 @@ namespace Lexicon_LMS.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;
-    
+
     public partial class cantlogin : DbMigration
     {
         public override void Up()
         {
+
             DropForeignKey("dbo.Notifications", "Sender_Id", "dbo.AspNetUsers");
             DropIndex("dbo.Notifications", new[] { "Sender_Id" });
             AddColumn("dbo.AspNetUsers", "Notification_ID", c => c.Int());
@@ -20,10 +21,12 @@ namespace Lexicon_LMS.Migrations
             AddForeignKey("dbo.AspNetUsers", "Notification_ID", "dbo.Notifications", "ID");
             AddForeignKey("dbo.Notifications", "ApplicationUser_Id", "dbo.AspNetUsers", "Id");
             AddForeignKey("dbo.Notifications", "Sender_Id", "dbo.AspNetUsers", "Id");
+
         }
-        
+
         public override void Down()
         {
+
             DropForeignKey("dbo.Notifications", "Sender_Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.Notifications", "ApplicationUser_Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUsers", "Notification_ID", "dbo.Notifications");
@@ -37,6 +40,7 @@ namespace Lexicon_LMS.Migrations
             DropColumn("dbo.AspNetUsers", "Notification_ID");
             CreateIndex("dbo.Notifications", "Sender_Id");
             AddForeignKey("dbo.Notifications", "Sender_Id", "dbo.AspNetUsers", "Id", cascadeDelete: true);
+
         }
     }
 }
