@@ -71,7 +71,7 @@
         </div>
         <p>
             @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-            @Html.ActionLink("Back to List", "Index")
+            @Html.ActionLink("Back to Course", "Details", "Courses", new { id = Model.Course.ID}, null)
         </p>
         @if (User.IsInRole("Teacher"))
         {

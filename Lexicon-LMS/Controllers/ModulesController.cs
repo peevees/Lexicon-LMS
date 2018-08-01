@@ -44,7 +44,7 @@ namespace Lexicon_LMS.Controllers
         public ActionResult Create(int? id)
         {
             //ViewBag.CourseCode = new SelectList(db.Courses, "ID", "CourseName");
-             
+
             Course targetCourse = db.Courses.Where(course => course.ID == id).FirstOrDefault();
             ViewBag.CourseLabel = targetCourse.CourseName + " (" + targetCourse.CourseCode + ")";   // TODO: cannot create module at the moment
             Module model = new Module();
@@ -53,13 +53,13 @@ namespace Lexicon_LMS.Controllers
                 model.CourseCode = targetCourse.CourseCode;
                 model.Course = targetCourse;
             }
-            
+
 
             return View(model);
         }
 
         // POST: Modules/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -143,7 +143,7 @@ namespace Lexicon_LMS.Controllers
         }
 
         // POST: Modules/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -154,7 +154,7 @@ namespace Lexicon_LMS.Controllers
             {
                 db.Entry(module).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Courses", new { id = module.Course.ID });
             }
             ViewBag.CourseCode = new SelectList(db.Courses, "ID", "CourseCode", module.CourseCode);
             return View(module);
@@ -185,7 +185,7 @@ namespace Lexicon_LMS.Controllers
             Module module = db.Modules.Find(id);
             db.Modules.Remove(module);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", "Courses", new { id = module.Course.ID });
         }
 
         protected override void Dispose(bool disposing)
