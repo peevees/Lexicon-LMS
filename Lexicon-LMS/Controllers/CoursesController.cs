@@ -203,7 +203,7 @@ namespace Lexicon_LMS.Controllers
                 course.Teacher = db.Users.Where(u => u.Id == course.TeacherID).FirstOrDefault();
                 db.Entry(course).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index");//TODO: should it really go to index?
             }
 
             return View(course);
