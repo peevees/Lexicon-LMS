@@ -61,7 +61,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    <a onclick="redirect()">Go Back</a>
 </div>
 
 @section Scripts {
@@ -69,19 +69,6 @@
     <script src="~/Scripts/jquery-ui.min.js"></script>
     <script src="~/Scripts/jquery.tokeninput.js"></script>
 
-    @*<script type="text/javascript">
-            $(document).ready(function () {
-                $('#Recipients').autocomplete({
-                    source: '/Notifications/GetUsers',
-                    select: function (event, ui) {
-                        $("#RecipientID").valu(ui.item.id);
-
-                        this.value = ui.item.value;
-                        return false;
-                    }
-                });
-            });
-        </script>*@
     <script type="text/javascript">
         $.validator.setDefaults({ ignore: [] });
 
@@ -119,8 +106,26 @@
                     $('#RecipientID').val(field_value);
                 }
 
+
             });
         });
+
+        function getQueryString(field, url) {
+            var href = url ? url : window.location.href;
+            var reg = new RegExp('[?&]' + field + '=([^&#]*)', 'i');
+            var string = reg.exec(href);
+            return string ? string[1] : null;
+        };
+
+        function redirect() {
+            var pageIndex = getQueryString('p');
+            if (pageIndex != null) {
+                $('#inbox').load('@Url.Action("InboxContainer", "Notifications")'), { page: pageIndex };
+            }
+            else {
+                $(location).attr("href", '@Url.Action("Index","Manage")?tab=inbox');
+            }
+        }
     </script>
 
 }

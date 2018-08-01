@@ -14,7 +14,11 @@
 
 }
 
-
+<div id="inbox-controls">
+    <a id="new-notif" onclick="compose()">
+        <span class="glyphicon glyphicon-plus"></span><span>Compose new message</span>
+    </a>
+</div>
 <div id="inbox-container"></div>
 <input id="hiddenControl" type="hidden" runat="server" />
 
@@ -99,6 +103,11 @@
     function activate(nr) {
         $('.page-item').removeClass('active'),
             $('#p-' + nr).addClass('active')
+    }
+
+    function compose() {
+        document.getElementById("new-notif").href = "#compose&p=" + pageindex;
+        $('#inbox').load('@Url.Action("Create", "Notifications")');
     }
 
 </script>

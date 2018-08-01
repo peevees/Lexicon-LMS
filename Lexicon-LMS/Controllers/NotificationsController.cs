@@ -104,7 +104,7 @@ namespace Lexicon_LMS.Controllers
 
                  db.Notifications.Add(notification);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return Redirect("/Manage/Index?tab=inbox");
             }
 
             return View(notification);

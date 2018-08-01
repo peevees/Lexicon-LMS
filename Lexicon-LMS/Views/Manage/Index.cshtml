@@ -125,15 +125,26 @@
 
         <div class="tab-pane fade" id="inbox" role="tabpanel" aria-labelledby="inbox-tab" style="padding: 10px">
             <br />
-
-                @{Html.RenderAction("InboxContainer", "Notifications", new {p= 1 });}
-                <br />
-
-
-
+            @{Html.RenderAction("InboxContainer", "Notifications", new { p = 1 });}
+            <br />
         </div>
     </div>
 
+    <script>
+        function getQueryString(field, url) {
+            var href = url ? url : window.location.href;
+            var reg = new RegExp('[?&]' + field + '=([^&#]*)', 'i');
+            var string = reg.exec(href);
+            return string ? string[1] : 1;
+        };
+
+        $(document).ready(function () {
+
+            if (getQueryString('tab') == "inbox") {
+                $('#inbox-tab').click();
+            }
+        });
+    </script>
 
 
 
