@@ -25,7 +25,7 @@
 
 	<div class="tab-content" id="myTabContent" style="background-color:#fff; border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; opacity:.75;">
 
-		<div class="tab-pane fade active in" id="overview" role="tabpanel" aria-labelledby="overview-tab";>
+		<div class="tab-pane fade active in" id="overview" role="tabpanel" aria-labelledby="overview-tab" ;>
 
 			<br />
 			@*<hr />*@
@@ -80,11 +80,11 @@
 					@Html.ViewData.Model.CourseModules.Count
 
 					@*@foreach (var module in Model.CourseModules)
-		{
+						{
 
-			@Html.ActionLink(module.Description, "Details", new { Controller = "Modules", action = "Details", id = module.ID })
+							@Html.ActionLink(module.Description, "Details", new { Controller = "Modules", action = "Details", id = module.ID })
 
-		}*@
+						}*@
 
 				</dd>
 
@@ -100,27 +100,27 @@
 						}
 					</dd>*@
 
-                <dt>@Html.DisplayNameFor(model => model.Documents)</dt>
-                <dd>
-                    @foreach (Document document in Model.Documents)
-                    {
-                        @Html.ActionLink("Download: " + document.DisplayName, "Download", new { filePath = document.Filepath, fileName = document.FileName})
-                    }
-                </dd>
-            </dl>
-            @if (User.IsInRole("Teacher"))
-            {
+				<dt>@Html.DisplayNameFor(model => model.Documents)</dt>
+				<dd>
+					@foreach (Document document in Model.Documents)
+					{
+						@Html.ActionLink("Download: " + document.DisplayName, "Download", new { filePath = document.Filepath, fileName = document.FileName })
+					}
+				</dd>
+			</dl>
+			@if (User.IsInRole("Teacher"))
+			{
 
-                @*<span style="margin-left: 25px;">
-                    <span class="glyphicon glyphicon-pencil"> </span>
-                    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-                </span>*@
-            }
+				@*<span style="margin-left: 25px;">
+						<span class="glyphicon glyphicon-pencil"> </span>
+						@Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+					</span>*@
 
-			<span>
-				<span class="glyphicon glyphicon-arrow-left"> </span>
-				@Html.ActionLink("Back to List", "Index")
-			</span>
+
+				<span>
+					<span class="glyphicon glyphicon-arrow-left"> </span>
+					@Html.ActionLink("Back to List", "Index")
+				</span>
 			}
 			@if (User.IsInRole("Teacher"))
 			{
