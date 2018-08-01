@@ -236,12 +236,7 @@
     <Compile Include="Migrations\201807240845321_current.Designer.cs">
       <DependentUpon>201807240845321_current.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201807311339435_documents.cs" />
-    <Compile Include="Migrations\201807311339435_documents.Designer.cs">
-      <DependentUpon>201807311339435_documents.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Controllers\FileHandler.cs" />
     <Compile Include="ViewModel\AccountViewModels.cs" />
     <Compile Include="Models\Activity.cs" />
     <Compile Include="Models\Course.cs" />
@@ -260,7 +255,6 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\collapsestyle.css" />
     <Content Include="Content\Footer.css" />
     <Content Include="Content\ICE-CREAM-SCOOP.jpg" />
     <Content Include="Content\icecreamstyle.css" />
@@ -279,7 +273,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
-    <Content Include="Scripts\collapse.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
@@ -358,12 +351,10 @@
     <Content Include="Views\Courses\_ModulesList.cshtml" />
     <Content Include="Views\Courses\_CourseMembers.cshtml" />
     <Content Include="Views\Manage\ShowProfile.cshtml" />
-    <Content Include="Views\Manage\ListUsers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Uploads\" />
-    <Folder Include="Utilities\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -399,9 +390,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807240755034_AddSomeValidation.resx">
       <DependentUpon>201807240755034_AddSomeValidation.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807311339435_documents.resx">
-      <DependentUpon>201807311339435_documents.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

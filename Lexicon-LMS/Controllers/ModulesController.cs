@@ -15,7 +15,6 @@ namespace Lexicon_LMS.Controllers
     public class ModulesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-        private FileHandler fileHandler = new FileHandler();
 
         // GET: Modules
         public ActionResult Index()
@@ -44,7 +43,7 @@ namespace Lexicon_LMS.Controllers
         public ActionResult Create(int? id)
         {
             //ViewBag.CourseCode = new SelectList(db.Courses, "ID", "CourseName");
-
+             
             Course targetCourse = db.Courses.Where(course => course.ID == id).FirstOrDefault();
             ViewBag.CourseLabel = targetCourse.CourseName + " (" + targetCourse.CourseCode + ")";   // TODO: cannot create module at the moment
             Module model = new Module();
@@ -53,13 +52,13 @@ namespace Lexicon_LMS.Controllers
                 model.CourseCode = targetCourse.CourseCode;
                 model.Course = targetCourse;
             }
-
+            
 
             return View(model);
         }
 
         // POST: Modules/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -69,61 +68,90 @@ namespace Lexicon_LMS.Controllers
 
             if (ModelState.IsValid)
             {
-                var file = fileHandler.UploadFile(upload);
-
-                if (file != null)
+                
+                if (upload != null && upload.ContentLength > 0)
                 {
+                    var originalFilename = Path.GetFileName(upload.FileName);
                     var user = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
-                    file.ModuleID = module.ID;
-                    file.User = user;
+
+                    string fileId = Guid.NewGuid().ToString().Replace("-", "");
+
+                    var fileName = user.Forename + "_" + user.Surname + "_" + fileId + "_" + originalFilename;
+
+                    var path = Path.Combine(Server.MapPath("~/Uploads"));
+                    var save = Path.Combine(Server.MapPath("~/Uploads"), fileName);
+                    upload.SaveAs(save);
+
+                    var file = new Document
+                    {
+                        FileName = fileName,
+                        DisplayName = originalFilename,
+                        UploadDate = DateTime.Now,
+                        ModuleID = module.ID,
+                        Filepath = path,
+                        User = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault()
+                    };
 
                     module.Documents = new List<Document>();
                     module.Documents.Add(file);
+
                 }
 
                 Course targetCourse = db.Courses.Where(course => course.CourseCode == module.CourseCode).FirstOrDefault();
                 targetCourse.CourseModules.Add(module);
+
+
+                //course.Teacher = db.Users.Where(u => u.Id == course.TeacherID).FirstOrDefault();
                 db.Modules.Add(module);
                 db.SaveChanges();
+                return RedirectToAction("Index");
             }
 
             ViewBag.CourseCode = new SelectList(db.Courses, "ID", "CourseCode", module.CourseCode);
-            return RedirectToAction("Details", "Courses", new { id = module.Course.ID });
+            return View(module);
         }
 
         [Authorize]
-        public ActionResult Download(string filePath, string fileName)
+        public ActionResult Download(string filePath, string fileName, string saveName)
         {
-            var file = fileHandler.DownloadFile(filePath, fileName);
-            if (file == null)
+            string fullName = Path.Combine(System.Reflection.Assembly.GetExecutingAssembly().CodeBase, filePath, fileName);
+
+            if (!System.IO.File.Exists(fullName))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "File was not found");
             }
 
-            return file;
+            string contentType = MimeMapping.GetMimeMapping(filePath);
+            byte[] fileBytes = GetFile(fullName);
+            var cd = new System.Net.Mime.ContentDisposition
+            {
+                FileName = saveName,
+                Inline = false
+            };
 
-
-            //string fullName = Path.Combine(System.Reflection.Assembly.GetExecutingAssembly().CodeBase, filePath, fileName);
-
-            //if (!System.IO.File.Exists(fullName))
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "File was not found");
-            //}
-
-            //string contentType = MimeMapping.GetMimeMapping(filePath);
-            //byte[] fileBytes = GetFile(fullName);
-            //var cd = new System.Net.Mime.ContentDisposition
-            //{
-            //    FileName = saveName,
-            //    Inline = false
-            //};
-
-            //Response.AppendHeader("Content-Disposition", cd.ToString());
-            //return File(
-            // fileBytes,
-            // contentType
-            // );
+            Response.AppendHeader("Content-Disposition", cd.ToString());
+            return File(
+             fileBytes,
+             contentType
+             );
         }
+
+        private byte[] GetFile(string fullName)
+        {
+
+            //is null check filepath
+            //https://stackoverflow.com/questions/3597179/file-download-in-asp-net-mvc-2
+
+            FileStream fs = System.IO.File.OpenRead(fullName);
+
+            byte[] data = new byte[fs.Length];
+            int br = fs.Read(data, 0, data.Length);
+            if (br != fs.Length)
+                throw new IOException(fullName);
+
+            return data;
+        }
+
 
         // GET: Modules/Edit/5
         [Authorize(Roles = "Teacher")]
@@ -143,7 +171,7 @@ namespace Lexicon_LMS.Controllers
         }
 
         // POST: Modules/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -154,7 +182,7 @@ namespace Lexicon_LMS.Controllers
             {
                 db.Entry(module).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Details", "Courses", new { id = module.Course.ID });
+                return RedirectToAction("Index");
             }
             ViewBag.CourseCode = new SelectList(db.Courses, "ID", "CourseCode", module.CourseCode);
             return View(module);
@@ -185,7 +213,7 @@ namespace Lexicon_LMS.Controllers
             Module module = db.Modules.Find(id);
             db.Modules.Remove(module);
             db.SaveChanges();
-            return RedirectToAction("Details", "Courses", new { id = module.Course.ID });
+            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)

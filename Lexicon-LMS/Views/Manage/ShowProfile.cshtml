@@ -1,105 +1,162 @@
 ﻿@model Lexicon_LMS.Models.ApplicationUser
 
 @{
-	ViewBag.Title = "Profile Info";
+    ViewBag.Title = "Profile Info";
 }
 
 <h2>@ViewBag.Title</h2>
 
 <div>
-	<h4>ApplicationUser</h4>
-	<hr />
-	<dl class="dl-horizontal">
-		<dt>
-			@Html.DisplayNameFor(model => model.Forename)
-		</dt>
+    <h4>ApplicationUser</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Forename)
+        </dt>
 
-		<dd>
-			@Html.DisplayFor(model => model.Forename)
-		</dd>
+        <dd>
+            @Html.DisplayFor(model => model.Forename)
+        </dd>
 
-		<dt>
-			@Html.DisplayNameFor(model => model.Surname)
-		</dt>
+        <dt>
+            @Html.DisplayNameFor(model => model.Surname)
+        </dt>
 
-		<dd>
-			@Html.DisplayFor(model => model.Surname)
-		</dd>
+        <dd>
+            @Html.DisplayFor(model => model.Surname)
+        </dd>
 
-		<dt>
-			@Html.DisplayNameFor(model => model.TimeOfRegistration)
-		</dt>
+        <dt>
+            @Html.DisplayNameFor(model => model.TimeOfRegistration)
+        </dt>
 
-		<dd>
-			@Html.DisplayFor(model => model.TimeOfRegistration)
-		</dd>
+        <dd>
+            @Html.DisplayFor(model => model.TimeOfRegistration)
+        </dd>
 
-		<dt>
-			@Html.DisplayNameFor(model => model.UserCourseCode)
-		</dt>
+        <dt>
+            @Html.DisplayNameFor(model => model.UserCourseCode)
+        </dt>
 
-		<dd>
-			@Html.DisplayFor(model => model.UserCourseCode)
-		</dd>
+        <dd>
+            @Html.DisplayFor(model => model.UserCourseCode)
+        </dd>
 
-		<dt>
-			@Html.DisplayNameFor(model => model.Street)
-		</dt>
+        <dt>
+            @Html.DisplayNameFor(model => model.Street)
+        </dt>
 
-		<dd>
-			@Html.DisplayFor(model => model.Street)
-		</dd>
+        <dd>
+            @Html.DisplayFor(model => model.Street)
+        </dd>
 
-		<dt>
-			@Html.DisplayNameFor(model => model.Postcode)
-		</dt>
+        <dt>
+            @Html.DisplayNameFor(model => model.Postcode)
+        </dt>
 
-		<dd>
-			@Html.DisplayFor(model => model.Postcode)
-		</dd>
+        <dd>
+            @Html.DisplayFor(model => model.Postcode)
+        </dd>
 
-		<dt>
-			@Html.DisplayNameFor(model => model.City)
-		</dt>
+        <dt>
+            @Html.DisplayNameFor(model => model.City)
+        </dt>
 
-		<dd>
-			@Html.DisplayFor(model => model.City)
-		</dd>
+        <dd>
+            @Html.DisplayFor(model => model.City)
+        </dd>
 
-		<dt>
-			@Html.DisplayNameFor(model => model.UserName)
-		</dt>
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
 
-		<dd>
-			@Html.DisplayFor(model => model.UserName)
-		</dd>
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
 
-		<dt>
-			@Html.DisplayNameFor(model => model.Email)
-		</dt>
+        <dt>
+            @Html.DisplayNameFor(model => model.EmailConfirmed)
+        </dt>
 
-		<dd>
-			@Html.DisplayFor(model => model.Email)
-		</dd>
+        <dd>
+            @Html.DisplayFor(model => model.EmailConfirmed)
+        </dd>
 
-		<dt>
-			@Html.DisplayNameFor(model => model.PhoneNumber)
-		</dt>
+        <dt>
+            @Html.DisplayNameFor(model => model.PasswordHash)
+        </dt>
 
-		<dd>
-			@Html.DisplayFor(model => model.PhoneNumber)
-		</dd>
+        <dd>
+            @Html.DisplayFor(model => model.PasswordHash)
+        </dd>
 
-	</dl>
+        <dt>
+            @Html.DisplayNameFor(model => model.SecurityStamp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SecurityStamp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoneNumberConfirmed)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhoneNumberConfirmed)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TwoFactorEnabled)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TwoFactorEnabled)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LockoutEndDateUtc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LockoutEndDateUtc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LockoutEnabled)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LockoutEnabled)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AccessFailedCount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AccessFailedCount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+
+    </dl>
 </div>
 <p>
-	@Html.ActionLink("Edit", "EditProfile", "Manage", new { userName = Model.UserName }, null) |
-	@if (User.IsInRole("Teacher"))
-	{
-		@Html.ActionLink("Back to List", "ListUsers")
-	}
-	else
-	{
-		@Html.ActionLink("Back to Course", "Details", "Courses", new { id = Model.UserCourse.ID}, null)
-	}
+    @Html.ActionLink("Edit", "EditProfile", "Manage",  new { userId = Model.Id }, null) |
+    @Html.ActionLink("Back to List", "Index")
 </p>

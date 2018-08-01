@@ -28,7 +28,7 @@
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         <li>@Html.ActionLink("Courses", "Index", "Courses")</li>
-                        @*<li>@Html.ActionLink("Modules", "Index", "Modules")</li>*@
+                        <li>@Html.ActionLink("Modules", "Index", "Modules")</li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="btn-group nav" style="color: #e2e1e1; float:right; margin-left:15px">
@@ -45,9 +45,9 @@
                                 @if (User.IsInRole("Teacher"))
                                 {
                                     <li>
-                                        <a href="@Url.Action("ListUsers", "Manage")">
+                                        <a href="@Url.Action("", "")">
                                             <span class="glyphicon glyphicon-list-alt"> </span>
-                                            Manage Profiles
+                                            Mange Profiles
                                         </a>
                                     </li>
                                 }
