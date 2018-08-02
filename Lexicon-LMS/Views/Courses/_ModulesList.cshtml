@@ -25,7 +25,6 @@
 
 <table class="table">
     <tr>
-
         <th class="content">
             @Html.DisplayNameFor(model => model.StartDate)
         </th>
@@ -35,6 +34,7 @@
         <th>
             @Html.DisplayNameFor(model => model.Description)
         </th>
+        <th></th>
         <th></th>
     </tr>
 
@@ -50,12 +50,14 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
+            <td><span class="glyphicon glyphicon-circle-arrow-down"></span></td>
+
             <td>
                 @if (User.IsInRole("Teacher"))
                 {
-                    @Html.ActionLink("Edit", "Edit", "Modules", new { id = item.ID }, null) <span>| </span>
+                    <span class="glyphicon glyphicon-pencil"></span>
+                    @Html.ActionLink("Edit", "Edit", "Modules", new { id = item.ID }, null)
                 }
-                @Html.ActionLink("Details", "Details", "Modules", new { id = item.ID }, null)
                 @if (User.IsInRole("Teacher"))
                 {
                     <span> | </span> @Html.ActionLink("Delete", "Delete", "Modules", new { id = item.ID }, null)

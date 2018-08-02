@@ -4,10 +4,12 @@
 @{
 	ViewBag.Title = "Details";
 }
+<link href="~/Content/icecreamstyle.css" rel="stylesheet" />
+<link href="~/Content/Site.css" rel="stylesheet" />
 
-<h2>Details</h2>
+<div class="main-div">
+<h2 class="h2-override">Details</h2>
 
-<div>
 	<h4>Activity</h4>
 	<hr />
 	<dl class="dl-horizontal">
@@ -38,11 +40,11 @@
 		</dd>
 
 	</dl>
-</div>
 <p>
+	@Html.ActionLink("Back to Course", "Details", "Courses", new { id = Model.Module.Course.ID }, null) <span> | </span>
 	@if (User.IsInRole("Teacher"))
 	{
-		@Html.ActionLink("Edit", "Edit", new { id = Model.ID }) <span> | </span>
+		@Html.ActionLink("Edit", "Edit", new { id = Model.ID }) 
 	}
-	@Html.ActionLink("Back to Course", "Details", "Courses", new { id = Model.Module.Course.ID }, null)
 </p>
+</div>
