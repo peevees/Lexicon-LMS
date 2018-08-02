@@ -216,12 +216,21 @@ namespace Lexicon_LMS.Controllers
                 var targetUser = db.Users.Find(user.Id);
                 //TODO: will crash probably because of coure problems
                 Course newCourse = db.Courses.Where(c => c.CourseCode == user.UserCourseCode).FirstOrDefault();
-                var courseCode = TempData["PreviousCourse"].ToString();
-                Course oldCourse = db.Courses.Where(c => c.CourseCode == courseCode).FirstOrDefault();
+                string courseCode;
+                Course oldCourse;
 
-                newCourse.CourseParticipants.Add(user);
-                oldCourse.CourseParticipants.Remove(user);
-
+                if (TempData["PreviousCourse"] != null)
+                {
+                    courseCode = TempData["PreviousCourse"].ToString();
+                    oldCourse = db.Courses.Where(c => c.CourseCode == courseCode).FirstOrDefault();
+                    oldCourse.CourseParticipants.Remove(user);
+                }
+                if (newCourse != null)
+                { newCourse.CourseParticipants.Add(user);
+                    targetUser.UserCourseCode = newCourse.CourseCode;
+                    targetUser.UserCourse = newCourse;
+                }
+                
                 targetUser.Forename = user.Forename;
                 targetUser.Surname = user.Surname;
                 targetUser.Street = user.Street;
@@ -229,10 +238,7 @@ namespace Lexicon_LMS.Controllers
                 targetUser.City = user.City;
                 targetUser.Email = user.Email;
                 targetUser.UserName = user.Email;
-                targetUser.UserCourse = newCourse;
-                targetUser.UserCourseCode = newCourse.CourseCode;
-
-
+                
                 db.Users.AddOrUpdate(targetUser);
                 db.SaveChanges();
                 //UserManager.Update(targetUser);

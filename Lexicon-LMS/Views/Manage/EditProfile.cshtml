@@ -2,8 +2,13 @@
 @using Microsoft.AspNet.Identity;
 
 @{
-	ViewBag.Title = "EditProfile";
-	{ TempData["PreviousCourse"] = Model.UserCourse.CourseCode; }
+    ViewBag.Title = "EditProfile";
+
+    if(TempData["PreviousCourse"]!=null)
+    {
+        TempData["PreviousCourse"] = Model.UserCourse.CourseCode;
+    }
+    
 }
 
 <div style="background-color:#f1f1f1; border-radius:12px; background: linear-gradient( rgba(126, 126, 126, 0.65), rgba(126, 126, 126, 0.95));">
@@ -40,8 +45,8 @@
 				<div class="form-group">
 					@Html.LabelFor(model => model.UserCourse, htmlAttributes: new { @class = "control-label col-md-2" })
 					<div class="col-md-10">
-						@Html.DropDownListFor(model => model.UserCourseCode, ViewBag.coursesList as IEnumerable<SelectListItem>
-							, new { @class = "form-control" })
+						@Html.DropDownListFor(model => model.UserCourseCode, ViewBag.coursesList as IEnumerable<SelectListItem>, "-Select Course-"
+                            , new { @class = "form-control" })
 						@*@Html.ValidationMessageFor(model => model.Surname, "", new { @class = "text-danger" })*@
 					</div>
 				</div>

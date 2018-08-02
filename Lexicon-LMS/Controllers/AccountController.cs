@@ -145,7 +145,7 @@ namespace Lexicon_LMS.Controllers
         //
         // GET: /Account/Register
         [AllowAnonymous]
-        public ActionResult Register()
+        public ActionResult Register(string courseCode, bool profileMgmt = false)
         {
             var courses = new List<SelectListItem>();
 
@@ -155,8 +155,14 @@ namespace Lexicon_LMS.Controllers
             }
 
             ViewBag.coursesList = courses;
+            ViewBag.ProfileMgmt = profileMgmt;
+            RegisterViewModel model = new RegisterViewModel();
+            if(courseCode!="")
+            {
+                model.UserCourseCode = courseCode;
+            }
 
-            return View();
+            return View(model);
         }
 
         //
@@ -187,6 +193,10 @@ namespace Lexicon_LMS.Controllers
                 var result = UserManager.Create(user, model.Password);
                 if (result.Succeeded)
                 {
+                    if(Request["teacher"]!= null)
+                    {
+                        UserManager.AddToRole(user.Id, "Teacher");
+                    }
                     Course userCourse = db.Courses.Where(c => c.CourseCode == user.UserCourseCode).FirstOrDefault();
                     userCourse.CourseParticipants.Add(user);
 

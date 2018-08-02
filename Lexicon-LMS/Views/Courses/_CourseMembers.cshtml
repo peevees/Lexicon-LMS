@@ -3,7 +3,7 @@
 @if (User.IsInRole("Teacher"))
 {
 	<p>
-		@Html.ActionLink("Add participant", "Register", "Account")
+		@Html.ActionLink("Add participant", "Register", "Account",new {courseCode = ViewBag.CourseCode },null)
 		@* TODO: pass course id to add user to *@
 	</p>
 }

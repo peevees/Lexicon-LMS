@@ -4,6 +4,7 @@
 }
 
 <h2>@ViewBag.Title.</h2>
+<span>@ViewBag.ReturnUrl</span>
 
 @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
@@ -27,18 +28,21 @@
         </div>
     </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.UserCourse, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownListFor(model => model.UserCourseCode, ViewBag.coursesList as IEnumerable<SelectListItem>, new { @class = "form-control" })
-            @*@Html.ValidationMessageFor(model => model.Surname, "", new { @class = "text-danger" })*@
+    if (ViewBag.ProfileMgmt)
+    {
+        <div class="form-group">
+            <label class="col-md-2 control-label">Teacher</label>
+            <div class="col-md-10">
+                <input type="checkbox" id="teacher" name="teacher" value="@Request["teacher"]" />
+            </div>
         </div>
-    </div>
+    }
+
 
     <div class="form-group">
         @Html.LabelFor(model => model.UserCourse, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.DropDownListFor(model => model.UserCourseCode, ViewBag.coursesList as IEnumerable<SelectListItem>, new { @class = "form-control" })
+            @Html.DropDownListFor(model => model.UserCourseCode, ViewBag.coursesList as IEnumerable<SelectListItem>, "-Select Course-", new { @class = "form-control" })
             @*@Html.ValidationMessageFor(model => model.Surname, "", new { @class = "text-danger" })*@
         </div>
     </div>
