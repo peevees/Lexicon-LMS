@@ -9,10 +9,9 @@
 
 <div class="main-div">
 
-	<div>
 		<h2 class="h2-override">@ViewBag.Title</h2>
 
-		<h4>Module</h4>
+		<h4 class="h2-override">Module</h4>
 		<hr />
 		<dl class="dl-horizontal">
 			<dt>
@@ -68,9 +67,13 @@
 			</dd>
 
 		</dl>
-	</div>
 	<p>
-		@Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+        @if (User.IsInRole("Teacher"))
+        {
+		@Html.ActionLink("Edit", "Edit", new { id = Model.ID }) <span> | </span>
+        }
+
+        <span class="glyphicon glyphicon-arrow-left"> </span>
 		@Html.ActionLink("Back to Course", "Details", "Courses", new { id = Model.Course.ID }, null)
 	</p>
 	@if (User.IsInRole("Teacher"))
@@ -78,6 +81,3 @@
 		@Html.ActionLink("Add Activity", "Create", new { Controller = "Activities", action = "Create", id = Model.ID, @class = "btn btn-default" }, new { @class = "btn btn-default" })
 	}
 </div>
-
-
-@* TODO: too many divs ?*@
