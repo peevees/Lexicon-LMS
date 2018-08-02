@@ -163,6 +163,9 @@ namespace Lexicon_LMS.Migrations
             CourseStudent.UserCourse = seededCourse;
             CourseStudent.UserCourseCode = seededCourse.CourseCode;
 
+            CourseTeacher.UserCourse = seededCourse;
+            CourseTeacher.UserCourseCode = seededCourse.CourseCode;
+
             context.Modules.AddOrUpdate(
                 m => m.Description,
                 new Module

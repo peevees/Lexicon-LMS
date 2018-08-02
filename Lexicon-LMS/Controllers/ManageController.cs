@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Lexicon_LMS.Models;
 using System.Net;
+using System.Data.Entity.Migrations;
 
 namespace Lexicon_LMS.Controllers
 {
@@ -185,11 +186,11 @@ namespace Lexicon_LMS.Controllers
             ApplicationUser model = null;
             if (userName == null)
             {
-                model = UserManager.FindById(User.Identity.GetUserId());
+                model = db.Users.Find(User.Identity.GetUserId());
             }
             else
             {
-                model = UserManager.FindByName(userName);
+                model = db.Users.Where(u=>u.UserName == userName).FirstOrDefault();
             }
 
 
@@ -207,15 +208,16 @@ namespace Lexicon_LMS.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditProfile([Bind(Include = "Forename,Surname,Street,Postcode,City,Email,UserCourseCode")] ApplicationUser user)
+        public ActionResult EditProfile([Bind(Include = "Id,Forename,Surname,Street,Postcode,City,Email,UserCourseCode")] ApplicationUser user)
         {
             if (ModelState.IsValid)
             {
-                var targetUser = UserManager.FindById(user.Id);
-                ApplicationDbContext db = new ApplicationDbContext();
+                //ApplicationDbContext db = new ApplicationDbContext();
+                var targetUser = db.Users.Find(user.Id);
                 //TODO: will crash probably because of coure problems
                 Course newCourse = db.Courses.Where(c => c.CourseCode == user.UserCourseCode).FirstOrDefault();
-                Course oldCourse = db.Courses.Where(c => c.CourseCode == (TempData["PreviousCourse"]).ToString()).FirstOrDefault();
+                var courseCode = TempData["PreviousCourse"].ToString();
+                Course oldCourse = db.Courses.Where(c => c.CourseCode == courseCode).FirstOrDefault();
 
                 newCourse.CourseParticipants.Add(user);
                 oldCourse.CourseParticipants.Remove(user);
@@ -231,8 +233,9 @@ namespace Lexicon_LMS.Controllers
                 targetUser.UserCourseCode = newCourse.CourseCode;
 
 
-
-                UserManager.Update(targetUser);
+                db.Users.AddOrUpdate(targetUser);
+                db.SaveChanges();
+                //UserManager.Update(targetUser);
 
                 return RedirectToAction("Index");
             }
