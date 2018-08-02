@@ -4,12 +4,9 @@
 
 @if (User.IsInRole("Teacher"))
 {
-    <div class="p-override">
- 	  <p >
- 	    	@Html.ActionLink("Add participant", "Register", "Account", new { @class = "btn btn-primary" })
- 	    	@* TODO: pass course id to add user to *@
- 	  </p>
-    </div>
+<p>
+    @Html.ActionLink("Add participant", "Register", "Account",new {courseCode = ViewBag.CourseCode },new { @class = "btn btn-primary" })
+</p>
 }
 <table class="table">
 	<tr>
