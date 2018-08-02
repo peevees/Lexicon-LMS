@@ -39,11 +39,13 @@
 		</dd>
 
 	</dl>
-<p>
-	@Html.ActionLink("Back to Course", "Details", "Courses", new { id = Model.Module.Course.ID }, null) <span> | </span>
-	@if (User.IsInRole("Teacher"))
-	{
-		@Html.ActionLink("Edit", "Edit", new { id = Model.ID }) 
-	}
-</p>
+    <p>
+        <span class="glyphicon glyphicon-arrow-left"> </span>
+        @Html.ActionLink("Back to Course", "Details", "Courses", new { id = Model.Module.Course.ID }, null) <span> | </span>
+        @if (User.IsInRole("Teacher"))
+        {
+            <span class="glyphicon glyphicon-pencil"> </span>
+            @Html.ActionLink("Edit", "Edit", new { id = Model.ID })
+        }
+    </p>
 </div>
