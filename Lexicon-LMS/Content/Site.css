@@ -52,11 +52,15 @@ textarea {
     border-bottom-color: none;
 }
 
-.a-override{
-    color:#000
+.tab-content{
+    background:#fff;
 }
 
-.coursename {
+.a-override {
+    color: #000
+}
+
+.tablayout {
     background-color: #ddd;
     border-radius: 12px;
     margin-top: 20px;
