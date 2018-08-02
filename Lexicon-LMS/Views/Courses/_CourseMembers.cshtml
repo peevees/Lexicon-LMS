@@ -10,12 +10,13 @@
 }
 <table class="table">
 	<tr>
-		@if (User.IsInRole("Teacher"))
+
+		@*@if (User.IsInRole("Teacher"))
 		{
 			<th>
 				@Html.DisplayNameFor(model => model.UserCourseCode)
 			</th>
-		}
+		}*@
 		<th>
 			@Html.DisplayNameFor(model => model.Forename)
 		</th>
@@ -49,12 +50,12 @@
 	@foreach (var item in Model)
 	{
 		<tr>
-			@if (User.IsInRole("Teacher"))
+			@*@if (User.IsInRole("Teacher"))
 			{
 				<td>
 					@Html.DisplayFor(modelItem => item.UserCourseCode)
 				</td>
-			}
+			}*@
 			<td>
 				@Html.DisplayFor(modelItem => item.Forename)
 			</td>
