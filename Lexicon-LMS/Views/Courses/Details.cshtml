@@ -28,14 +28,16 @@
 
 		<div class="tab-pane fade active in" id="overview" role="tabpanel" aria-labelledby="overview-tab" ;>
 			<br />
-			@*@if (User.IsInRole("Teacher"))
-			{
-                <div class="p-override">
-				  <p>
-				  	@Html.ActionLink("Add Module", "Create", new { Controller = "Modules", action = "Create", id = Model.ID }, new { @class = "btn btn-primary" })
-				  </p>
-                </div>
-			}*@
+			@*
+				@if (User.IsInRole("Teacher"))
+				{
+					<div class="p-override">
+						<p>
+							@Html.ActionLink("Add Module", "Create", new { Controller = "Modules", action = "Create", id = Model.ID }, new { @class = "btn btn-primary" })
+						</p>
+					</div>
+				}
+			*@
 			<dl class="dl-horizontal">
 				<dt>
 					@Html.DisplayNameFor(model => model.CourseCode)
@@ -108,9 +110,9 @@
 			@if (User.IsInRole("Teacher"))
 			{
 				<div style="padding-bottom: 10px">
-					<div class="glyph-fix" style="display:inline" >
+					<div class="glyph-fix" style="display:inline">
 						<span class="glyphicon glyphicon-arrow-left"> </span>
-						@Html.ActionLink("Back to Courses", "Index", null, new { @class = "btn btn-default" }) 
+						@Html.ActionLink("Back to Courses", "Index", null, new { @class = "btn btn-default" })
 					</div>
 					<span> | </span>
 					<div style="display:inline;">
@@ -122,9 +124,9 @@
 
 		</div>
 
-        <div class="tab-pane fade" id="modules" role="tabpanel" aria-labelledby="modules-tab">
-            @Html.Partial("_ModulesList", Model.CourseModules)
-        </div>
+		<div class="tab-pane fade" id="modules" role="tabpanel" aria-labelledby="modules-tab">
+			@Html.Partial("_ModulesList", Model.CourseModules)
+		</div>
 
 		<div class="tab-pane fade" id="coursemembers" role="tabpanel" aria-labelledby="coursemembers-tab">
 			@Html.Partial("_CourseMembers", Model.CourseParticipants)
