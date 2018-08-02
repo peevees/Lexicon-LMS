@@ -80,6 +80,10 @@
 			</div>
 		</div>
 	}
+
+	<div>
+		@Html.ActionLink("Back to Course", "Details", "Courses", new { id = Model.Course.ID }, null)
+	</div>
 </div>
 
 @section Scripts {
