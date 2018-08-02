@@ -52,6 +52,8 @@ namespace Lexicon_LMS.Controllers
             {
                 model.CourseCode = targetCourse.CourseCode;
                 model.Course = targetCourse;
+                model.StartDate = DateTime.Today;
+                model.EndDate = DateTime.Today.AddDays(1);
             }
 
 

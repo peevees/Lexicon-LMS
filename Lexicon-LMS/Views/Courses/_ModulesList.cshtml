@@ -1,13 +1,15 @@
 ﻿@model IEnumerable<Lexicon_LMS.Models.Module>
-
+@{
+  var courseId = (int) ViewData["courseId"]; 
+}
 
 @*@if (User.IsInRole("Teacher"))
-        {
-            <p>
-                <!--TODO:send course code or id to module create action-->
-                @Html.ActionLink("Add new Module", "Create", "Module", null, null)<!--TODO:should perhaps not be null?-->
-            </p>
-    }
+		{
+			<p>
+				<!--TODO:send course code or id to module create action-->
+				@Html.ActionLink("Add new Module", "Create", "Module", null, null)<!--TODO:should perhaps not be null?-->
+			</p>
+	}
 *@
 
 <link href="~/Content/collapsestyle.css" rel="stylesheet" />
@@ -16,27 +18,28 @@
 
 @if (User.IsInRole("Teacher"))
 {
-    <div class="p-override">
-       <p>
-           @Html.ActionLink("Add Module", "Create", null, new { @class = "btn btn-primary" })
-       </p>
-    </div>
+	<div class="p-override">
+		<p>
+			@*@Html.ActionLink("Add Module", "Create", new { Controller = "Modules", action = "Create", id = Model.id, new { @class = "btn btn-primary" })*@
+			@Html.ActionLink("Add Module", "Create", "Modules", new { id = courseId}, new { @class = "btn btn-primary" })
+		</p>
+	</div>
 }
 
 <table class="table">
-    <tr style="background-color: #f5f5f5">
-        <th class="content">
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.StartDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EndDate)
-        </th>
-        <th>Click</th>
-        <th></th>
-    </tr>
+	<tr>
+		<th class="content">
+			@Html.DisplayNameFor(model => model.StartDate)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.EndDate)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.Description)
+		</th>
+		<th></th>
+		<th></th>
+	</tr>
 
     @foreach (var item in Model)
     {
@@ -109,14 +112,14 @@
                 </td>
             }
 
-            <th style="border-top:none;">
-                @if (User.IsInRole("Teacher"))
-                {
-                    @Html.ActionLink("Add Activity", "Create", new { Controller = "Activities", action = "Create", id = item.ID }, new { @class = "btn btn-primary" })
-                }
-            </th>
-        </tr>
-    }
+			<th style="border-top:none;">
+				@if (User.IsInRole("Teacher"))
+				{
+					@Html.ActionLink("Add Activity", "Create", new { Controller = "Activities", action = "Create", id = item.ID }, new { @class = "btn btn-primary" })
+				}
+			</th>
+		</tr>
+	}
 </table>
 
 @Scripts.Render("~/Scripts/collapse.js")
