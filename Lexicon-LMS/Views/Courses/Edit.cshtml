@@ -2,94 +2,94 @@
 @using Lexicon_LMS.Models;
 
 @{
-    ViewBag.Title = "Edit";
+	ViewBag.Title = "Edit";
 }
 
 <link href="~/Content/icecreamstyle.css" rel="stylesheet" />
 
 <div class="main-div">
 
-    <div>
-        <h2 class="h2-override">@ViewBag.Title</h2>
+	<div>
+		<h2 class="h2-override">@ViewBag.Title</h2>
 
-        @using (Html.BeginForm("Edit", "Courses", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
-        {
-            @Html.AntiForgeryToken()
-            <h4 style="margin-left:10px;">Course</h4> @* TODO: fix design *@
+		@using (Html.BeginForm("Edit", "Courses", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+		{
+			@Html.AntiForgeryToken()
+			<h4 style="margin-left:10px;">Course</h4>
 
-            <div class="form-horizontal">
+			<div class="form-horizontal">
 
-                <hr />
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                @Html.HiddenFor(model => model.ID)
+				<hr />
+				@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+				@Html.HiddenFor(model => model.ID)
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.CourseCode, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.CourseCode, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.CourseCode, "", new { @class = "text-danger" })
-                    </div>
-                </div>
+				<div class="form-group">
+					@Html.LabelFor(model => model.CourseCode, htmlAttributes: new { @class = "control-label col-md-2" })
+					<div class="col-md-10">
+						@Html.EditorFor(model => model.CourseCode, new { htmlAttributes = new { @class = "form-control" } })
+						@Html.ValidationMessageFor(model => model.CourseCode, "", new { @class = "text-danger" })
+					</div>
+				</div>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.CourseName, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.CourseName, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.CourseName, "", new { @class = "text-danger" })
-                    </div>
-                </div>
+				<div class="form-group">
+					@Html.LabelFor(model => model.CourseName, htmlAttributes: new { @class = "control-label col-md-2" })
+					<div class="col-md-10">
+						@Html.EditorFor(model => model.CourseName, new { htmlAttributes = new { @class = "form-control" } })
+						@Html.ValidationMessageFor(model => model.CourseName, "", new { @class = "text-danger" })
+					</div>
+				</div>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
-                    </div>
-                </div>
+				<div class="form-group">
+					@Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "control-label col-md-2" })
+					<div class="col-md-10">
+						@Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control" } })
+						@Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+					</div>
+				</div>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
-                    </div>
-                </div>
+				<div class="form-group">
+					@Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "control-label col-md-2" })
+					<div class="col-md-10">
+						@Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control" } })
+						@Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+					</div>
+				</div>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.TeacherID, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.DropDownListFor(model => model.TeacherID, ViewBag.teachers as IEnumerable<SelectListItem>
-                            , new { @class = "form-control", id = "Teacher" })
-                        @Html.ValidationMessageFor(model => model.TeacherID, "", new { @class = "text-danger" })
-                    </div>
-                </div>
+				<div class="form-group">
+					@Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+					<div class="col-md-10">
+						@Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+						@Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+					</div>
+				</div>
+				<div class="form-group">
+					@Html.LabelFor(model => model.TeacherID, htmlAttributes: new { @class = "control-label col-md-2" })
+					<div class="col-md-10">
+						@Html.DropDownListFor(model => model.TeacherID, ViewBag.teachers as IEnumerable<SelectListItem>
+							, new { @class = "form-control", id = "Teacher" })
+						@Html.ValidationMessageFor(model => model.TeacherID, "", new { @class = "text-danger" })
+					</div>
+				</div>
 
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Documents, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @if (Model.Documents.Count > 0)
-                        {
-                            foreach (Document document in Model.Documents)
-                            {
-                                @Html.ActionLink("Delete: " + document.DisplayName, "DeleteFile", new { courseID = Model.ID, filePath = document.Filepath, fileName = document.FileName, documentID = document.ID })
-                            }
-                        }
-                        else
-                        {
-                            <input type = "file" id = "file" name = "upload"/>
+				<div class="form-group">
+					@Html.LabelFor(model => model.Documents, htmlAttributes: new { @class = "control-label col-md-2" })
+					<div class="col-md-10">
+						@if (Model.Documents.Count > 0)
+						{
+							foreach (Document document in Model.Documents)
+							{
+								@Html.ActionLink("Delete: " + document.DisplayName, "DeleteFile", new { courseID = Model.ID, filePath = document.Filepath, fileName = document.FileName, documentID = document.ID })
+							}
+						}
+						else
+						{
+							<input type = "file" id = "file" name = "upload"/>
 
-                        }
+						}
 
-                    </div>
-                </div>
+					</div>
+				</div>
 
 
 
@@ -107,5 +107,5 @@
 
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+	@Scripts.Render("~/bundles/jqueryval")
 }
