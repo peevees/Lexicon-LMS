@@ -8,9 +8,7 @@
 <link href="~/Content/icecreamstyle.css" rel="stylesheet" />
 
 <div class="main-div">
-
 		<h2 class="h2-override">@ViewBag.Title</h2>
-
 		<h4 class="h2-override">Module</h4>
 		<hr />
 		<dl class="dl-horizontal">
@@ -70,9 +68,8 @@
 	<p>
         @if (User.IsInRole("Teacher"))
         {
-		@Html.ActionLink("Edit", "Edit", new { id = Model.ID }) <span> | </span>
+		      @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) <span> | </span>
         }
-
         <span class="glyphicon glyphicon-arrow-left"> </span>
 		@Html.ActionLink("Back to Course", "Details", "Courses", new { id = Model.Course.ID }, null)
 	</p>

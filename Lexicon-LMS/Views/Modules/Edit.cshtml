@@ -2,6 +2,7 @@
 
 @{
 	ViewBag.Title = "Edit Module";
+
 }
 
 <link href="~/Content/icecreamstyle.css" rel="stylesheet" />
@@ -56,15 +57,16 @@
 				<div class="form-group">
 					<div class="col-md-offset-2 col-md-10">
 						<input type="submit" value="Save" class="btn btn-success" />
+
 					</div>
 				</div>
 			</div>
 		}
-
             <div>
                 <span class="glyphicon glyphicon-arrow-left"> </span>
                 @Html.ActionLink("Back to Course", "Details", "Courses", new { id = Model.Course.ID }, null)
             </div>
+
 	</div>
 </div>
 
