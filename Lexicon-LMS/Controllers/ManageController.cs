@@ -219,13 +219,13 @@ namespace Lexicon_LMS.Controllers
                 string courseCode;
                 Course oldCourse;
 
-                if (TempData["PreviousCourse"] != null)
+                if (TempData["PreviousCourse"] != null && TempData["PreviousCourse"].ToString() != newCourse.CourseCode)
                 {
                     courseCode = TempData["PreviousCourse"].ToString();
                     oldCourse = db.Courses.Where(c => c.CourseCode == courseCode).FirstOrDefault();
                     oldCourse.CourseParticipants.Remove(user);
                 }
-                if (newCourse != null)
+                if (newCourse != null && TempData["PreviousCourse"].ToString() != newCourse.CourseCode)
                 { newCourse.CourseParticipants.Add(user);
                     targetUser.UserCourseCode = newCourse.CourseCode;
                     targetUser.UserCourse = newCourse;
