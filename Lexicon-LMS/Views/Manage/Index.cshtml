@@ -18,13 +18,14 @@
 
 
 <link href="~/Content/icecreamstyle.css" rel="stylesheet" />
+<link href="~/Content/Site.css" rel="stylesheet" />
 
+<div class="main-div">
 <p class="text-success">@ViewBag.StatusMessage</p>
-<div style="background-color:#e2e1e1; border-radius:12px; background: linear-gradient( rgba(126, 126, 126, 0.65), rgba(126, 126, 126, 0.45)); margin-top: 20px;">
-    <h2 style="margin-left:5px; margin-top: 10px;">Manage your account</h2>
-    <hr />
+    <h2 class="h2-override">Manage your account</h2>
 
-    <ul class="nav nav-tabs" id="myTab" role="tablist" style="background-color:#e2e1e1; background: linear-gradient( rgba(126, 126, 126, 0.65), rgba(126, 126, 126, 0.25));">
+    <ul class="nav nav-tabs" id="myTab" role="tablist" >
+
         <li class="nav-item active">
             <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Profile</a>
         </li>
@@ -33,11 +34,11 @@
         </li>
     </ul>
 
-    <div class="tab-content" id="myTabContent" style="background-color:#fff; border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; opacity:.75">
+    <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade active in" id="profile" role="tabpanel" aria-labelledby="profile-tab">
 
             <br />
-            <div class="">
+            <div class="h2-override">
                 <h2>@user.FullName</h2>
                 @if (User.IsInRole("Teacher"))
                 {<h4 style="margin-left:5px;">Teacher</h4>}

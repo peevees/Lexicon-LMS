@@ -383,7 +383,6 @@
     <Content Include="Views\Archive\Details.cshtml" />
     <Content Include="Views\Archive\Edit.cshtml" />
     <Content Include="Views\Archive\Index.cshtml" />
-    <Content Include="Views\Courses\_Tablayout.cshtml" />
     <Content Include="Views\Courses\_ModulesList.cshtml" />
     <Content Include="Views\Courses\_CourseMembers.cshtml" />
     <Content Include="Views\Manage\ShowProfile.cshtml" />

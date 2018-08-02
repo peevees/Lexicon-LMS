@@ -1,11 +1,12 @@
 ﻿@model IEnumerable<Lexicon_LMS.Models.ApplicationUser>
 
+<link href="~/Content/Site.css" rel="stylesheet" />
+
 @if (User.IsInRole("Teacher"))
 {
-	<p>
-		@Html.ActionLink("Add participant", "Register", "Account",new {courseCode = ViewBag.CourseCode },null)
-		@* TODO: pass course id to add user to *@
-	</p>
+<p>
+    @Html.ActionLink("Add participant", "Register", "Account",new {courseCode = ViewBag.CourseCode },new { @class = "btn btn-primary" })
+</p>
 }
 <table class="table">
 	<tr>
@@ -81,17 +82,18 @@
 						@Html.DisplayFor(modelItem => item.TimeOfRegistration)
 					</td>
 				}
-				<td>
-					@if (User.IsInRole("Teacher"))
-					{
-						@Html.ActionLink("Edit", "EditProfile", "Manage", new { id = item.Id }, null) <span>|</span>
-					}
-					@Html.ActionLink("Details", "ShowProfile", "Manage", new { UserName = item.UserName }, null)
-					@if (User.IsInRole("Teacher"))
-					{
-						<span> | </span> @Html.ActionLink("Delete", "Delete", "Account", new { id = item.Id }, null)
-					}
-				</td>
+                    <td>
+                        @if (User.IsInRole("Teacher"))
+                        {
+                            <span class="glyphicon glyphicon-pencil"> </span>
+                            @Html.ActionLink("Edit", "EditProfile", "Manage", new { id = item.Id }, null) <span>|</span>
+                        }
+                        @Html.ActionLink("Details", "ShowProfile", "Manage", new { UserName = item.UserName }, null)
+                        @if (User.IsInRole("Teacher"))
+                        {
+                            <span> | </span> @Html.ActionLink("Delete", "Delete", "Account", new { id = item.Id }, null)
+                        }
+                    </td>
 			</tr>
 		}
 
