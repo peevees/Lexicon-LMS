@@ -13,6 +13,8 @@ namespace Lexicon_LMS.Models
         [Required]
         public string Name { get; set; }
 
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime Deadline { get; set; }
 
         //[Required]

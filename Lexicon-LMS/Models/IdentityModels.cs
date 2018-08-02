@@ -21,6 +21,8 @@ namespace Lexicon_LMS.Models
         [Display(Name = "Full name")]
         public string FullName { get { return Forename + " " + Surname; } }
 
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Display(Name = "Registered since")]
         public DateTime TimeOfRegistration { get; set; }
 
@@ -35,8 +37,8 @@ namespace Lexicon_LMS.Models
 
         [Display(Name = "Phone number")]
         public override string PhoneNumber { get; set; }
-        
-        public virtual IList<Notification> Notifications {get;set;}
+
+        public virtual IList<Notification> Notifications { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {

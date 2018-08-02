@@ -28,7 +28,7 @@
 		<th>
 			@Html.DisplayNameFor(model => model.PhoneNumber)
 		</th>
-		@if (User.IsInRole("Teacher"))
+		@*@if (User.IsInRole("Teacher"))
 		{
 			<th>
 				@Html.DisplayNameFor(model => model.Street)
@@ -42,7 +42,7 @@
 			<th>
 				@Html.DisplayNameFor(model => model.TimeOfRegistration)
 			</th>
-		}
+		}*@
 		<th></th>
 	</tr><!--collapsable-->
 
@@ -55,46 +55,46 @@
 					@Html.DisplayFor(modelItem => item.UserCourseCode)
 				</td>
 			}
+			<td>
+				@Html.DisplayFor(modelItem => item.Forename)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Surname)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Email)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.PhoneNumber)
+			</td>
+			@*@if (User.IsInRole("Teacher"))
+			{
 				<td>
-					@Html.DisplayFor(modelItem => item.Forename)
+					@Html.DisplayFor(modelItem => item.Street)
 				</td>
 				<td>
-					@Html.DisplayFor(modelItem => item.Surname)
+					@Html.DisplayFor(modelItem => item.Postcode)
 				</td>
 				<td>
-					@Html.DisplayFor(modelItem => item.Email)
+					@Html.DisplayFor(modelItem => item.City)
 				</td>
 				<td>
-					@Html.DisplayFor(modelItem => item.PhoneNumber)
+					@Html.DisplayFor(modelItem => item.TimeOfRegistration)
 				</td>
+			}*@
+			<td>
 				@if (User.IsInRole("Teacher"))
 				{
-					<td>
-						@Html.DisplayFor(modelItem => item.Street)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.Postcode)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.City)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.TimeOfRegistration)
-					</td>
+					<span class="glyphicon glyphicon-pencil"> </span>
+					@Html.ActionLink("Edit", "EditProfile", "Manage", new { id = item.Id }, null) <span>|</span>
 				}
-                    <td>
-                        @if (User.IsInRole("Teacher"))
-                        {
-                            <span class="glyphicon glyphicon-pencil"> </span>
-                            @Html.ActionLink("Edit", "EditProfile", "Manage", new { id = item.Id }, null) <span>|</span>
-                        }
-                        @Html.ActionLink("Details", "ShowProfile", "Manage", new { UserName = item.UserName }, null)
-                        @if (User.IsInRole("Teacher"))
-                        {
-                            <span> | </span> @Html.ActionLink("Delete", "Delete", "Account", new { id = item.Id }, null)
-                        }
-                    </td>
-			</tr>
-		}
+				@Html.ActionLink("Details", "ShowProfile", "Manage", new { UserName = item.UserName }, null)
+				@if (User.IsInRole("Teacher"))
+				{
+					<span> | </span> @Html.ActionLink("Delete", "Delete", "Account", new { id = item.Id }, null)
+				}
+			</td>
+		</tr>
+	}
 
-	</table>
+</table>
