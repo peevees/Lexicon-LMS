@@ -168,7 +168,7 @@ namespace Lexicon_LMS.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Teacher")]
-        public ActionResult Edit([Bind(Include = "ID,Name,Deadline")] Activity activity)
+        public ActionResult Edit([Bind(Include = "ID,Name,Deadline,ModuleID")] Activity activity)
         {
             if (ModelState.IsValid)
             {
