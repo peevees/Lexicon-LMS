@@ -8,12 +8,18 @@
     @Scripts.Render("~/bundles/modernizr")
     <link href="~/Content/Footer.css" rel="stylesheet" />
     <link href="~/Content/navbarstyle.css" rel="stylesheet" />
+    @using Microsoft.AspNet.Identity;
+    @using Microsoft.AspNet.Identity.Owin;
+    @using Lexicon_LMS.Models;
 
 </head>
 
 <body>
     @if (User.Identity.IsAuthenticated)
     {
+            ApplicationUser user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(User.Identity.GetUserId());
+            int unreadMessages = user.Notifications.Where(n => n.Read == false).Count();
+
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
@@ -21,7 +27,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
-                    </button> 
+                    </button>
 
                     @Html.ActionLink("South-Hammond Institute of Technology", "Index", "Courses", new { area = "" }, new { @class = "navbar-brand" })
                 </div>
@@ -41,6 +47,14 @@
                                 <li>
                                     <a href="@Url.Action("Index", "Manage")"><span class="glyphicon glyphicon-user"></span> My Profile</a>
 
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "Manage")?tab=inbox">
+                                        <span class="glyphicon glyphicon-envelope"></span>
+                                        Inbox
+                                        @if (unreadMessages > 0)
+                                        {<span class="badge">@unreadMessages</span>}
+                                    </a>
                                 </li>
                                 @if (User.IsInRole("Teacher"))
                                 {
