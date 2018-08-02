@@ -10,7 +10,7 @@
 
 @{
 
-    ApplicationUser user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(User.Identity.GetUserId());
+	ApplicationUser user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(User.Identity.GetUserId());
 
 }
 
@@ -21,210 +21,110 @@
 <link href="~/Content/Site.css" rel="stylesheet" />
 
 <div class="main-div">
-<p class="text-success">@ViewBag.StatusMessage</p>
-    <h2 class="h2-override">Manage your account</h2>
+	<p class="text-success">@ViewBag.StatusMessage</p>
+	<h2 class="h2-override">Manage your account</h2>
 
-    <ul class="nav nav-tabs" id="myTab" role="tablist" >
+	<ul class="nav nav-tabs" id="myTab" role="tablist">
 
-        <li class="nav-item active">
-            <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Profile</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" id="inbox-tab" data-toggle="tab" href="#inbox" role="tab" aria-controls="inbox" aria-selected="false">Inbox</a>
-        </li>
-    </ul>
+		<li class="nav-item active">
+			<a class="nav-link active" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Profile</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" id="inbox-tab" data-toggle="tab" href="#inbox" role="tab" aria-controls="inbox" aria-selected="false">Inbox</a>
+		</li>
+	</ul>
 
-    <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade active in" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+	<div class="tab-content" id="myTabContent">
+		<div class="tab-pane fade active in" id="profile" role="tabpanel" aria-labelledby="profile-tab">
 
-            <br />
-            <div class="h2-override">
-                <h2>@user.FullName</h2>
-                @if (User.IsInRole("Teacher"))
-                {<h4 style="margin-left:5px;">Teacher</h4>}
-                else
-                {<h4 style="margin-left:5px;">Student</h4>}
-            </div>
+			<br />
+			<div class="h2-override">
+				<h2>@user.FullName</h2>
+				@if (User.IsInRole("Teacher"))
+				{<h4 style="margin-left:5px;">Teacher</h4>}
+				else
+				{<h4 style="margin-left:5px;">Student</h4>}
+			</div>
+			<dl class="dl-horizontal">
+				<dt>E-mail</dt>
+				<dd>@User.Identity.Name</dd>
 
+				<dt>Account type</dt>
+				<dd>
+					@if (User.IsInRole("Teacher"))
+					{<span>Teacher</span>}
+					else
+					{ <span>Student</span>}
+				</dd>
+				<dt>Course</dt>
+				@if (user.UserCourse != null)
+				{
+					<dd>@user.UserCourse.CourseName</dd>
+				}
+				else
+				{
+					<dd>No registered courses</dd>
+				}
+				<dt>Phone nr</dt>
+				@if (user.PhoneNumber != null)
+				{
+					<dd>@user.PhoneNumber</dd>
+				}
+				else
+				{
+					<dd>No phone number registered</dd>
+				}
 
-            <dl class="dl-horizontal">
-
-                <dt>E-mail</dt>
-                <dd>@User.Identity.Name</dd>
-
-                <dt>Account type</dt>
-                <dd>
-                    @if (User.IsInRole("Teacher"))
-                    {<span>Teacher</span>}
-                    else
-                    { <span>Student</span>}
-                </dd>
-
-                <dt>Course</dt>
-                @if (user.UserCourse != null)
-                {
-                    <dd>@user.UserCourse.CourseName</dd>
-                }
-                else
-                {
-                    <dd>No registered courses</dd>
-                }
-
-
-
-
-                <dt>Phone nr</dt>
-                <dd>@user.PhoneNumber</dd>
-
-                <dt>Address</dt>
-                <dd>@user.Street, @user.Postcode @user.City</dd>
-
-                @*<dt>Two-Factor Authentication:</dt>
-                    <dd>
-                        <p>
-                            There are no two-factor authentication providers configured. See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
-                            for details on setting up this ASP.NET application to support two-factor authentication.
-                        </p>
-                        @if (Model.TwoFactor)
-                        {
-                            using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                            {
-                                @Html.AntiForgeryToken()
-                                <text>Enabled
-                                    <input type="submit" value="Disable" class="btn btn-link" />
-                                </text>
-                            }
-                        }
-                        else
-                        {
-                            using (Html.BeginForm("EnableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                            {
-                                @Html.AntiForgeryToken()
-                                <text>Disabled
-                                    <input type="submit" value="Enable" class="btn btn-link" />
-                                </text>
-                            }
-                        }
-                    </dd>*@
-            </dl>
-            <p style="margin-left:8px; padding-bottom: 20px;">
-                @if (Model.HasPassword)
-                {
-                    <span class="glyphicon glyphicon-wrench"> </span>
-                    @Html.ActionLink("Change password", "ChangePassword")
-                }
-                else
-                {
-                    @Html.ActionLink("Create", "SetPassword")
-                } |
-                <span class="glyphicon glyphicon-pencil"> </span>
-                @Html.ActionLink("Edit Personal Info", "EditProfile")
-            </p>
+				<dt>Address</dt>
+				@if (user.Street == null && user.Postcode == null && user.City == null)
+				{
+					<dd>No address registered</dd>
+				}
+				else if (user.Street != null)
+				{
+					<dd>@user.Street, @user.Postcode @user.City</dd>
+				}
+				else
+				{
+					<dd>@user.Street @user.Postcode @user.City</dd>
+				}
+			</dl>
+			<p style="margin-left:8px; padding-bottom: 20px;">
+				@if (Model.HasPassword)
+				{
+					<span class="glyphicon glyphicon-wrench"> </span>
+					@Html.ActionLink("Change password", "ChangePassword", null, new { @class = "btn btn-default" })
+				}
+				else
+				{
+					@Html.ActionLink("Create", "SetPassword", null, new { @class = "btn btn-default" })
+				} |
+				<span class="glyphicon glyphicon-pencil"> </span>
+				@Html.ActionLink("Edit Personal Info", "EditProfile", null, new { @class = "btn btn-default" })
+			</p>
 
 
-        </div>
+		</div>
 
-        <div class="tab-pane fade" id="inbox" role="tabpanel" aria-labelledby="inbox-tab" style="padding: 10px">
-            <br />
-            @{Html.RenderAction("InboxContainer", "Notifications", new { p = 1 });}
-            <br />
-        </div>
-    </div>
+		<div class="tab-pane fade" id="inbox" role="tabpanel" aria-labelledby="inbox-tab" style="padding: 10px">
+			<br />
+			@{Html.RenderAction("InboxContainer", "Notifications", new { p = 1 });}
+			<br />
+		</div>
+	</div>
+	<script>
+		function getQueryString(field, url) {
+			var href = url ? url : window.location.href;
+			var reg = new RegExp('[?&]' + field + '=([^&#]*)', 'i');
+			var string = reg.exec(href);
+			return string ? string[1] : 1;
+		};
 
-    <script>
-        function getQueryString(field, url) {
-            var href = url ? url : window.location.href;
-            var reg = new RegExp('[?&]' + field + '=([^&#]*)', 'i');
-            var string = reg.exec(href);
-            return string ? string[1] : 1;
-        };
+		$(document).ready(function () {
 
-        $(document).ready(function () {
-
-            if (getQueryString('tab') == "inbox") {
-                $('#inbox-tab').click();
-            }
-        });
-    </script>
-
-
-
-
-
-
-    @*<dl class="dl-horizontal">
-        <dt>Password:</dt>
-        <dd>
-            [
-            @if (Model.HasPassword)
-            {
-                @Html.ActionLink("Change your password", "ChangePassword")
-            }
-            else
-            {
-                @Html.ActionLink("Create", "SetPassword")
-            }
-            ]
-        </dd>
-        <dt>External Logins:</dt>
-        <dd>
-            @Model.Logins.Count [
-            @Html.ActionLink("Manage", "ManageLogins") ]
-        </dd>
-        @*
-            Phone Numbers can used as a second factor of verification in a two-factor authentication system.
-
-             See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
-                for details on setting up this ASP.NET application to support two-factor authentication using SMS.
-
-             Uncomment the following block after you have set up two-factor authentication
-    *@
-    @*
-                <dt>Phone Number:</dt>
-                <dd>
-                    @(Model.PhoneNumber ?? "None")
-                    @if (Model.PhoneNumber != null)
-                    {
-                        <br />
-                        <text>[&nbsp;&nbsp;@Html.ActionLink("Change", "AddPhoneNumber")&nbsp;&nbsp;]</text>
-                        using (Html.BeginForm("RemovePhoneNumber", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                        {
-                            @Html.AntiForgeryToken()
-                            <text>[<input type="submit" value="Remove" class="btn-link" />]</text>
-                        }
-                    }
-                    else
-                    {
-                        <text>[&nbsp;&nbsp;@Html.ActionLink("Add", "AddPhoneNumber")
-                    }
-                </dd>
-
-            <dt>Two-Factor Authentication:</dt>
-            <dd>
-                <p>
-                    There are no two-factor authentication providers configured. See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
-                    for details on setting up this ASP.NET application to support two-factor authentication.
-                </p>
-                @if (Model.TwoFactor)
-                    {
-                        using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                        {
-                            @Html.AntiForgeryToken()
-                            <text>Enabled
-                            <input type="submit" value="Disable" class="btn btn-link" />
-                            </text>
-                        }
-                    }
-                    else
-                    {
-                        using (Html.BeginForm("EnableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                        {
-                            @Html.AntiForgeryToken()
-                            <text>Disabled
-                            <input type="submit" value="Enable" class="btn btn-link" />
-                            </text>
-                        }
-                    }
-            </dd>
-        </dl>*@
+			if (getQueryString('tab') == "inbox") {
+				$('#inbox-tab').click();
+			}
+		});
+	</script>
 </div>
