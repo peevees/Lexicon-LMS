@@ -318,6 +318,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\mouseover.js" />
     <Content Include="Views\Manage\EditProfile.cshtml" />
     <Content Include="Error\404.html" />
     <Content Include="Error\500.html" />
