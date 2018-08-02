@@ -23,6 +23,7 @@ namespace Lexicon_LMS.Models
         [Display(Name = "End date")]
         public DateTime EndDate { get; set; }
 
+        [Display(Name = "Module description")]
         public string Description { get; set; }
 
         [Display(Name = "Module activities")]
