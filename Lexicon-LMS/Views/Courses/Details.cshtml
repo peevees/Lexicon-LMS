@@ -26,9 +26,15 @@
 	<div class="tab-content" id="myTabContent" style="background-color:#fff; border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; opacity:.75;">
 
 		<div class="tab-pane fade active in" id="overview" role="tabpanel" aria-labelledby="overview-tab" ;>
-
 			<br />
-			@*<hr />*@
+			@if (User.IsInRole("Teacher"))
+			{
+                <div class="p-override">
+				  <p>
+				  	@Html.ActionLink("Add Module", "Create", new { Controller = "Modules", action = "Create", id = Model.ID }, new { @class = "btn btn-primary" })
+				  </p>
+                </div>
+			}
 			<dl class="dl-horizontal">
 				<dt>
 					@Html.DisplayNameFor(model => model.CourseCode)
@@ -111,22 +117,16 @@
 			@if (User.IsInRole("Teacher"))
 			{
 
-				@*<span style="margin-left: 25px;">
-						<span class="glyphicon glyphicon-pencil"> </span>
-						@Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-					</span>*@
 
 
-				<span>
+				<div class="glyph-fix" style="padding-bottom: 10px">
 					<span class="glyphicon glyphicon-arrow-left"> </span>
-					@Html.ActionLink("Back to List", "Index")
+					@Html.ActionLink("Back to Courses", "Index") |
+				<span>
+			    <span class="glyphicon glyphicon-pencil"> </span>
+					@Html.ActionLink("Edit", "Edit", new { id = Model.ID })
 				</span>
-			}
-			@if (User.IsInRole("Teacher"))
-			{
-				<p style="padding-bottom: 10px; margin-left:20px;">
-					@Html.ActionLink("Add Module", "Create", new { Controller = "Modules", action = "Create", id = Model.ID }, new { @class = "btn btn-primary" })
-				</p>
+				</div>
 			}
 
 		</div>
