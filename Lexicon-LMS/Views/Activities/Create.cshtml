@@ -5,6 +5,9 @@
 	ViewBag.Title = "Create";
 }
 
+<link href="~/Content/icecreamstyle.css" rel="stylesheet" />
+<link href="~/Content/token-input.css" rel="stylesheet" />
+
 <div class="main-div">
 
 	<h2>Create</h2>
@@ -59,17 +62,15 @@
 
 
 			<div class="form-group">
-				<div class="col-md-offset-2 col-md-10">
-					<input type="submit" value="Create" class="btn btn-default" />
-				</div>
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-success" />
+                    @Html.ActionLink("Cancel", "Details", "Courses", new { id = Model.Module.Course.ID }, new { @class = "btn btn-danger" })
+                </div>
 			</div>
 
 		</div>
 	}
 
-	<div>
-		@Html.ActionLink("Back to Course", "Details", "Courses", new { id = Model.Module.Course.ID }, null)
-	</div>
 
 </div>
 
