@@ -73,6 +73,8 @@ namespace Lexicon_LMS.Migrations
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method
             //  to avoid creating duplicate seed data.
 
+            //IDEA: instead of struct create array or list of application user, course, modules etc etc easier to work with perhaps?
+
             //HACK: SEED DEBUGGER
             if (!System.Diagnostics.Debugger.IsAttached)
                 System.Diagnostics.Debugger.Launch();
