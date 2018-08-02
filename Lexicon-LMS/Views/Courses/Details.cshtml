@@ -29,11 +29,11 @@
 			<br />
 			@if (User.IsInRole("Teacher"))
 			{
-                <div class="p-override">
-				  <p>
-				  	@Html.ActionLink("Add Module", "Create", new { Controller = "Modules", action = "Create", id = Model.ID }, new { @class = "btn btn-primary" })
-				  </p>
-                </div>
+				<div class="p-override">
+					<p>
+						@Html.ActionLink("Add Module", "Create", new { Controller = "Modules", action = "Create", id = Model.ID }, new { @class = "btn btn-primary" })
+					</p>
+				</div>
 			}
 			<dl class="dl-horizontal">
 				<dt>
@@ -117,15 +117,14 @@
 			@if (User.IsInRole("Teacher"))
 			{
 				<div>
-
-
-				<div class="glyph-fix" style="padding-bottom: 10px">
-					<span class="glyphicon glyphicon-arrow-left"> </span>
-					@Html.ActionLink("Back to Courses", "Index") |
-				<span>
-			    <span class="glyphicon glyphicon-pencil"> </span>
-					@Html.ActionLink("Edit", "Edit", new { id = Model.ID })
-				</span>
+					<div class="glyph-fix" style="padding-bottom: 10px">
+						<span class="glyphicon glyphicon-arrow-left"> </span>
+						@Html.ActionLink("Back to Courses", "Index") |
+					</div>
+					<span>
+						<span class="glyphicon glyphicon-pencil"> </span>
+						@Html.ActionLink("Edit", "Edit", new { id = Model.ID })
+					</span>
 				</div>
 			}
 
