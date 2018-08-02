@@ -52,13 +52,26 @@ textarea {
     border-bottom-color: none;
 }
 
-.a-override{
-    color:#000
+.tab-content{
+    background:#fff;
 }
 
-.coursename {
+.a-override {
+    color: #000
+}
+
+.tablayout {
     background-color: #ddd;
     border-radius: 12px;
     margin-top: 20px;
     border-bottom:black;
+}
+
+.p-override{
+    margin: 0px 10px 10px 10px;
+    padding-top: 10px;
+}
+
+.glyph-fix{
+    margin-left: 20px;
 }
