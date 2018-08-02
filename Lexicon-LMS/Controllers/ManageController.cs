@@ -223,10 +223,10 @@ namespace Lexicon_LMS.Controllers
                 {
                     courseCode = TempData["PreviousCourse"].ToString();
                     oldCourse = db.Courses.Where(c => c.CourseCode == courseCode).FirstOrDefault();
-                    oldCourse.CourseParticipants.Remove(user);
+                    oldCourse.CourseParticipants.Remove(targetUser);
                 }
                 if (newCourse != null && TempData["PreviousCourse"].ToString() != newCourse.CourseCode)
-                { newCourse.CourseParticipants.Add(user);
+                { newCourse.CourseParticipants.Add(targetUser);
                     targetUser.UserCourseCode = newCourse.CourseCode;
                     targetUser.UserCourse = newCourse;
                 }
