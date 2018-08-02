@@ -1,13 +1,15 @@
 ﻿@model IEnumerable<Lexicon_LMS.Models.Module>
-
+@{
+  var courseId = (int) ViewData["courseId"]; 
+}
 
 @*@if (User.IsInRole("Teacher"))
-        {
-            <p>
-                <!--TODO:send course code or id to module create action-->
-                @Html.ActionLink("Add new Module", "Create", "Module", null, null)<!--TODO:should perhaps not be null?-->
-            </p>
-    }
+		{
+			<p>
+				<!--TODO:send course code or id to module create action-->
+				@Html.ActionLink("Add new Module", "Create", "Module", null, null)<!--TODO:should perhaps not be null?-->
+			</p>
+	}
 *@
 
 <link href="~/Content/collapsestyle.css" rel="stylesheet" />
@@ -16,72 +18,73 @@
 
 @if (User.IsInRole("Teacher"))
 {
-    <div class="p-override">
-       <p>
-           @Html.ActionLink("Add Module", "Create", null, new { @class = "btn btn-primary" })
-       </p>
-    </div>
+	<div class="p-override">
+		<p>
+			@*@Html.ActionLink("Add Module", "Create", new { Controller = "Modules", action = "Create", id = Model.id, new { @class = "btn btn-primary" })*@
+			@Html.ActionLink("Add Module", "Create", "Modules", new { id = courseId}, new { @class = "btn btn-primary" })
+		</p>
+	</div>
 }
 <table class="table">
-    <tr>
-        <th class="content">
-            @Html.DisplayNameFor(model => model.StartDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EndDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th></th>
-        <th></th>
-    </tr>
+	<tr>
+		<th class="content">
+			@Html.DisplayNameFor(model => model.StartDate)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.EndDate)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.Description)
+		</th>
+		<th></th>
+		<th></th>
+	</tr>
 
-    @foreach (var item in Model)
-    {
-        <tr class="collapsible">
-            <td class="content">
-                @Html.DisplayFor(modelItem => item.StartDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EndDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td><span class="glyphicon glyphicon-circle-arrow-down"></span></td>
+	@foreach (var item in Model)
+	{
+		<tr class="collapsible">
+			<td class="content">
+				@Html.DisplayFor(modelItem => item.StartDate)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.EndDate)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Description)
+			</td>
+			<td><span class="glyphicon glyphicon-circle-arrow-down"></span></td>
 
-            <td>
-                @if (User.IsInRole("Teacher"))
-                {
-                    <span class="glyphicon glyphicon-pencil"></span>
-                    @Html.ActionLink("Edit", "Edit", "Modules", new { id = item.ID }, null)
-                }
-                @if (User.IsInRole("Teacher"))
-                {
-                    <span> | </span> @Html.ActionLink("Delete", "Delete", "Modules", new { id = item.ID }, null)
-                }
-            </td>
-        </tr>
-        <tr class="collapse">
-            <th class="content" style="border-top:none;">
-                @Html.DisplayNameFor(model => model.ModuleActivities):
-            </th>
-            @foreach (var activity in item.ModuleActivities)
-            {
-                <td style="border-top:none;">
-                    @Html.ActionLink(activity.Name, "Details", new { Controller = "Activities", action = "Details", id = activity.ID })
-                </td>
-            }
+			<td>
+				@if (User.IsInRole("Teacher"))
+				{
+					<span class="glyphicon glyphicon-pencil"></span>
+					@Html.ActionLink("Edit", "Edit", "Modules", new { id = item.ID }, null)
+				}
+				@if (User.IsInRole("Teacher"))
+				{
+					<span> | </span> @Html.ActionLink("Delete", "Delete", "Modules", new { id = item.ID }, null)
+				}
+			</td>
+		</tr>
+		<tr class="collapse">
+			<th class="content" style="border-top:none;">
+				@Html.DisplayNameFor(model => model.ModuleActivities):
+			</th>
+			@foreach (var activity in item.ModuleActivities)
+			{
+				<td style="border-top:none;">
+					@Html.ActionLink(activity.Name, "Details", new { Controller = "Activities", action = "Details", id = activity.ID })
+				</td>
+			}
 
-            <th style="border-top:none;">
-                @if (User.IsInRole("Teacher"))
-                {
-                    @Html.ActionLink("Add Activity", "Create", new { Controller = "Activities", action = "Create", id = item.ID }, new { @class = "btn btn-primary" })
-                }
-            </th>
-        </tr>
-    }
+			<th style="border-top:none;">
+				@if (User.IsInRole("Teacher"))
+				{
+					@Html.ActionLink("Add Activity", "Create", new { Controller = "Activities", action = "Create", id = item.ID }, new { @class = "btn btn-primary" })
+				}
+			</th>
+		</tr>
+	}
 </table>
 
 @Scripts.Render("~/Scripts/collapse.js")
