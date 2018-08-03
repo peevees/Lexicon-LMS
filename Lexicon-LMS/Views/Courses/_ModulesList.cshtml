@@ -73,7 +73,7 @@
                                     data-whatever="@item.ID">
                                 <span class="glyphicon glyphicon-remove"></span> Delete
                             </button>
-                            <!-- Modal -->
+
                             <div class="modal fade" id="@myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                                 <div class="modal-dialog modal-sm" role="document">
                                     <div class="modal-content">
@@ -108,8 +108,16 @@
 
 
                 <tr class="collapse">
-                    <th class="content" style="border-top:none;">
+                    <th style="border-top:none; border-bottom:none;">
+                        @if (User.IsInRole("Teacher"))
+                        {
+                            @Html.ActionLink("Add Activity", "Create", new { Controller = "Activities", action = "Create", id = item.ID }, new { @class = "btn btn-primary" })
+                        }
+                    </th>
+                    <th class="content" style="border-top:none; border-bottom:none;">
                         @Html.DisplayNameFor(model => model.ModuleActivities):
+                    </th>
+                    <th style="border-top:none; border-bottom:none;">
                     </th>
                     @foreach (var activity in item.ModuleActivities)
                     {
@@ -118,12 +126,6 @@
                         </td>
                     }
 
-                    <th style="border-top:none;">
-                        @if (User.IsInRole("Teacher"))
-                        {
-                            @Html.ActionLink("Add Activity", "Create", new { Controller = "Activities", action = "Create", id = item.ID }, new { @class = "btn btn-primary" })
-                        }
-                    </th>
                 </tr>
             }
         </table>

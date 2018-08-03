@@ -8,7 +8,7 @@
 
 @if (User.IsInRole("Teacher"))
 {
-<p>
+<p class="h2-override">
     @Html.ActionLink("Add participant", "Register", "Account",new {courseCode = ViewBag.CourseCode },new { @class = "btn btn-primary" })
 </p>
 }
