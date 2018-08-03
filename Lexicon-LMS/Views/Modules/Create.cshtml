@@ -72,10 +72,9 @@
 			<div class="form-group">
 				<div class="col-md-offset-2 col-md-10">
 					<input type="submit" value="Create" class="btn btn-success" />
-					<span style="margin-left: 25px;"> | </span>
+					<span style="margin-left: 25px;"> </span>
 					<span style="margin-left: 25px;">
-						<span class="glyphicon glyphicon-arrow-left"></span>
-						@Html.ActionLink("Back to Course", "Details", "Courses", new { id = Model.Course.ID }, new { @class = "btn btn-danger" })
+						@Html.ActionLink("Cancel", "Details", "Courses", new { id = Model.Course.ID }, new { @class = "btn btn-danger" })
 					</span>
 				</div>
 			</div>
