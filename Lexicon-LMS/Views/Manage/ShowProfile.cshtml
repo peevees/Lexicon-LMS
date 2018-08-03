@@ -103,13 +103,13 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "EditProfile", "Manage", new { userName = Model.UserName }, null) |
+    @Html.ActionLink("Edit", "EditProfile", "Manage", new { userName = Model.UserName }, new { @class = "btn btn-default" }) |
     @if (User.IsInRole("Teacher"))
     {
-        @Html.ActionLink("Back to List", "ListUsers")
+        @Html.ActionLink("Back to users", "ListUsers", null, new { @class = "btn btn-default" })
     }
     else
     {
-        @Html.ActionLink("Back to Course", "Details", "Courses", new { id = Model.UserCourse.ID }, null)
+        @Html.ActionLink("Back to Course", "Details", "Courses", new { id = Model.UserCourse.ID }, new { @class = "btn btn-default" })
     }
 </p>

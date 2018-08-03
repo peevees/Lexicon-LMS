@@ -15,7 +15,6 @@
 <link href="~/Content/collapsestyle.css" rel="stylesheet" />
 <link href="~/Content/Site.css" rel="stylesheet" />
 <link href="~/Content/icecreamstyle.css" rel="stylesheet" />
-
 @if (User.IsInRole("Teacher"))
 {
 	<div class="p-override">
@@ -26,6 +25,15 @@
 	</div>
 }
 
+@if (User.IsInRole("Teacher"))
+{
+	<div class="p-override">
+		<p>
+			@*@Html.ActionLink("Add Module", "Create", new { Controller = "Modules", action = "Create", id = Model.id, new { @class = "btn btn-primary" })*@
+			@Html.ActionLink("Add Module", "Create", "Modules", new { id = courseId}, new { @class = "btn btn-primary" })
+		</p>
+	</div>
+}
 <table class="table">
 	<tr >
 		<th class="content">
@@ -39,7 +47,6 @@
 		</th>
 		<th></th>
 	</tr>
-
     @foreach (var item in Model)
     {
         var myModal = "myModal" + item.ID;
@@ -112,6 +119,7 @@
             }
 
 			<th style="border-top:none;">
+
 				@if (User.IsInRole("Teacher"))
 				{
 					@Html.ActionLink("Add Activity", "Create", new { Controller = "Activities", action = "Create", id = item.ID }, new { @class = "btn btn-primary" })
