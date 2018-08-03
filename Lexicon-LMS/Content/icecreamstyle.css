@@ -14,11 +14,22 @@
     margin-left: 5px;
 }
 
-.btn-primary:hover {
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active,
+.open .dropdown-toggle.btn-sample {
     color: #d9d9d9;
     background-color: #684601;
     border-color: #895b00;
 }
+
+.btn-primary:active,
+.btn-primary.active,
+.open .dropdown-toggle.btn-sample {
+    background-image: none;
+} 
+
 
 .nav-tabs li.active a {
     color: #555;
