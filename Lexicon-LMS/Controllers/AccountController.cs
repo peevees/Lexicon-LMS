@@ -186,9 +186,11 @@ namespace Lexicon_LMS.Controllers
                     UserName = model.Email,
                     Email = model.Email,
                     TimeOfRegistration = DateTime.Now,
-                    UserCourse = model.UserCourse,
-                    UserCourseCode = model.UserCourseCode
+                    UserCourseCode = model.UserCourseCode,
+                    UserCourse = model.UserCourse
                 };
+                Course userCourse = db.Courses.Where(c => c.CourseCode == user.UserCourseCode).FirstOrDefault();
+                
 
                 var result = UserManager.Create(user, model.Password);
                 if (result.Succeeded)
@@ -197,8 +199,6 @@ namespace Lexicon_LMS.Controllers
                     {
                         UserManager.AddToRole(user.Id, "Teacher");
                     }
-                    Course userCourse = db.Courses.Where(c => c.CourseCode == user.UserCourseCode).FirstOrDefault();
-                    userCourse.CourseParticipants.Add(user);
 
                     //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
@@ -207,8 +207,17 @@ namespace Lexicon_LMS.Controllers
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-                    return RedirectToAction("ListUsers", "Manage");
+                    if(userCourse!=null)
+                    {
+                        userCourse.CourseParticipants.Add(db.Users.Find(user.Id));
+                        db.SaveChanges();
+                        return RedirectToAction("Details", "Courses", new {id=userCourse.ID, tab="coursemembers" });
+                    }
+                    else
+                    {
+                        return RedirectToAction("ListUsers", "Manage");
+                    }
+                    
                 }
                 AddErrors(result);
             }
