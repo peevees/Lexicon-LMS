@@ -15,31 +15,22 @@
 <link href="~/Content/collapsestyle.css" rel="stylesheet" />
 <link href="~/Content/Site.css" rel="stylesheet" />
 <link href="~/Content/icecreamstyle.css" rel="stylesheet" />
-@if (User.IsInRole("Teacher"))
-{
-	<div class="p-override">
-		<p>
-			@*@Html.ActionLink("Add Module", "Create", new { Controller = "Modules", action = "Create", id = Model.id, new { @class = "btn btn-primary" })*@
-			@Html.ActionLink("Add Module", "Create", "Modules", new { id = courseId}, new { @class = "btn btn-primary" })
-		</p>
-	</div>
-}
 
 @if (User.IsInRole("Teacher"))
 {
 	<div class="p-override">
 		<p>
 			@*@Html.ActionLink("Add Module", "Create", new { Controller = "Modules", action = "Create", id = Model.id, new { @class = "btn btn-primary" })*@
-			@Html.ActionLink("Add Module", "Create", "Modules", new { id = courseId}, new { @class = "btn btn-primary" })
+			@Html.ActionLink("Add Module", "Create", "Modules", new { id = courseId }, new { @class = "btn btn-primary" })
 		</p>
 	</div>
 }
 <table class="table">
-	<tr >
+	<tr>
 		<th class="content">
 			@Html.DisplayNameFor(model => model.Description)
 		</th>
-		<th >
+		<th>
 			@Html.DisplayNameFor(model => model.StartDate)
 		</th>
 		<th>
@@ -47,23 +38,23 @@
 		</th>
 		<th></th>
 	</tr>
-    @foreach (var item in Model)
-    {
-        var myModal = "myModal" + item.ID;
-       
-        <tr class="collapsible">
-            <td class="content">
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StartDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EndDate)
-            </td>
-            <td>
-            <span class="glyphicon glyphicon-circle-arrow-down"></span>
-            </td>
+	@foreach (var item in Model)
+	{
+		var myModal = "myModal" + item.ID;
+
+		<tr class="collapsible">
+			<td class="content">
+				@Html.DisplayFor(modelItem => item.Description)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.StartDate)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.EndDate)
+			</td>
+			<td>
+				<span class="glyphicon glyphicon-circle-arrow-down"></span>
+			</td>
 
                     <td>
                         @if (User.IsInRole("Teacher"))
