@@ -1,30 +1,43 @@
 ﻿@model Lexicon_LMS.Models.Course
 @using Lexicon_LMS.Models;
 
-@{ViewBag.CourseCode = Model.CourseCode;}
+@{
+    ViewBag.CourseCode = Model.CourseCode;
+
+}
 
 <link href="~/Content/icecreamstyle.css" rel="stylesheet" />
 <link href="~/Content/Site.css" rel="stylesheet" />
+@Scripts.Render("~/bundles/jquery")
 
+<script>
+
+    $(document).ready(function () {
+        if (getQueryString('tab') == "coursemembers") {
+            $('#members-tab').click();
+        }
+    });
+
+</script>
 
 <p class="text-success">@ViewBag.StatusMessage</p>
 <div class="main-div">
-	<h2 class="h2-override">@Html.DisplayFor(model => model.CourseName)</h2>	<!--fix design-->
+    <h2 class="h2-override">@Html.DisplayFor(model => model.CourseName)</h2>	<!--fix design-->
 
 
-	<ul class="nav nav-tabs" id="myTab" role="tablist">
-		<li class="nav-item active">
-			<a class="nav-link active a-override" id="overview-tab" data-toggle="tab" href="#overview" role="tab" aria-controls="overview" aria-selected="true">Overview</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link a-override" id="modules-tab" data-toggle="tab" href="#modules" role="tab" aria-controls="modules" aria-selected="false">Modules</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link a-override" id="members-tab" data-toggle="tab" href="#coursemembers" role="tab" aria-controls="coursemembers" aria-selected="false">Course members</a>
-		</li>
-	</ul>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item active">
+            <a class="nav-link active a-override" id="overview-tab" data-toggle="tab" href="#overview" role="tab" aria-controls="overview" aria-selected="true">Overview</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link a-override" id="modules-tab" data-toggle="tab" href="#modules" role="tab" aria-controls="modules" aria-selected="false">Modules</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link a-override" id="members-tab" data-toggle="tab" href="#coursemembers" role="tab" aria-controls="coursemembers" aria-selected="false">Course members</a>
+        </li>
+    </ul>
 
-	<div class="tab-content" id="myTabContent">
+    <div class="tab-content" id="myTabContent">
 
 		<div class="tab-pane fade active in" id="overview" role="tabpanel" aria-labelledby="overview-tab" ;>
 			<br />
@@ -43,45 +56,45 @@
 					@Html.DisplayNameFor(model => model.CourseCode)
 				</dt>
 
-				<dd>
-					@Html.DisplayFor(model => model.CourseCode)
-				</dd>
+                <dd>
+                    @Html.DisplayFor(model => model.CourseCode)
+                </dd>
 
-				<dt>
-					@Html.DisplayNameFor(model => model.CourseName)
-				</dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.CourseName)
+                </dt>
 
-				<dd>
-					@Html.DisplayFor(model => model.CourseName)
-				</dd>
+                <dd>
+                    @Html.DisplayFor(model => model.CourseName)
+                </dd>
 
-				<dt>
-					@Html.DisplayNameFor(model => model.StartDate)
-				</dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.StartDate)
+                </dt>
 
-				<dd>
-					@Html.DisplayFor(model => model.StartDate)
-				</dd>
+                <dd>
+                    @Html.DisplayFor(model => model.StartDate)
+                </dd>
 
-				<dt>
-					@Html.DisplayNameFor(model => model.EndDate)
-				</dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.EndDate)
+                </dt>
 
-				<dd>
-					@Html.DisplayFor(model => model.EndDate)
-				</dd>
+                <dd>
+                    @Html.DisplayFor(model => model.EndDate)
+                </dd>
 
-				<dt>
-					@Html.DisplayNameFor(model => model.Description)
-				</dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
 
-				<dd>
-					@Html.DisplayFor(model => model.Description)
-				</dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
 
-				<dt>
-					@Html.DisplayNameFor(model => model.CourseModules)
-				</dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.CourseModules)
+                </dt>
 
 				<dd>
 					@Html.ViewData.Model.CourseModules.Count
@@ -122,15 +135,15 @@
 				</div>
 			}
 
-		</div>
+        </div>
 
 		<div class="tab-pane fade" id="modules" role="tabpanel" aria-labelledby="modules-tab">
 			@Html.Partial("_ModulesList", Model.CourseModules, new ViewDataDictionary(ViewData){ { "courseID", Model.ID } })
 		</div>
 
-		<div class="tab-pane fade" id="coursemembers" role="tabpanel" aria-labelledby="coursemembers-tab">
-			@Html.Partial("_CourseMembers", Model.CourseParticipants)
+        <div class="tab-pane fade" id="coursemembers" role="tabpanel" aria-labelledby="coursemembers-tab">
+            @Html.Partial("_CourseMembers", Model.CourseParticipants)
 
-		</div>
-	</div>
+        </div>
+    </div>
 </div>
