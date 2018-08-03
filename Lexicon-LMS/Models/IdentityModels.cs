@@ -32,11 +32,11 @@ namespace Lexicon_LMS.Models
         public string UserCourseCode { get; set; }
 
         public string Street { get; set; }
-        public string Postcode { get; set; }
+        public string Postcode { get; set; }//regex example: ([0-9]){3} ([0-9]){2} (can be simplified?)
         public string City { get; set; }
 
         [DataType(DataType.PhoneNumber)]
-        [DisplayFormat(DataFormatString = "{###-### ## ##}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{###-### ## ##}", ApplyFormatInEditMode = true)]//regex example: ([0-9]){3}-([0-9]){3} ([0-9]){2} ([0-9]){2}  (can be simplified?)
         [Display(Name = "Phone number")]
         public override string PhoneNumber { get; set; }
 
