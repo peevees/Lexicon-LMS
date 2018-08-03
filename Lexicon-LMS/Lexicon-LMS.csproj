@@ -255,6 +255,10 @@
     <Compile Include="Migrations\201808011349147_notifs.Designer.cs">
       <DependentUpon>201808011349147_notifs.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201808021128145_add-format-and-date-type.cs" />
+    <Compile Include="Migrations\201808021128145_add-format-and-date-type.Designer.cs">
+      <DependentUpon>201808021128145_add-format-and-date-type.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Controllers\FileHandler.cs" />
     <Compile Include="ViewModel\AccountViewModels.cs" />
@@ -435,6 +439,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201808011349147_notifs.resx">
       <DependentUpon>201808011349147_notifs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808021128145_add-format-and-date-type.resx">
+      <DependentUpon>201808021128145_add-format-and-date-type.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
