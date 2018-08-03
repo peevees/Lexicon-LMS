@@ -64,7 +64,6 @@ namespace Lexicon_LMS.Controllers
         }
 
         // GET: Notifications/Create
-        [Authorize(Roles = "Teacher")]
         public ActionResult Create(string uid = null, string subject = null, string body =null)
         {
             Notification model = new Notification();
@@ -144,7 +143,6 @@ namespace Lexicon_LMS.Controllers
         }
 
         // GET: Notifications/Delete/5
-        [Authorize(Roles = "Teacher")]
         public ActionResult Delete(int? id)
         {
             if (id == null)

@@ -87,7 +87,11 @@ namespace Lexicon_LMS.Migrations
 
             //give Teacher user seed it's teacher role
             var teacherUser = userManager.FindByName(usersEmail[0]);
+            var teacherUser2 = userManager.FindByName(usersEmail[3]);
+            var teacherUser3 = userManager.FindByName(usersEmail[4]);
             userManager.AddToRole(teacherUser.Id, "Teacher");
+            userManager.AddToRole(teacherUser2.Id, "Teacher");
+            userManager.AddToRole(teacherUser3.Id, "Teacher");
 
         }
 
@@ -162,6 +166,9 @@ namespace Lexicon_LMS.Migrations
 
             CourseStudent.UserCourse = seededCourse;
             CourseStudent.UserCourseCode = seededCourse.CourseCode;
+
+            CourseTeacher.UserCourse = seededCourse;
+            CourseTeacher.UserCourseCode = seededCourse.CourseCode;
 
             context.Modules.AddOrUpdate(
                 m => m.Description,

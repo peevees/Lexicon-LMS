@@ -52,6 +52,8 @@ namespace Lexicon_LMS.Controllers
             {
                 model.CourseCode = targetCourse.CourseCode;
                 model.Course = targetCourse;
+                model.StartDate = DateTime.Today;
+                model.EndDate = DateTime.Today.AddDays(1);
             }
 
 
@@ -154,6 +156,7 @@ namespace Lexicon_LMS.Controllers
             {
                 db.Entry(module).State = EntityState.Modified;
                 db.SaveChanges();
+                module.Course = db.Courses.Where(c => c.CourseCode == module.CourseCode).FirstOrDefault();
                 return RedirectToAction("Details", "Courses", new { id = module.Course.ID });
             }
             ViewBag.CourseCode = new SelectList(db.Courses, "ID", "CourseCode", module.CourseCode);
@@ -185,6 +188,7 @@ namespace Lexicon_LMS.Controllers
             Module module = db.Modules.Find(id);
             db.Modules.Remove(module);
             db.SaveChanges();
+            module.Course = db.Courses.Where(c => c.CourseCode == module.CourseCode).FirstOrDefault();
             return RedirectToAction("Details", "Courses", new { id = module.Course.ID });
         }
 

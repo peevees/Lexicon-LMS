@@ -2,13 +2,13 @@
 @using Lexicon_LMS.Models;
 
 @{
-	ViewBag.Title = "Details";
+	ViewBag.Title = " Activity Details";
 }
+<link href="~/Content/icecreamstyle.css" rel="stylesheet" />
+<link href="~/Content/Site.css" rel="stylesheet" />
 
-<h2>Details</h2>
-
-<div>
-	<h4>Activity</h4>
+<div class="main-div">
+<h2 class="h2-override">@vViewBag.Title</h2>
 	<hr />
 	<dl class="dl-horizontal">
 		<dt>
@@ -38,11 +38,13 @@
 		</dd>
 
 	</dl>
-</div>
 <p>
+  <span class="glyphicon glyphicon-arrow-left"> </span>
+	@Html.ActionLink("Back to Course", "Details", "Courses", new { id = Model.Module.Course.ID }, new { @class = "btn btn-default"}) <span> | </span>
 	@if (User.IsInRole("Teacher"))
 	{
-		@Html.ActionLink("Edit", "Edit", new { id = Model.ID }) <span> | </span>
+      <span class="glyphicon glyphicon-pencil"> </span>
+		@Html.ActionLink("Edit", "Edit", new { id = Model.ID }, new { @class = "btn btn-default"}) 
 	}
-	@Html.ActionLink("Back to Course", "Details", "Courses", new { id = Model.Module.Course.ID }, null)
 </p>
+</div>
