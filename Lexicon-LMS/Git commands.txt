@@ -1,0 +1,5 @@
+﻿[alias]
+  pushall = push --recurse-submodules=on-demand
+	lol = log --graph --decorate --pretty=oneline --abbrev-commit --all
+	s = status -s
+	lg = log --oneline --decorate --all --graph
