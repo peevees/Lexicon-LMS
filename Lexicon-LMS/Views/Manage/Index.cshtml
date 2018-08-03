@@ -55,7 +55,7 @@
 				<dt>Phone nr</dt>
 				@if (user.PhoneNumber != null)
 				{
-					<dd>@user.PhoneNumber</dd>
+					<dd>@Html.DisplayFor(u =>u.PhoneNumber)</dd>
 				}
 				else
 				{

@@ -26,7 +26,7 @@ namespace Lexicon_LMS.Models
         [Display(Name = "Registered since")]
         public DateTime TimeOfRegistration { get; set; }
 
-        [Display(Name = "User course code")]
+        [Display(Name = "User course")]
         public virtual Course UserCourse { get; set; }
 
         public string UserCourseCode { get; set; }
@@ -35,6 +35,8 @@ namespace Lexicon_LMS.Models
         public string Postcode { get; set; }
         public string City { get; set; }
 
+        [DataType(DataType.PhoneNumber)]
+        [DisplayFormat(DataFormatString = "{###-### ## ##}", ApplyFormatInEditMode = true)]
         [Display(Name = "Phone number")]
         public override string PhoneNumber { get; set; }
 
