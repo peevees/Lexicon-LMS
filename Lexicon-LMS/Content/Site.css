@@ -3,15 +3,6 @@
     padding-bottom: 20px;
 }
 
-/* Set padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
-}
-
-/* Override the default bootstrap behavior where horizontal description lists 
-   will truncate terms that are too long to fit in the left column 
-*/
 .dl-horizontal dt {
     white-space: normal;
 }
@@ -26,4 +17,50 @@ textarea {
 /* Add a background color on hover */
 .btn-group button:hover {
     color: #1f1f1f;
+}
+
+
+.main-div {
+    border-radius: 12px;
+    padding-bottom: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-top: 20px;
+    background: rgba(255, 255, 255, 0.85);
+}
+.h2-override{
+    padding-top: 10px;
+    margin-left: 10px;
+}
+
+.nav-tabs li.active a {
+    color: #555;
+    cursor: default;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    opacity: .76;
+    border-bottom-color: none;
+}
+
+.tab-content{
+    background:#fff;
+}
+
+.a-override {
+    color: #000
+}
+.tablayout {
+    background-color: #ddd;
+    border-radius: 12px;
+    margin-top: 20px;
+    border-bottom:black;
+}
+
+.p-override{
+    margin: 0px 10px 10px 10px;
+    padding-top: 10px;
+}
+
+.glyph-fix{
+    margin-left: 20px;
 }

@@ -1,20 +1,41 @@
 ﻿@model Lexicon_LMS.Models.Notification
+@using Microsoft.AspNet.Identity;
+@using Lexicon_LMS.Models;
 
 @{
+    //Layout = "";
     ViewBag.Title = "Create";
+    ApplicationUser recipient = ViewBag.recipient;
 }
+
+<link href="~/Content/jquery-ui.css"
+      rel="stylesheet"
+      type="text/css" />
+<link href="~/Content/token-input.css"
+      rel="stylesheet"
+      type="text/css" />
 
 <h2>Create</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("Create","Notifications",FormMethod.Post, null))
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Notification</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Recipients, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input id="Recipients" />
+                @Html.ValidationMessageFor(model => model.RecipientID, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.RecipientID)
+            </div>
+        </div>
+
         <div class="form-group">
             @Html.LabelFor(model => model.Subject, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -26,33 +47,85 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Body, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Body, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextAreaFor(model => model.Body, new { htmlAttributes = new { @class = "form-control", @rows = "5" } })
                 @Html.ValidationMessageFor(model => model.Body, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Read, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.Read)
-                    @Html.ValidationMessageFor(model => model.Read, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-success" />
             </div>
         </div>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    <a onclick="redirect()">Go Back</a>
 </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/jquery-ui.min.js"></script>
+    <script src="~/Scripts/jquery.tokeninput.js"></script>
+
+    <script type="text/javascript">
+        $.validator.setDefaults({ ignore: [] });
+
+        $(document).ready(function () {
+            $.validator.setDefaults({ ignore: [] });
+            $("#Recipients").tokenInput("/Notifications/GetUsers", {
+
+                @{
+                    if (recipient != null)
+                    {
+                        <text>
+                            prePopulate: [{id: "@recipient.Id", name: "@recipient.FullName"}],
+                        </text>
+                    }
+                }
+
+                preventDuplicates: true,
+
+                onAdd: function (item) {
+                    var field_value = $('#RecipientID').val();
+                    if (field_value != "") {
+                        field_value = field_value + "," + item.id;
+                        field_value = field_value.replace(',,', ',');
+                        $('#RecipientID').val(field_value);
+                    }
+                    else {
+                        $('#RecipientID').val(item.id);
+                    }
+                    $('#RecipientID').val().replace(',,', ',')
+                },
+
+                onDelete: function (item) {
+                    var field_value = $('#RecipientID').val().replace(',,', ',').replace(item.id, '');
+                    field_value = field_value.replace(',,', ',');
+                    $('#RecipientID').val(field_value);
+                }
+
+
+            });
+        });
+
+        function getQueryString(field, url) {
+            var href = url ? url : window.location.href;
+            var reg = new RegExp('[?&]' + field + '=([^&#]*)', 'i');
+            var string = reg.exec(href);
+            return string ? string[1] : null;
+        };
+
+        function redirect() {
+            var pageIndex = getQueryString('p');
+            if (pageIndex != null) {
+                $('#inbox').load('@Url.Action("InboxContainer", "Notifications")'), { page: pageIndex };
+            }
+            else {
+                $(location).attr("href", '@Url.Action("Index","Manage")?tab=inbox');
+            }
+        }
+    </script>
+
 }

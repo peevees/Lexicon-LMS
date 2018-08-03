@@ -426,4 +426,4 @@
     $(function () {
         $jQval.unobtrusive.parse(document);
     });
-}(jQuery));
+}($));

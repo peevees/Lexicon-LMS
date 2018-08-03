@@ -1,34 +1,50 @@
 ﻿@model Lexicon_LMS.Models.Activity
+@using Lexicon_LMS.Models;
 
 @{
-    ViewBag.Title = "Details";
+	ViewBag.Title = " Activity Details";
 }
+<link href="~/Content/icecreamstyle.css" rel="stylesheet" />
+<link href="~/Content/Site.css" rel="stylesheet" />
 
-<h2>Details</h2>
+<div class="main-div">
+<h2 class="h2-override">@vViewBag.Title</h2>
+	<hr />
+	<dl class="dl-horizontal">
+		<dt>
+			@Html.DisplayNameFor(model => model.Name)
+		</dt>
 
-<div>
-    <h4>Activity</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+		<dd>
+			@Html.DisplayFor(model => model.Name)
+		</dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+		<dt>
+			@Html.DisplayNameFor(model => model.Deadline)
+		</dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Deadline)
-        </dt>
+		<dd>
+			@Html.DisplayFor(model => model.Deadline)
+		</dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Deadline)
-        </dd>
+		<dt>@Html.DisplayNameFor(model => model.Documents)</dt>
+		<dd>
+			@foreach (Document document in Model.Documents)
+			{
 
-    </dl>
-</div>
+				@Html.ActionLink("Download: " + document.DisplayName, "Download", new { filePath = document.Filepath, fileName = document.FileName, saveName = document.DisplayName })
+
+			}
+		</dd>
+
+	</dl>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-    @Html.ActionLink("Back to List", "Index")
+  <span class="glyphicon glyphicon-arrow-left"> </span>
+	@Html.ActionLink("Back to Course", "Details", "Courses", new { id = Model.Module.Course.ID }, new { @class = "btn btn-default"}) <span> | </span>
+	@if (User.IsInRole("Teacher"))
+	{
+      <span class="glyphicon glyphicon-pencil"> </span>
+		@Html.ActionLink("Edit", "Edit", new { id = Model.ID }, new { @class = "btn btn-default"}) 
+	}
 </p>
+</div>

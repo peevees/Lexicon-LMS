@@ -211,7 +211,7 @@ namespace Lexicon_LMS.Migrations
             };
 
             var roleNames = new[] { "Teacher" };//REMINDER: add roles here!
-
+            //var users = new[] { "teacher@shit.se", "student@shit.se", "student2@shit.se", "teacher2@shit.se", "teacher3@shit.se", "student3@shit.se" };//REMINDER: add users here!
             AddRoles(context, roleNames);
             AddUsers(context, usersToAdd);
             AddCourse(context, coursesToAdd, usersToAdd);
@@ -374,6 +374,7 @@ namespace Lexicon_LMS.Migrations
                 #endregion
 
                 var createdUser = new ApplicationUser { Forename = user.Forename, Surname = user.Surname, UserName = user.Username, Email = user.Email, TimeOfRegistration = user.TimeofRegistration, City = user.City, Street = user.Street, Postcode = user.Postcode };
+                //var user = new ApplicationUser { Forename = "Mr", Surname = "JohnDoe", UserName = userEmail, Email = userEmail, TimeOfRegistration = new DateTime(2000, 01, 01, 00, 00, 00) };
 
                 var result = userManager.Create(createdUser, user.Password);
                 if (!result.Succeeded)
@@ -392,6 +393,13 @@ namespace Lexicon_LMS.Migrations
 
         }
 
+            //give Teacher user seed it's teacher role
+            var teacherUser = userManager.FindByName(usersEmail[0]);
+            //var teacherUser2 = userManager.FindByName(usersEmail[3]);
+            //var teacherUser3 = userManager.FindByName(usersEmail[4]);
+            userManager.AddToRole(teacherUser.Id, "Teacher");
+            //userManager.AddToRole(teacherUser2.Id, "Teacher");
+            //userManager.AddToRole(teacherUser3.Id, "Teacher");
 
 
         private void AddCourse(ApplicationDbContext context, Courses[] coursesToCreate, Users[] users)
@@ -410,7 +418,12 @@ namespace Lexicon_LMS.Migrations
 
             /*
             var CourseTeacher = context.Users.Where(u => u.Email == "teacher@shit.se").FirstOrDefault();
+            var CourseTeacher2 = context.Users.Where(u => u.Email == "teacher2@shit.se").FirstOrDefault();
+            var CourseTeacher3 = context.Users.Where(u => u.Email == "teacher3@shit.se").FirstOrDefault();
             var CourseStudent = context.Users.Where(u => u.Email == "student@shit.se").FirstOrDefault();
+            var CourseStudent2 = context.Users.Where(u => u.Email == "student2@shit.se").FirstOrDefault();
+            var CourseStudent3 = context.Users.Where(u => u.Email == "student3@shit.se").FirstOrDefault();
+
 
             context.Courses.AddOrUpdate(
                 c => c.CourseName,
@@ -433,7 +446,9 @@ namespace Lexicon_LMS.Migrations
                     StartDate = new DateTime(2018, 8, 19),
                     EndDate = new DateTime(2019, 8, 19),
                     Description = "Boil coffee",
-                    CourseCode = "JD-18"
+                    CourseCode = "JD-18",
+                    Teacher = CourseTeacher2,
+                    TeacherID = CourseTeacher2.Id
                 });
 
             context.Courses.AddOrUpdate(
@@ -456,8 +471,14 @@ namespace Lexicon_LMS.Migrations
             Course seededCourseoffice = context.Courses.Where(c => c.CourseCode == "MO-19").FirstOrDefault();
             /*
             seededCourse.CourseParticipants.Add(CourseStudent);
+            seededCourse.CourseParticipants.Add(CourseStudent2);
+            seededCoursejava.CourseParticipants.Add(CourseStudent3);
+
             CourseStudent.UserCourse = seededCourse;
             CourseStudent.UserCourseCode = seededCourse.CourseCode;
+
+            CourseTeacher.UserCourse = seededCourse;
+            CourseTeacher.UserCourseCode = seededCourse.CourseCode;
 
             */
             context.Modules.AddOrUpdate(
@@ -468,7 +489,7 @@ namespace Lexicon_LMS.Migrations
                     StartDate = new DateTime(2018, 7, 19),
                     EndDate = new DateTime(2018, 7, 31),
                     Course = seededCourse,
-                    CourseCode = seededCourse.ID
+                    CourseCode = seededCourse.CourseCode
                 });
 
             context.Modules.AddOrUpdate(
@@ -479,7 +500,7 @@ namespace Lexicon_LMS.Migrations
                     StartDate = new DateTime(2018, 8, 19),
                     EndDate = new DateTime(2018, 8, 31),
                     Course = seededCoursejava,
-                    CourseCode = seededCoursejava.ID
+                    CourseCode = seededCoursejava.CourseCode
                 });
 
             context.Modules.AddOrUpdate(
@@ -490,13 +511,13 @@ namespace Lexicon_LMS.Migrations
                     StartDate = new DateTime(2019, 8, 19),
                     EndDate = new DateTime(2019, 8, 31),
                     Course = seededCourseoffice,
-                    CourseCode = seededCourseoffice.ID
+                    CourseCode = seededCourseoffice.CourseCode
                 });
 
             context.SaveChanges();
-            Module seededModule = context.Modules.Where(c => c.CourseCode == seededCourse.ID).FirstOrDefault();
-            Module seededModulejava = context.Modules.Where(c => c.CourseCode == seededCoursejava.ID).FirstOrDefault();
-            Module seededModuleoffice = context.Modules.Where(c => c.CourseCode == seededCourseoffice.ID).FirstOrDefault();
+            Module seededModule = context.Modules.Where(c => c.CourseCode == seededCourse.CourseCode).FirstOrDefault();
+            Module seededModulejava = context.Modules.Where(c => c.CourseCode == seededCoursejava.CourseCode).FirstOrDefault();
+            Module seededModuleoffice = context.Modules.Where(c => c.CourseCode == seededCourseoffice.CourseCode).FirstOrDefault();
 
             seededCourse.CourseModules.Add(seededModule);
             seededCoursejava.CourseModules.Add(seededModulejava);

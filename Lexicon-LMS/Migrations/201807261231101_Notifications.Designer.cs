@@ -7,18 +7,18 @@ namespace Lexicon_LMS.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class nonvirtual : IMigrationMetadata
+    public sealed partial class Notifications : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(nonvirtual));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Notifications));
         
         string IMigrationMetadata.Id
         {
-            get { return "201807191243067_nonvirtual"; }
+            get { return "201807261231101_Notifications"; }
         }
         
         string IMigrationMetadata.Source
         {
-            get { return null; }
+            get { return Resources.GetString("Source"); }
         }
         
         string IMigrationMetadata.Target

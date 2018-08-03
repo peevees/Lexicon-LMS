@@ -7,18 +7,18 @@ namespace Lexicon_LMS.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class models : IMigrationMetadata
+    public sealed partial class cantlogin : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(models));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(cantlogin));
         
         string IMigrationMetadata.Id
         {
-            get { return "201807190726256_init"; }
+            get { return "201807311325331_cantlogin"; }
         }
         
         string IMigrationMetadata.Source
         {
-            get { return null; }
+            get { return Resources.GetString("Source"); }
         }
         
         string IMigrationMetadata.Target

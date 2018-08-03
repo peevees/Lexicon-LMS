@@ -7,13 +7,13 @@ namespace Lexicon_LMS.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class modulesactivities : IMigrationMetadata
+    public sealed partial class addformatanddatetype : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(modulesactivities));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(addformatanddatetype));
         
         string IMigrationMetadata.Id
         {
-            get { return "201807200749201_modules-activities"; }
+            get { return "201808021128145_add-format-and-date-type"; }
         }
         
         string IMigrationMetadata.Source

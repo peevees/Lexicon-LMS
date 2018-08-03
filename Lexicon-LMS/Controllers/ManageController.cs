@@ -8,6 +8,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Lexicon_LMS.Models;
+using System.Net;
+using System.Data.Entity.Migrations;
 
 namespace Lexicon_LMS.Controllers
 {
@@ -16,6 +18,7 @@ namespace Lexicon_LMS.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         public ManageController()
         {
@@ -33,9 +36,9 @@ namespace Lexicon_LMS.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -76,6 +79,84 @@ namespace Lexicon_LMS.Controllers
             return View(model);
         }
 
+        public ActionResult ShowProfile(string userName)
+        {
+            if (userName == "")
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ApplicationUser model = UserManager.FindByName(userName);
+
+            if (model == null)
+            {
+                return HttpNotFound();
+            }
+            return View(model);
+        }
+
+        public ActionResult ListUsers()
+        {
+            return View(db.Users.ToList());
+        }
+
+        [Authorize(Roles = "Teacher")]
+        public ActionResult Delete(string id)
+        {
+
+            /*
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Course course = db.Courses.Find(id);
+            if (course == null)
+            {
+                return HttpNotFound();
+            }
+            return View(course);
+            */
+            return RedirectToAction("DeleteConfirmed", "Manage", new { id });
+        }
+
+        // POST: /Users/Delete/5
+        [Authorize(Roles = "Teacher")]
+        [HttpPost, ActionName("ListUser")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(string id)
+        {
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var user = _userManager.FindById(id);
+            var logins = user.Logins;
+            var rolesForUser = _userManager.GetRoles(id);
+
+            using (var transaction = db.Database.BeginTransaction())
+            {
+                foreach (var login in logins.ToList())
+                {
+                    _userManager.RemoveLogin(login.UserId, new UserLoginInfo(login.LoginProvider, login.ProviderKey));
+                }
+
+                if (rolesForUser.Count() > 0)
+                {
+                    foreach (var item in rolesForUser.ToList())
+                    {
+                        // item should be the name of the role
+                        var result = _userManager.RemoveFromRoleAsync(user.Id, item);
+                    }
+                }
+
+                _userManager.Delete(user);
+                transaction.Commit();
+            }
+            return RedirectToAction("ListUsers");
+
+        }
+
         //
         // POST: /Manage/RemoveLogin
         [HttpPost]
@@ -100,38 +181,56 @@ namespace Lexicon_LMS.Controllers
             return RedirectToAction("ManageLogins", new { Message = message });
         }
 
-        public ActionResult EditProfile()
+        public ActionResult EditProfile(string userName)
         {
-            ApplicationUser model = UserManager.FindById(User.Identity.GetUserId());
+            ApplicationUser model = null;
+            if (userName == null)
+            {
+                model = db.Users.Find(User.Identity.GetUserId());
+            }
+            else
+            {
+                model = db.Users.Where(u=>u.UserName == userName).FirstOrDefault();
+            }
 
 
-            ApplicationDbContext db = new ApplicationDbContext();
             var courses = new List<SelectListItem>();
 
-            foreach(Course c in db.Courses)
+            foreach (Course c in db.Courses)
             {
                 courses.Add(new SelectListItem { Text = c.CourseName, Value = c.CourseCode });
             }
 
             ViewBag.coursesList = courses;
-                
+
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditProfile([Bind(Include = "Forename,Surname,Street,Postcode,City,Email,UserCourseCode")] ApplicationUser user)
+        public ActionResult EditProfile([Bind(Include = "Id,Forename,Surname,Street,Postcode,City,Email,UserCourseCode")] ApplicationUser user)
         {
             if (ModelState.IsValid)
             {
-                var targetUser = UserManager.FindById(user.Id);
-                ApplicationDbContext db = new ApplicationDbContext();
+                //ApplicationDbContext db = new ApplicationDbContext();
+                var targetUser = db.Users.Find(user.Id);
+                //TODO: will crash probably because of coure problems
                 Course newCourse = db.Courses.Where(c => c.CourseCode == user.UserCourseCode).FirstOrDefault();
-                Course oldCourse = db.Courses.Where(c=>c.CourseCode == (TempData["PreviousCourse"]).ToString()).FirstOrDefault();
+                string courseCode;
+                Course oldCourse;
 
-                newCourse.CourseParticipants.Add(user);
-                oldCourse.CourseParticipants.Remove(user);
-
+                if (TempData["PreviousCourse"] != null && TempData["PreviousCourse"].ToString() != newCourse.CourseCode)
+                {
+                    courseCode = TempData["PreviousCourse"].ToString();
+                    oldCourse = db.Courses.Where(c => c.CourseCode == courseCode).FirstOrDefault();
+                    oldCourse.CourseParticipants.Remove(targetUser);
+                }
+                if (newCourse != null && TempData["PreviousCourse"].ToString() != newCourse.CourseCode)
+                { newCourse.CourseParticipants.Add(targetUser);
+                    targetUser.UserCourseCode = newCourse.CourseCode;
+                    targetUser.UserCourse = newCourse;
+                }
+                
                 targetUser.Forename = user.Forename;
                 targetUser.Surname = user.Surname;
                 targetUser.Street = user.Street;
@@ -139,12 +238,10 @@ namespace Lexicon_LMS.Controllers
                 targetUser.City = user.City;
                 targetUser.Email = user.Email;
                 targetUser.UserName = user.Email;
-                targetUser.UserCourse = newCourse;
-                targetUser.UserCourseCode = newCourse.CourseCode;
-
                 
-
-                UserManager.Update(targetUser);
+                db.Users.AddOrUpdate(targetUser);
+                db.SaveChanges();
+                //UserManager.Update(targetUser);
 
                 return RedirectToAction("Index");
             }
@@ -385,7 +482,7 @@ namespace Lexicon_LMS.Controllers
             base.Dispose(disposing);
         }
 
-#region Helpers
+        #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
@@ -436,6 +533,6 @@ namespace Lexicon_LMS.Controllers
             Error
         }
 
-#endregion
+        #endregion
     }
 }

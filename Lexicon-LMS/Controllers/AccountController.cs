@@ -145,7 +145,7 @@ namespace Lexicon_LMS.Controllers
         //
         // GET: /Account/Register
         [AllowAnonymous]
-        public ActionResult Register()
+        public ActionResult Register(string courseCode, bool profileMgmt = false)
         {
             var courses = new List<SelectListItem>();
 
@@ -155,8 +155,14 @@ namespace Lexicon_LMS.Controllers
             }
 
             ViewBag.coursesList = courses;
+            ViewBag.ProfileMgmt = profileMgmt;
+            RegisterViewModel model = new RegisterViewModel();
+            if(courseCode!="")
+            {
+                model.UserCourseCode = courseCode;
+            }
 
-            return View();
+            return View(model);
         }
 
         //
@@ -180,30 +186,51 @@ namespace Lexicon_LMS.Controllers
                     UserName = model.Email,
                     Email = model.Email,
                     TimeOfRegistration = DateTime.Now,
-                    UserCourse = model.UserCourse,
-                    UserCourseCode = model.UserCourseCode
+                    UserCourseCode = model.UserCourseCode,
+                    UserCourse = model.UserCourse
                 };
+                Course userCourse = db.Courses.Where(c => c.CourseCode == user.UserCourseCode).FirstOrDefault();
+                
 
-                var result = await UserManager.CreateAsync(user, model.Password);
+                var result = UserManager.Create(user, model.Password);
                 if (result.Succeeded)
                 {
-                    Course userCourse = db.Courses.Where(c => c.CourseCode == user.UserCourseCode).FirstOrDefault();
-                    userCourse.CourseParticipants.Add(user);
+                    if(Request["teacher"]!= null)
+                    {
+                        UserManager.AddToRole(user.Id, "Teacher");
+                    }
 
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-                    return RedirectToAction("Index", "Home");
+                    if(userCourse!=null)
+                    {
+                        userCourse.CourseParticipants.Add(db.Users.Find(user.Id));
+                        db.SaveChanges();
+                        return RedirectToAction("Details", "Courses", new {id=userCourse.ID, tab="coursemembers" });
+                    }
+                    else
+                    {
+                        return RedirectToAction("ListUsers", "Manage");
+                    }
+                    
                 }
                 AddErrors(result);
             }
 
             // If we got this far, something failed, redisplay form
+            var courses = new List<SelectListItem>();
+
+            foreach (Course c in db.Courses)
+            {
+                courses.Add(new SelectListItem { Text = c.CourseName, Value = c.CourseCode });
+            }
+
+            ViewBag.coursesList = courses;
             return View(model);
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -20,15 +21,26 @@ namespace Lexicon_LMS.Models
         [Display(Name = "Full name")]
         public string FullName { get { return Forename + " " + Surname; } }
 
-        [Display(Name = "Registrated since")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [Display(Name = "Registered since")]
         public DateTime TimeOfRegistration { get; set; }
 
+        [Display(Name = "User course")]
         public virtual Course UserCourse { get; set; }
+
         public string UserCourseCode { get; set; }
 
         public string Street { get; set; }
         public string Postcode { get; set; }
         public string City { get; set; }
+
+        [DataType(DataType.PhoneNumber)]
+        [DisplayFormat(DataFormatString = "{###-### ## ##}", ApplyFormatInEditMode = true)]
+        [Display(Name = "Phone number")]
+        public override string PhoneNumber { get; set; }
+
+        public virtual IList<Notification> Notifications { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
@@ -61,6 +73,7 @@ namespace Lexicon_LMS.Models
 
         public System.Data.Entity.DbSet<Lexicon_LMS.Models.Document> Documents { get; set; }
 
+        //TODO: keep track of this line it is automatically created on scaffold and breaks the application
         //public System.Data.Entity.DbSet<Lexicon_LMS.Models.ApplicationUser> ApplicationUsers { get; set; }
     }
 }

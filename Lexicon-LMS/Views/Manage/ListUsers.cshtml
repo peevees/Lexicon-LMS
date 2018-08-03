@@ -1,0 +1,66 @@
+﻿@model IEnumerable<Lexicon_LMS.Models.ApplicationUser>
+
+@{
+	ViewBag.Title = "Users";
+}
+
+<link href="~/Content/icecreamstyle.css" rel="stylesheet" />
+<link href="~/Content/Site.css" rel="stylesheet" />
+      <div class="main-div">
+<h2 class="h2-override">@ViewBag.Title</h2>
+
+<p>
+	@Html.ActionLink("Add user", "Register", "Account", new { profileMgmt = true },  new { @class = "btn btn-primary" })
+</p>
+<table class="table">
+	<tr>
+		<th>
+			@Html.DisplayNameFor(model => model.Forename)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.Surname)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.TimeOfRegistration)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.UserName)
+		</th>
+
+		<th></th>
+	</tr>
+
+	@foreach (var item in Model)
+	{
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.Forename)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Surname)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.TimeOfRegistration)
+			</td>
+			
+			<td>
+				@Html.DisplayFor(modelItem => item.UserName)
+			</td>
+			<td>
+      <span class="glyphicon glyphicon-pencil"> </span>
+				@Html.ActionLink("Edit User", "EditProfile", new { userName = item.UserName }) |
+         <span class="glyphicon glyphicon-user"> </span>
+				@Html.ActionLink("Show Profile", "ShowProfile", new { userName = item.UserName }) |
+				@if (User.Identity.Name != item.UserName)
+				{
+					/*
+					@Html.ActionLink("Remove User", "Delete", new { id = item.Id })
+					  */
+				}
+
+			</td>
+		</tr>
+	}
+
+</table>
+</div>

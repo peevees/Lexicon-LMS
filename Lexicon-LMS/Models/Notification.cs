@@ -12,11 +12,15 @@ namespace Lexicon_LMS.Models
         [Required]
         public string Subject { get; set; }
         public string Body { get; set; }
+        public virtual List<ApplicationUser> Recipients { get; set; }
         [Required]
-        public IEnumerable<ApplicationUser> Recipients { get; set; }
-        [Required]
-        public ApplicationUser Sender { get; set; }
+        public string RecipientID { get; set; }
+        public virtual ApplicationUser Sender { get; set; }
         public Document Attachment { get; set; }
+
+        [DataType(DataType.Date)]
+        public DateTime DateSent { get; set; }
+
         public bool Read { get; set; } = false;
     }
 
