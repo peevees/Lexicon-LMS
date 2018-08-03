@@ -1,25 +1,14 @@
 ﻿@model Lexicon_LMS.Models.IndexViewModel
-
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/bootstrap")
-
 @using Microsoft.AspNet.Identity;
 @using Microsoft.AspNet.Identity.Owin;
 @using Lexicon_LMS.Models;
-
-
 @{
-
 	ApplicationUser user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(User.Identity.GetUserId());
-
 }
-
-
-
-
 <link href="~/Content/icecreamstyle.css" rel="stylesheet" />
 <link href="~/Content/Site.css" rel="stylesheet" />
-
 <div class="main-div">
 	<p class="text-success">@ViewBag.StatusMessage</p>
 	<h2 class="h2-override">Manage your account</h2>
@@ -33,7 +22,6 @@
 			<a class="nav-link" id="inbox-tab" data-toggle="tab" href="#inbox" role="tab" aria-controls="inbox" aria-selected="false">Inbox</a>
 		</li>
 	</ul>
-
 	<div class="tab-content" id="myTabContent">
 		<div class="tab-pane fade active in" id="profile" role="tabpanel" aria-labelledby="profile-tab">
 
@@ -48,7 +36,6 @@
 			<dl class="dl-horizontal">
 				<dt>E-mail</dt>
 				<dd>@User.Identity.Name</dd>
-
 				<dt>Account type</dt>
 				<dd>
 					@if (User.IsInRole("Teacher"))
@@ -74,7 +61,6 @@
 				{
 					<dd>No phone number registered</dd>
 				}
-
 				<dt>Address</dt>
 				@if (user.Street == null && user.Postcode == null && user.City == null)
 				{
@@ -102,10 +88,7 @@
 				<span class="glyphicon glyphicon-pencil"> </span>
 				@Html.ActionLink("Edit Personal Info", "EditProfile", null, new { @class = "btn btn-default" })
 			</p>
-
-
 		</div>
-
 		<div class="tab-pane fade" id="inbox" role="tabpanel" aria-labelledby="inbox-tab" style="padding: 10px">
 			<br />
 			@{Html.RenderAction("InboxContainer", "Notifications", new { p = 1 });}
@@ -119,7 +102,6 @@
 			var string = reg.exec(href);
 			return string ? string[1] : 1;
 		};
-
 		$(document).ready(function () {
 
 			if (getQueryString('tab') == "inbox") {
