@@ -1,8 +1,11 @@
 ﻿@model Lexicon_LMS.Models.Activity
+@using Lexicon_LMS.Models;
 
 
 @{
-	ViewBag.Title = "Create Activity";
+	ViewBag.Title = "Create";
+    ApplicationDbContext db = new ApplicationDbContext();
+    var module = db.Modules.Find(Model.ModuleID);
 }
 
 <link href="~/Content/icecreamstyle.css" rel="stylesheet" />
@@ -17,51 +20,57 @@
 		<div class="form-horizontal">
 			<hr />
 
-			@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-			<div class="form-group">
-				@Html.Label("Module", htmlAttributes: new { @class = "control-label col-md-2" })
-				<div class="col-md-10">
-					<span>@ViewBag.ModuleLabel</span>
-				</div>
-			</div>
+        <div class="form-group">
+            @Html.Label("Module", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <span>@ViewBag.ModuleLabel</span>
+            </div>
+        </div>
 
-			<div class="form-group">
-				@Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-				<div class="col-md-10">
-					@Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-					@Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-				</div>
-			</div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
-			<div class="form-group">
-				@Html.LabelFor(model => model.Deadline, htmlAttributes: new { @class = "control-label col-md-2" })
-				<div class="col-md-10">
-					@Html.EditorFor(model => model.Deadline, new { htmlAttributes = new { @class = "form-control", type = "date" } })
-					@Html.ValidationMessageFor(model => model.Deadline, "", new { @class = "text-danger" })
-				</div>
-			</div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Deadline, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Deadline, new { htmlAttributes = new { @class = "form-control", type = "date" } })
+                @Html.ValidationMessageFor(model => model.Deadline, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
-			<div class="form-group">
-				<div class="col-md-10">
-					@Html.HiddenFor(model => model.ModuleID, htmlAttributes: new { value = Html.ValueFor(model => model.Module.ID), id = "ModuleID", @class = "form-control" })
-					@Html.ValidationMessageFor(model => model.ModuleID, "", new { @class = "text-danger" })
-				</div>
-			</div>
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.HiddenFor(model => model.ModuleID, htmlAttributes: new { value = Html.ValueFor(model => model.Module.ID), id = "ModuleID", @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ModuleID, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
-			<div class="form-group">
-				@Html.LabelFor(model => model.Documents, htmlAttributes: new { @class = "control-label col-md-2" })
-				<div class="col-md-10">
-					<input type="file" id="file" name="upload" />
-				</div>
-			</div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Documents, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="file" id="file" name="upload" />
+            </div>
+        </div>
 
+        <div class="form-group">
+            <label class="col-md-2 control-label">Notify course participants</label>
+            <div class="col-md-10">
+                <input type="checkbox" id="notify" name="notify" value="@Request["teacher"]" />
+            </div>
+        </div>
 
 			<div class="form-group">
 				<div class="col-md-offset-2 col-md-10">
 					<input type="submit" value="Create" class="btn btn-success" />
 					<span> | </span>
-					@Html.ActionLink("Cancel", "Details", "Courses", new { id = Model.Module.Course.ID }, new { @class = "btn btn-danger" })
+					@Html.ActionLink("Cancel", "Details", "Courses", new { id = module.Course.ID }, new { @class = "btn btn-danger" })
 				</div>
 
 			</div>
@@ -71,5 +80,5 @@
 </div>
 
 @section Scripts {
-	@Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryval")
 }

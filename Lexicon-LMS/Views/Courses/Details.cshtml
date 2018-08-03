@@ -1,12 +1,23 @@
 ﻿@model Lexicon_LMS.Models.Course
 @using Lexicon_LMS.Models;
 
-@{ViewBag.CourseCode = Model.CourseCode;}
+@{
+    ViewBag.CourseCode = Model.CourseCode;
+
+}
 
 <link href="~/Content/icecreamstyle.css" rel="stylesheet" />
 <link href="~/Content/Site.css" rel="stylesheet" />
 @Scripts.Render("~/Scripts/jquery-3.3.1.min.js")
 @Scripts.Render("~/Scripts/bootstrap.min.js")
+
+    $(document).ready(function () {
+        if (getQueryString('tab') == "coursemembers") {
+            $('#members-tab').click();
+        }
+    });
+
+</script>
 
 <p class="text-success">@ViewBag.StatusMessage</p>
 <div class="main-div">
