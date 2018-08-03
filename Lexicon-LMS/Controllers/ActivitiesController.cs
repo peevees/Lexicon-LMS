@@ -53,7 +53,7 @@ namespace Lexicon_LMS.Controllers
         }
 
         // POST: Activities/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -109,7 +109,7 @@ namespace Lexicon_LMS.Controllers
                 targetModule.ModuleActivities.Add(activity);
                 db.Activities.Add(activity);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Courses", new { id = targetModule.Course.ID });
             }
 
             //ViewBag.CourseCode = new SelectList(db.Courses, "ID", "CourseCode", module.CourseCode);
@@ -174,7 +174,7 @@ namespace Lexicon_LMS.Controllers
         }
 
         // POST: Activities/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]

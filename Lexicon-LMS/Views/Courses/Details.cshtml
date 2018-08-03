@@ -138,7 +138,7 @@
         </div>
 
 		<div class="tab-pane fade" id="modules" role="tabpanel" aria-labelledby="modules-tab">
-			@Html.Partial("_ModulesList", Model.CourseModules)
+			@Html.Partial("_ModulesList", Model.CourseModules, new ViewDataDictionary(ViewData){ { "courseID", Model.ID } })
 		</div>
 
         <div class="tab-pane fade" id="coursemembers" role="tabpanel" aria-labelledby="coursemembers-tab">

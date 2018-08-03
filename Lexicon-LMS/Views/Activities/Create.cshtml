@@ -8,19 +8,17 @@
     var module = db.Modules.Find(Model.ModuleID);
 }
 
+<link href="~/Content/icecreamstyle.css" rel="stylesheet" />
+<link href="~/Content/token-input.css" rel="stylesheet" />
 
 <div class="main-div">
+	<h2>@ViewBag.Title</h2>
+	@using (Html.BeginForm("Create", "Activities", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+	{
+		@Html.AntiForgeryToken()
 
-    <h2>Create</h2>
-
-
-    @using (Html.BeginForm("Create", "Activities", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
-    {
-        @Html.AntiForgeryToken()
-
-    <div class="form-horizontal">
-        <h4>Activity</h4>
-        <hr />
+		<div class="form-horizontal">
+			<hr />
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
@@ -68,20 +66,17 @@
             </div>
         </div>
 
+			<div class="form-group">
+				<div class="col-md-offset-2 col-md-10">
+					<input type="submit" value="Create" class="btn btn-success" />
+					<span> | </span>
+					@Html.ActionLink("Cancel", "Details", "Courses", new { id = Model.Module.Course.ID }, new { @class = "btn btn-danger" })
+				</div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
+			</div>
 
-    </div>
-    }
-
-    <div>
-        @Html.ActionLink("Back to Course", "Details", "Courses", new { id = module.Course.ID }, null)
-    </div>
-
+		</div>
+	}
 </div>
 
 @section Scripts {
