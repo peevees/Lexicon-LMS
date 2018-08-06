@@ -1,15 +1,47 @@
 ﻿@model Lexicon_LMS.Models.Notification
 @using Microsoft.AspNet.Identity;
 
-<script>
-    var url = '@Url.Action("InboxContainer", "Notifications")';
 
+@{ 
+
+
+    string source = Model.Body;
+    String[] stringSeparators = new string[] { ">>>" };
+    string[] result = null;
+    string populateReply = "On " + Model.DateSent + " " + Model.Sender.FullName + " wrote:" + Environment.NewLine + "\"" + Model.Body + "\"" + Environment.NewLine + ">>>" + Environment.NewLine;
+
+    if (Model.Body.Contains(">>>"))
+    {
+        result = source.Split(stringSeparators, StringSplitOptions.None);
+        populateReply = "";
+
+        for (int i = 0; i < result.Length-1; i++)
+        {
+            populateReply += result[i] + ">>>";
+        }
+
+        populateReply += "On " + Model.DateSent + " " + Model.Sender.FullName + " wrote:" + Environment.NewLine + "\"" + result.Last() + "\"" + Environment.NewLine + ">>>";
+
+    }
+
+
+}
+
+<script>
+    var url = "@Url.Action("InboxContainer", "Notifications")";
 </script>
 
 <div>
     <h4>Notification</h4>
     <hr />
-    <dl>
+    <dl class="dl-horizontal" 
+        style="
+            width: 50%;
+            margin: auto;
+            outline: 1px solid;
+            padding: 20px;
+            "
+        >
         <dt>From:</dt>
         <dd>
             @Html.ActionLink(Model.Sender.FullName, "UserProfile", new { Controller = "Manage", action = "UserProfile", id = Model.Sender.Id })
@@ -27,12 +59,26 @@
             @Html.DisplayFor(model => model.Subject)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Body)
-        </dt>
+        <dd style=" margin: auto;
+                    padding: 10px 0px 0px;
+                    margin: 10px;
+                    border-top: 1px solid;
+                    min-height: 200px;  
+                    
+                    ">
+           @if (result != null)
+           {
+               for (int i = 0; i < result.Length-1; i++)
+               {
+                   <p style="color:lightgray">@result[i]</p>
+               }
+               <p>@result.Last()</p>
+           }
+           else
+           {
+               <p>@Model.Body</p>
+           }
 
-        <dd>
-            @Html.DisplayFor(model => model.Body)
         </dd>
 
     </dl>
@@ -42,6 +88,6 @@
     action = "Create",
     uid = Model.Sender.Id,
     subject = "re: " + Model.Subject,
-    body ="On "+Model.DateSent+" "+Model.Sender.FullName+" wrote:" + Environment.NewLine + ">"+ Model.Body + Environment.NewLine + ">>>" + Environment.NewLine}) |
+    body = populateReply}) |
     <a href="#&p=@TempData["page"]" onclick="$('#inbox').load(url),{page : @TempData["page"] }">Back to Inbox</a>
 </p>
