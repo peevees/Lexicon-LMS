@@ -55,7 +55,7 @@
         <div class="form-group">
             @Html.LabelFor(m => m.PhoneNumber, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
-                @Html.EditorFor(m => m.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(m => m.PhoneNumber, new { htmlAttributes = new { @class = "form-control" , type = "tel"} })
             </div>
         </div>
 

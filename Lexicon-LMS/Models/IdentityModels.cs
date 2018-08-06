@@ -26,15 +26,17 @@ namespace Lexicon_LMS.Models
         [Display(Name = "Registered since")]
         public DateTime TimeOfRegistration { get; set; }
 
-        [Display(Name = "User course code")]
+        [Display(Name = "User course")]
         public virtual Course UserCourse { get; set; }
 
         public string UserCourseCode { get; set; }
 
         public string Street { get; set; }
-        public string Postcode { get; set; }
+        public string Postcode { get; set; }//regex example: ([0-9]){3} ([0-9]){2} (can be simplified?)
         public string City { get; set; }
 
+        [DataType(DataType.PhoneNumber)]
+        [DisplayFormat(DataFormatString = "{###-### ## ##}", ApplyFormatInEditMode = true)]//regex example: ([0-9]){3}-([0-9]){3} ([0-9]){2} ([0-9]){2}  (can be simplified?)
         [Display(Name = "Phone number")]
         public override string PhoneNumber { get; set; }
 
