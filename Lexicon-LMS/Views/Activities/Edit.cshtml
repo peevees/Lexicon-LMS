@@ -1,10 +1,13 @@
 ﻿@model Lexicon_LMS.Models.Activity
 
 @{
-	ViewBag.Title = "Edit";
+	ViewBag.Title = "Edit Activity";
 }
+<link href="~/Content/icecreamstyle.css" rel="stylesheet" />
+<link href="~/Content/Site.css" rel="stylesheet" />
 
-<h2>Edit</h2>
+<div class="main-div">
+<h2 class="h2-override">@ViewBag.Title</h2>
 
 
 @using (Html.BeginForm())
@@ -12,7 +15,6 @@
 	@Html.AntiForgeryToken()
 
 	<div class="form-horizontal">
-		<h4>Activity</h4>
 		<hr />
 		@Html.ValidationSummary(true, "", new { @class = "text-danger" })
 		@Html.HiddenFor(model => model.ID)
@@ -41,9 +43,12 @@
 		</div>
 	</div>
 }
-
-<div>
-	@Html.ActionLink("Back to Course", "Details", "Courses", new { id = Model.Module.Course.ID }, null)
+      <div class="h2-override">
+        <a href="@Url.Action("Details", "Activities", new { id = Model.Module.Course.ID })" class="btn btn-default">
+            <span class="glyphicon glyphicon-arrow-left " aria-hidden="true"></span>
+            Back to Activity
+        </a>
+      </div>
 </div>
 
 @section Scripts {
