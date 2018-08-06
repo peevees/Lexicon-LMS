@@ -54,8 +54,8 @@
                                     <a href="@Url.Action("Index", "Manage")?tab=inbox">
                                         <span class="glyphicon glyphicon-envelope"></span>
                                         Inbox
-                                        @*@if (unreadMessages > 0)
-                                        {<span class="badge">@unreadMessages</span>}*@
+                                        @if (unreadMessages > 0)
+                                        {<span class="badge">@unreadMessages</span>}
                                     </a>
                                 </li>
                                 @if (User.IsInRole("Teacher"))
