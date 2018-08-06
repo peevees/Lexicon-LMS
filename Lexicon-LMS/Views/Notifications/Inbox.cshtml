@@ -27,6 +27,7 @@
 
     @foreach (var item in Model.Skip(0))
     {
+   
         <tr >
             <td>
                 @if (!item.Read) { <span class="badge badge-success">New!</span>}
@@ -39,7 +40,35 @@
             </td>
             <td></td>
             <td>
-                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#@item.ID"
+                        data-whatever="@item.ID">
+                    <span class="glyphicon glyphicon-remove"></span> Delete
+                </button>
+
+                <div class="modal fade" id="@item.ID" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog modal-sm" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel">Confirm Delete</h4>
+                            </div>
+                            <div class="modal-body">
+                                Are you sure you want to delete: <span><b>@item.Subject</b></span>?
+                            </div>
+                            <div class="modal-footer">
+
+                                @using (Html.BeginForm("Delete", null, new { id = item.ID }, FormMethod.Post, null))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                    <input type="submit" value="Delete" class="btn btn-danger" />
+                                }
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </td>
         </tr>
     }
