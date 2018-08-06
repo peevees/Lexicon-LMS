@@ -14,7 +14,11 @@ namespace Lexicon_LMS.Migrations
         #region Variables
         private DateTime startDate = new DateTime(1990, 01, 01);
         private Random Rnd = new Random();
+
         //UNDONE: Add all properties that a user shall have by default
+        private List<ApplicationUser> Teachers = new List<ApplicationUser>();
+        private List<ApplicationUser> Students = new List<ApplicationUser>();
+
         private struct Users
         {
             public string Email { get; set; }
@@ -81,6 +85,75 @@ namespace Lexicon_LMS.Migrations
 
 
             //REMINDER: Add Users here
+            Teachers.AddRange(new List<ApplicationUser>
+            {
+                new ApplicationUser
+                {
+                    Email = "Teacher@shit.se",
+                    Forename = "Mr. ",
+                    Surname = "Teacher",
+                    TimeOfRegistration = new DateTime(1990, 01, 01),
+                    Street = "SomeStreetName 0",
+                    Postcode = "00000",
+                    City = "SomeCityName"
+                },
+                new ApplicationUser
+                {
+                    Email = "John.Doe@shit.se",
+                    Forename = "John",
+                    Surname = "Doe",
+                    TimeOfRegistration = GetRandomDate(),
+                    Street = "Primrose Lane 2",
+                    Postcode = GetRandomNumber().ToString(),
+                    City = "Lillsand"
+                },
+                new ApplicationUser
+                {
+                    Email = "Jane.Doe@shit.se",
+                    Forename = "Jane",
+                    Surname = "Doe",
+                    TimeOfRegistration = GetRandomDate(),
+                    Street = "Jackson Avenue 3",
+                    Postcode = GetRandomNumber().ToString(),
+                    City = "Sickla"
+                }
+
+            });
+
+            Students.AddRange(new List<ApplicationUser>
+            {
+                new ApplicationUser
+                {
+                    Email = "student@shit.se",
+                    Forename = "Mr. ",
+                    Surname = "Student",
+                    TimeOfRegistration = new DateTime(),
+                    Street = "SomeStreetName 0",
+                    Postcode = "00000",
+                    City = "SomeCityName"
+                },
+                new ApplicationUser
+                {
+                    Email = "Johnny.Roe@shit.se",
+                    Forename = "Johnny",
+                    Surname = "Roe",
+                    TimeOfRegistration = GetRandomDate(),
+                    Street = "Howard Street 1",
+                    Postcode = GetRandomNumber().ToString(),
+                    City = "Nocketorp"
+                },
+                new ApplicationUser
+                {
+                    Email = "Janie.Roe@shit.se",
+                    Forename = "Janie",
+                    Surname = "Roe",
+                    TimeOfRegistration = GetRandomDate(),
+                    Street = "Roberts Road 1",
+                    Postcode = GetRandomNumber().ToString(),
+                    City = "Medvik"
+                }
+            });
+
             var usersToAdd = new[]
             {
                 #region Teachers
@@ -213,7 +286,7 @@ namespace Lexicon_LMS.Migrations
             var roleNames = new[] { "Teacher" };//REMINDER: add roles here!
             var users = new[] { "teacher@shit.se", "student@shit.se", "student2@shit.se", "teacher2@shit.se", "teacher3@shit.se", "student3@shit.se" };//REMINDER: add users here!
             AddRoles(context, roleNames);
-            AddUsers(context, usersToAdd);
+            //AddUsers(context, users);
             AddCourse(context, coursesToAdd, usersToAdd);
         }
 
@@ -355,10 +428,10 @@ namespace Lexicon_LMS.Migrations
             var userStore = new UserStore<ApplicationUser>(db);
             var userManager = new UserManager<ApplicationUser>(userStore);
 
-            foreach (var user in usersToCreate)
+            foreach (var Teacher in Teachers)
             {
                 #region check existing users
-                if (db.Users.Any(u => u.UserName == user.Username))
+                if (db.Users.Any(u => u.UserName == Teacher.UserName))
                 {
                     if (db.Users.Any(u => u.EmailConfirmed == false))
                     {
@@ -373,33 +446,37 @@ namespace Lexicon_LMS.Migrations
                 }
                 #endregion
 
-                var createdUser = new ApplicationUser { Forename = user.Forename, Surname = user.Surname, UserName = user.Username, Email = user.Email, TimeOfRegistration = user.TimeofRegistration, City = user.City, Street = user.Street, Postcode = user.Postcode };
+                //var createdUser = new ApplicationUser { Forename = Teacher.Forename, Surname = Teacher.Surname, UserName = Teacher.Username, Email = Teacher.Email, TimeOfRegistration = Teacher.TimeofRegistration, City = Teacher.City, Street = Teacher.Street, Postcode = Teacher.Postcode };
+                //var user = new ApplicationUser { Forename = "Mr", Surname = "JohnDoe", UserName = userEmail, Email = userEmail, TimeOfRegistration = new DateTime(2000, 01, 01, 00, 00, 00) };
+                CreateUser(db, userManager, Teacher);
+                userManager.AddToRole(Teacher.Id, "Teacher");
+            }
+            foreach (var Student in Students)
+            {
+                CreateUser(db, userManager, Student);
+            }
+        }
+        private void CreateUser(ApplicationDbContext db, UserManager<ApplicationUser> userManager, ApplicationUser user)
+        {
+            var password = user.Forename +  user.Surname;
 
-                var result = userManager.Create(createdUser, user.Password);
-                if (!result.Succeeded)
-                {
-                    throw new Exception(string.Join("/n", result.Errors));
-                }
-
-                db.SaveChanges();
-                SetConfirmEmailForSeedUsers(userManager, createdUser);
-
-                if (!user.IsStudent)
-                {
-                    userManager.AddToRole(createdUser.Id, "Teacher");
-                }
+            var result = userManager.Create(user, password);
+            if (!result.Succeeded)
+            {
+                throw new Exception(string.Join("/n", result.Errors));
             }
 
-            //give Teacher user seed it's teacher role
-            var teacherUser = userManager.FindByName(usersEmail[0]);
-            var teacherUser2 = userManager.FindByName(usersEmail[3]);
-            var teacherUser3 = userManager.FindByName(usersEmail[4]);
-            userManager.AddToRole(teacherUser.Id, "Teacher");
-            userManager.AddToRole(teacherUser2.Id, "Teacher");
-            userManager.AddToRole(teacherUser3.Id, "Teacher");
-
+            db.SaveChanges();
+            SetConfirmEmailForSeedUsers(userManager, user);
         }
 
+        //give Teacher user seed it's teacher role
+        //var teacherUser = userManager.FindByName(usersEmail[0]);
+        //var teacherUser2 = userManager.FindByName(usersEmail[3]);
+        //var teacherUser3 = userManager.FindByName(usersEmail[4]);
+        //userManager.AddToRole(teacherUser.Id, "Teacher");
+            //userManager.AddToRole(teacherUser2.Id, "Teacher");
+            //userManager.AddToRole(teacherUser3.Id, "Teacher");
 
 
         private void AddCourse(ApplicationDbContext context, Courses[] coursesToCreate, Users[] users)
