@@ -259,6 +259,10 @@
     <Compile Include="Migrations\201808021128145_add-format-and-date-type.Designer.cs">
       <DependentUpon>201808021128145_add-format-and-date-type.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201808060921109_addModuleTitle.cs" />
+    <Compile Include="Migrations\201808060921109_addModuleTitle.Designer.cs">
+      <DependentUpon>201808060921109_addModuleTitle.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Controllers\FileHandler.cs" />
     <Compile Include="ViewModel\AccountViewModels.cs" />
@@ -444,6 +448,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201808021128145_add-format-and-date-type.resx">
       <DependentUpon>201808021128145_add-format-and-date-type.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808060921109_addModuleTitle.resx">
+      <DependentUpon>201808060921109_addModuleTitle.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
