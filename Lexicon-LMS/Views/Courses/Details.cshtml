@@ -6,8 +6,9 @@
 }
 <link href="~/Content/icecreamstyle.css" rel="stylesheet" />
 <link href="~/Content/Site.css" rel="stylesheet" />
-@Scripts.Render("~/Scripts/jquery-3.3.1.min.js")
-@Scripts.Render("~/Scripts/bootstrap.min.js")
+@*jquery and the dropdown doesn't not work together*@
+@*@Scripts.Render("~/Scripts/jquery-3.3.1.min.js")
+@Scripts.Render("~/Scripts/bootstrap.min.js")*@
 <script>
     $(document).ready(function () {
         if (getQueryString('tab') == "coursemembers") {
@@ -127,4 +128,4 @@
         </div>
     </div>
 </div>
-@Scripts.Render("~/Scripts/activetab.js")
+@*@Scripts.Render("~/Scripts/activetab.js")*@
