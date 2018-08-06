@@ -12,6 +12,13 @@ namespace Lexicon_LMS.Models
         public int ID { get; set; }
 
         [Required]
+        [Display(Name = "Module title")]
+        public string ModuleTitle { get; set; }
+
+        [Display(Name = "Module description")]
+        public string Description { get; set; }
+
+        [Required]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Display(Name = "Start date")]
@@ -22,9 +29,6 @@ namespace Lexicon_LMS.Models
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Display(Name = "End date")]
         public DateTime EndDate { get; set; }
-
-        [Display(Name = "Module description")]
-        public string Description { get; set; }
 
         [Display(Name = "Module activities")]
         public virtual ICollection<Activity> ModuleActivities { get; set; }
