@@ -1,0 +1,16 @@
+﻿@model Lexicon_LMS.Models.Module
+@using Lexicon_LMS.Models;
+@{ var myModal = "myModal" + Model.ID; }
+
+<div>
+    <p>
+    @Html.DisplayFor(modelItem => Model.Description)
+    </p>
+</div>
+
+<div>
+    @foreach (Document document in Model.Documents)
+    {
+        @Html.ActionLink("Download: " + document.DisplayName, "Download", new { filePath = document.Filepath, fileName = document.FileName })
+    }
+</div>

@@ -167,6 +167,13 @@ namespace Lexicon_LMS.Migrations
             CourseStudent.UserCourse = seededCourse;
             CourseStudent.UserCourseCode = seededCourse.CourseCode;
 
+            CourseStudent2.UserCourse = seededCourse;
+            CourseStudent2.UserCourseCode = seededCourse.CourseCode;
+
+            CourseStudent3.UserCourse = seededCoursejava;
+            CourseStudent3.UserCourseCode = seededCoursejava.CourseCode;
+
+
             CourseTeacher.UserCourse = seededCourse;
             CourseTeacher.UserCourseCode = seededCourse.CourseCode;
 
