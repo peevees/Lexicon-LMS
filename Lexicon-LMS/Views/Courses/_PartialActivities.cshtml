@@ -2,59 +2,54 @@
 @using Lexicon_LMS.Models;
 @{ var myModal = "myModal" + Model.ID; }
 
+<link href="~/Content/collapsestyle.css" rel="stylesheet" />
+
+<div>
+    <p>
+        @if (User.IsInRole("Teacher"))
+        {
+            @Html.ActionLink("Add Activity", "Create", new { Controller = "Activities", action = "Create", id = Model.ID }, new { @class = "btn btn-primary" })
+        }
+    </p>
+</div>
+
 <b>@Html.DisplayNameFor(model => model.ModuleActivities):</b>
 
 @foreach (var activity in Model.ModuleActivities)
 {
-    <div>
-        <div>
+        <p>
             @Html.ActionLink(activity.Name, "Details", new { Controller = "Activities", action = "Details", id = activity.ID })
 
             @if (User.IsInRole("Teacher"))
             {
-                <ul>
-                    <li class="btn-group nav" style="color: #e2e1e1; float:right;">
-                        <button type="button" class="btn navbar-btn dropdown-toggle" data-toggle="dropdown">
-                            <span class="glyphicon glyphicon-chevron-down"></span>
-                            <span style="color: #996600"> | </span>
-                            <span class="caret"></span>
+        
+                        <button type="button" class="btn btn-danger btn-sm far-right" data-toggle="modal" data-target="#@myModal"
+                                data-whatever="@Model.ID">
+                            <span class="glyphicon glyphicon-remove"></span> Delete
                         </button>
-                        <ul class="dropdown-menu" role="menu">
-                            <li>
-                                <a href="@Url.Action("Edit", "Activity", new { id = Model.ID })"><span class="glyphicon glyphicon-pencil"></span>Edit</a>
-                            </li>
-                            <li>
-                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#@myModal"
-                                        data-whatever="@Model.ID">
-                                    <span class="glyphicon glyphicon-remove"></span> Delete
-                                </button>
-                                <div class="modal fade" id="@myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                                    <div class="modal-dialog modal-sm" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                <h4 class="modal-title" id="myModalLabel">Confirm Delete</h4>
-                                            </div>
-                                            <div class="modal-body">
-                                                Are you sure you want to delete: <span><b>@Model.Documents</b></span>?
-                                            </div>
-                                            <div class="modal-footer">
+                        <div class="modal fade" id="@myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog modal-sm" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" id="myModalLabel">Confirm Delete</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        Are you sure you want to delete: <span><b>@activity.Name</b></span>?
+                                    </div>
+                                    <div class="modal-footer">
 
-                                                @using (Html.BeginForm("Delete", "Documents", new { id = Model.ID }, FormMethod.Post, null))
-                                                {
-                                                    @Html.AntiForgeryToken()
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                                    <input type="submit" value="Delete" class="btn btn-danger" />
-                                                }
-                                            </div>
-                                        </div>
+                                        @using (Html.BeginForm("Delete", "Activities", new { id = Model.ID }, FormMethod.Post, null))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                            <input type="submit" value="Delete" class="btn btn-danger" />
+                                        }
                                     </div>
                                 </div>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
+                            </div>
+                        </div>
+                        <hr>
             }
-        </div>
-    </div>
+        </p>
 }
