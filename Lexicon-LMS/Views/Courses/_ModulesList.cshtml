@@ -18,9 +18,6 @@
 		<th class="content">
 			@Html.DisplayNameFor(model => model.ModuleTitle)
 		</th>
-		<th >
-			@Html.DisplayNameFor(model => model.Description)
-		</th>
 		<th>
 			@Html.DisplayNameFor(model => model.StartDate)
 		</th>
@@ -40,13 +37,13 @@
 		<td >
 			@Html.DisplayFor(modelItem => item.Description)
 		</td>
-		<td>
-			@Html.DisplayFor(modelItem => item.StartDate)
-		</td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StartDate)
+        </td>
 		<td>
 			@Html.DisplayFor(modelItem => item.EndDate)
 		</td>
-		<td>
+		<td >
 			<span class="glyphicon glyphicon-circle-arrow-down"></span>
 		</td>
 		<td>
@@ -85,30 +82,36 @@
 			}
 		</td>
 	</tr>
-		<tr class="collapse">
-			<th class="content" style="border-top:none; border-bottom:none;">
-				<div>
-					<p>module partial view here</p>
-				</div>
-				<div>
-					<p>activities partial view here</p>
-					<p>
-						@if (User.IsInRole("Teacher"))
-						{
-							@Html.ActionLink("Add Activity", "Create", new { Controller = "Activities", action = "Create", id = item.ID }, new { @class = "btn btn-primary" })
-						}
-					</p>
-					@Html.DisplayNameFor(model => model.ModuleActivities):
-					@foreach (var activity in item.ModuleActivities)
-					{
-						<p style="border-top:none;">
-							@Html.ActionLink(activity.Name, "Details", new { Controller = "Activities", action = "Details", id = activity.ID })
-						</p>
-					}
-				</div>
+		<tr class="collapse" style="width:auto;">
+			<th class="content2" >
+
+                    <div class="col-lg-6">
+                        @Html.Partial("_ModuleContent", item)
+                    </div>
+                   <div class="content">
+
+                   </div>
+                    <div class="col-lg-6">
+                        <p>
+                            @if (User.IsInRole("Teacher"))
+                            {
+                                @Html.ActionLink("Add Activity", "Create", new { Controller = "Activities", action = "Create", id = item.ID }, new { @class = "btn btn-primary" })
+                            }
+                        </p>
+                        @Html.Partial("_PartialActivities", item)
+                        @Html.DisplayNameFor(model => model.ModuleActivities):
+                        @foreach (var activity in item.ModuleActivities)
+                        {
+                            <p style="border-top:none;">
+                                @Html.ActionLink(activity.Name, "Details", new { Controller = "Activities", action = "Details", id = activity.ID })
+                            </p>
+                        }
+                    </div>
 			</th>
 		</tr>
 	}
 </table>
+
+
 @Scripts.Render("~/Scripts/collapse.js")
 @Scripts.Render("~/Scripts/mouseover.js")

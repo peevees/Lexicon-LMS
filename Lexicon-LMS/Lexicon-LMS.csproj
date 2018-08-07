@@ -401,6 +401,8 @@
     <Content Include="Views\Notifications\InboxMsg.cshtml" />
     <Content Include="Views\Notifications\InboxContainer.cshtml" />
     <Content Include="Views\Manage\ListUsers.cshtml" />
+    <Content Include="Views\Courses\_ModuleContent.cshtml" />
+    <Content Include="Views\Courses\_PartialActivities.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
