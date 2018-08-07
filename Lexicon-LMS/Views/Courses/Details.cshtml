@@ -8,7 +8,8 @@
 <link href="~/Content/Site.css" rel="stylesheet" />
 @*jquery and the dropdown doesn't not work together*@
 @*@Scripts.Render("~/Scripts/jquery-3.3.1.min.js")
-@Scripts.Render("~/Scripts/bootstrap.min.js")*@
+    @Scripts.Render("~/Scripts/bootstrap.min.js")*@
+
 <script>
     $(document).ready(function () {
         if (getQueryString('tab') == "coursemembers") {
@@ -16,6 +17,7 @@
         }
     });
 </script>
+
 <p class="text-success">@ViewBag.StatusMessage</p>
 <div class="main-div">
     <h2 class="h2-override">@Html.DisplayFor(model => model.CourseName)</h2>
