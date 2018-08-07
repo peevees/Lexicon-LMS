@@ -25,7 +25,7 @@ namespace Lexicon_LMS.Controllers
 
         public ActionResult InboxContainer()
         {
-            return View();
+            return PartialView();
         }
 
         public ActionResult Inbox(int? page)

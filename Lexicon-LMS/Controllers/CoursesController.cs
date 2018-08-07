@@ -10,6 +10,7 @@ using System.Web.Security;
 using System.Web;
 using System.IO;
 using System.Reflection;
+using Microsoft.AspNet.Identity;
 
 namespace Lexicon_LMS.Controllers
 {
@@ -94,6 +95,38 @@ namespace Lexicon_LMS.Controllers
             }
 
             return View(course);
+        }
+
+        [Authorize]
+        public Document Upload(HttpPostedFileBase upload, int courseID)
+        {
+            Course targetCourse = db.Courses.Where(c => c.ID == courseID).FirstOrDefault();
+
+            var originalFilename = Path.GetFileName(upload.FileName);
+            var user = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
+            string fileId = Guid.NewGuid().ToString().Replace("-", "");
+            var fileName = user.Forename + "_" + user.Surname + "_" + fileId + "_" + originalFilename;
+            var path = Path.Combine(Server.MapPath("~/Uploads/"), targetCourse.CourseName);
+
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+
+            var file = new Document
+            {
+                FileName = fileName,
+                DisplayName = originalFilename,
+                UploadDate = DateTime.Now,
+                CourseID = courseID,
+                Filepath = path,
+                User = db.Users.Find(User.Identity.GetUserId())
+            };
+
+            upload.SaveAs(Path.Combine(path, fileName));
+            targetCourse.Documents.Add(file);
+
+            return (file);
         }
 
         [Authorize]
@@ -261,5 +294,50 @@ namespace Lexicon_LMS.Controllers
             base.Dispose(disposing);
         }
 
+        public ActionResult UploadCourseDoc(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Course course = db.Courses.Find(id);
+
+            if (course == null)
+            {
+                return HttpNotFound();
+            }
+            return PartialView(course);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UploadCourseDoc([Bind(Include = "ID")] Course course, HttpPostedFileBase upload)
+        {
+            if (upload != null && upload.ContentLength > 0)
+            {
+
+                Upload(upload, course.ID);
+                
+                db.SaveChanges();
+                ViewBag.UploadStatus = "File uploaded successfully.";
+                return RedirectToAction("Details", new { id = course.ID });
+            }
+            ModelState.AddModelError("", "No file uploaded");
+            return RedirectToAction("Details", new { id = course.ID });
+        }
+
+        public ActionResult DeleteDoc(int id)
+        {
+            Document doc = db.Documents.Find(id);
+            var tgtCourse = db.Courses.Find(doc.CourseID);
+            string fullPath = doc.Filepath + "/"+doc.FileName;
+
+            tgtCourse.Documents.Remove(doc);
+            System.IO.File.Delete(fullPath);
+            db.Documents.Remove(doc);
+            db.SaveChanges();
+
+            return RedirectToAction("Details", new { id = tgtCourse.ID });
+        }
     }
 }

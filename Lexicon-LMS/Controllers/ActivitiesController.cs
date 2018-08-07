@@ -69,26 +69,7 @@ namespace Lexicon_LMS.Controllers
 
                 if (upload != null && upload.ContentLength > 0)
                 {
-                    var originalFilename = Path.GetFileName(upload.FileName);
-                    var user = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
-
-                    string fileId = Guid.NewGuid().ToString().Replace("-", "");
-
-                    var fileName = user.Forename + "_" + user.Surname + "_" + fileId + "_" + originalFilename;
-
-                    var path = Path.Combine(Server.MapPath("~/Uploads"));
-                    var save = Path.Combine(Server.MapPath("~/Uploads"), fileName);
-                    upload.SaveAs(save);
-
-                    var file = new Document
-                    {
-                        FileName = fileName,
-                        DisplayName = originalFilename,
-                        UploadDate = DateTime.Now,
-                        ActivityID = activity.ID,
-                        Filepath = path,
-                        User = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault()
-                    };
+                    Document file = Upload(upload, activity.ID);
 
                     activity.Documents = new List<Document>();
                     activity.Documents.Add(file);
@@ -132,6 +113,39 @@ namespace Lexicon_LMS.Controllers
 
             //ViewBag.CourseCode = new SelectList(db.Courses, "ID", "CourseCode", module.CourseCode);
             return View(activity);
+        }
+
+        public Document Upload (HttpPostedFileBase upload, int activityID)
+        {
+            var originalFilename = Path.GetFileName(upload.FileName);
+            var user = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
+            var activity = db.Activities.Find(activityID);
+
+            string fileId = Guid.NewGuid().ToString().Replace("-", "");
+
+            var fileName = user.Forename + "_" + user.Surname + "_" + fileId + "_" + originalFilename;
+
+            var path = Path.Combine(Server.MapPath("~/Uploads"),activity.Module.Course.CourseName, activity.Module.ModuleTitle, activity.Name);
+            var save = Path.Combine(Server.MapPath("~/Uploads"), fileName);
+
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+
+            upload.SaveAs(save);
+
+            var file = new Document
+            {
+                FileName = fileName,
+                DisplayName = originalFilename,
+                UploadDate = DateTime.Now,
+                ActivityID = activityID,
+                Filepath = path,
+                User = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault()
+            };
+
+            return (file);
         }
 
         [Authorize]
@@ -228,43 +242,44 @@ namespace Lexicon_LMS.Controllers
         {
             if (upload != null && upload.ContentLength > 0)
             {
-                Type t = typeof(Assignment);
 
-                Module targetModule = db.Modules.Where(module => module.ID == assignment.ModuleID).FirstOrDefault();
                 Assignment targetAssignment = db.Activities.OfType<Assignment>().Where(a => a.ID == assignment.ID).FirstOrDefault();
 
-                var originalFilename = Path.GetFileName(upload.FileName);
-                var user = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
+                var file = Upload(upload, assignment.ID);
 
-                string fileId = Guid.NewGuid().ToString().Replace("-", "");
-
-                var fileName = user.Forename + "_" + user.Surname + "_" + fileId + "_" + originalFilename;
-
-                var path = Path.Combine(Server.MapPath("~/Uploads/"), targetModule.Course.CourseName, targetModule.ModuleTitle, assignment.Name);
-
-                if (!Directory.Exists(path))
-                {
-                    Directory.CreateDirectory(path);
-                    upload.SaveAs(Path.Combine(path, fileName));
-                }
-                
-
-                var file = new Document
-                {
-                    FileName = fileName,
-                    DisplayName = originalFilename,
-                    UploadDate = DateTime.Now,
-                    ActivityID = assignment.ID,
-                    Filepath = path,
-                    User = db.Users.Find(User.Identity.GetUserId()),
-                    UserAssignment = true
-                };
-
+                file.UserAssignment = true;
                 targetAssignment.Documents.Add(file);
                 db.SaveChanges();
                 return RedirectToAction("Details", new { id = assignment.ID });
             }
             return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        }
+
+        public ActionResult UploadActDoc(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Activity activity = db.Activities.Find(id);
+
+            if (activity == null)
+            {
+                return HttpNotFound();
+            }
+            return PartialView(activity);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UploadActDoc([Bind(Include = "ID")] Activity activity, HttpPostedFileBase upload)
+        {
+            var file = Upload(upload, activity.ID);
+            Activity targetActiviy = db.Activities.Find(activity.ID);
+
+            targetActiviy.Documents.Add(file);
+            db.SaveChanges();
+            return RedirectToAction("Details", new { activity.ID });
         }
 
         // GET: Activities/Delete/5
@@ -302,6 +317,20 @@ namespace Lexicon_LMS.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public ActionResult DeleteDoc(int id)
+        {
+            Document doc = db.Documents.Find(id);
+            var tgtActivity = db.Activities.Find(doc.ActivityID);
+            string fullPath = doc.Filepath + "/" + doc.FileName;
+
+            tgtActivity.Documents.Remove(doc);
+            System.IO.File.Delete(fullPath);
+            db.Documents.Remove(doc);
+            db.SaveChanges();
+
+            return RedirectToAction("Details", new { id = tgtActivity.ID });
         }
 
         public Notification NewActivityAlert(Activity activity, ApplicationUser user)
