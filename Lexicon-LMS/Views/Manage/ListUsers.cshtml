@@ -1,70 +1,76 @@
 ﻿@model IEnumerable<Lexicon_LMS.Models.ApplicationUser>
 
 @{
-	ViewBag.Title = "Users";
+    ViewBag.Title = "Users";
 }
 
 <link href="~/Content/icecreamstyle.css" rel="stylesheet" />
 <link href="~/Content/Site.css" rel="stylesheet" />
-      <div class="main-div">
-<h2 class="h2-override">@ViewBag.Title</h2>
+<div class="main-div">
+    <h2 class="h2-override">@ViewBag.Title</h2>
 
-<p>
-	@Html.ActionLink("Add user", "Register", "Account", new { profileMgmt = true },  new { @class = "btn btn-primary" })
-</p>
-<table class="table">
-	<tr>
-		<th>
-			@Html.DisplayNameFor(model => model.Forename)
-		</th>
-		<th>
-			@Html.DisplayNameFor(model => model.Surname)
-		</th>
-		<th>
-			@Html.DisplayNameFor(model => model.TimeOfRegistration)
-		</th>
-		<th>
-			@Html.DisplayNameFor(model => model.UserName)
-		</th>
+    <p>
+        @Html.ActionLink("Add user", "Register", "Account", new { profileMgmt = true }, new { @class = "btn btn-primary" })
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Forename)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Surname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TimeOfRegistration)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
 
-		<th></th>
-	</tr>
+            <th></th>
+        </tr>
 
-	@foreach (var item in Model)
-	{
-		<tr>
-			<td>
-				@Html.DisplayFor(modelItem => item.Forename)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.Surname)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.TimeOfRegistration)
-			</td>
-			
-			<td>
-				@Html.DisplayFor(modelItem => item.UserName)
-			</td>
-            <td>
-                <a href="@Url.Action("EditProfile", "Manage", new { UserName = item.UserName })" class="btn btn-default">
-                    <span class="glyphicon glyphicon-pencil " aria-hidden="true"></span>
-                    Edit
-                </a>
-                <a href="@Url.Action("ShowProfile", "Manage", new { UserName = item.UserName })" class="btn btn-default">
-                    <span class="glyphicon glyphicon-user " aria-hidden="true"></span>
-                    Show Profile
-                </a>
-                @if (User.Identity.Name != item.UserName)
-                {
-                    /*
-                    @Html.ActionLink("Remove User", "Delete", new { id = item.Id })
-                      */
-                }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Forename)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Surname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TimeOfRegistration)
+                </td>
 
-            </td>
-		</tr>
-	}
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
 
-</table>
+                    <a href="@Url.Action("ShowProfile", "Manage", new { UserName = item.UserName })" class="btn btn-default">
+                        <span class="glyphicon glyphicon-user " aria-hidden="true"></span>
+                        Show Profile
+                    </a>
+
+                    @if (User.Identity.Name == item.UserName || User.IsInRole("Teacher"))
+                    {
+                        <a href="@Url.Action("EditProfile", "Manage", new { UserName = item.UserName })" class="btn btn-default">
+                            <span class="glyphicon glyphicon-pencil " aria-hidden="true"></span>
+                            Edit
+                        </a>
+                    }
+
+                    @if (User.Identity.Name != item.UserName)
+                    {
+                        /*
+                        @Html.ActionLink("Remove User", "Delete", new { id = item.Id })
+                          */
+                    }
+
+                </td>
+            </tr>
+        }
+
+    </table>
 </div>
