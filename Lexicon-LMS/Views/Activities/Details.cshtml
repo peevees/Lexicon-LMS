@@ -2,7 +2,13 @@
 @using Lexicon_LMS.Models;
 
 @{
-	ViewBag.Title = " Activity Details";
+    ViewBag.Title = " Activity Details";
+    Type t = Model.GetType();
+    bool hasSubmitted = false;
+    if (Model.Documents.Where(d => d.User.UserName == User.Identity.Name && d.UserAssignment == true).FirstOrDefault() != null)
+    {
+        hasSubmitted = true;
+    }
 }
 <link href="~/Content/icecreamstyle.css" rel="stylesheet" />
 <link href="~/Content/Site.css" rel="stylesheet" />
@@ -29,13 +35,30 @@
 
 		<dt>@Html.DisplayNameFor(model => model.Documents)</dt>
 		<dd>
-			@foreach (Document document in Model.Documents)
+			@foreach (Document document in Model.Documents.Where(d=>d.UserAssignment == false))
 			{
 
 				@Html.ActionLink("Download: " + document.DisplayName, "Download", new { filePath = document.Filepath, fileName = document.FileName, saveName = document.DisplayName })
 
 			}
 		</dd>
+        @if(Model is Lexicon_LMS.Models.Assignment)
+        {
+            <dt>Submit assignment</dt>
+            if(Model.Deadline>=DateTime.Now)
+            {
+                if (hasSubmitted) { <dd>You have submitted this assignment</dd> }
+                else { 
+                    @*<dd>Submit your assignment @Html.ActionLink("here", "SubmitAssignment", new { id = Model.ID })</dd>*@
+                                    <dd>@Html.Partial("SubmitAssignment", Model)</dd>
+                }
+            }
+            else
+            {
+                if (hasSubmitted) { <dd>You have submitted this assignment</dd>}
+                else {  <dd>Deadline for this assignment has ended</dd>}
+            }
+        }
 
 	</dl>
 	<p>

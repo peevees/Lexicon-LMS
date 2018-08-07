@@ -1,0 +1,44 @@
+﻿@model Lexicon_LMS.Models.Assignment
+
+@{
+                /**/
+
+                ViewBag.Title = "SubmitAssignment";
+}
+
+<style>
+    .inputfile + #dl-label {
+        font-size: 1.25em;
+        font-weight: 700;
+        color: white;
+        background-color: black;
+        display: inline-block;
+    }
+
+        .inputfile:focus + #dl-label,
+        .inputfile + #dl-label:hover {
+            background-color: red;
+        }
+</style>
+
+@using (Html.BeginForm("SubmitAssignment", "Activities", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @Html.HiddenFor(model => model.ID)
+        @Html.HiddenFor(model=>model.ModuleID)
+        @Html.HiddenFor(model => model.Name)
+        @Html.HiddenFor(model => model.Deadline)
+				
+        <div class="form-group">
+            <div class="col-md-10">
+                <input type="file" name="upload" />
+                <input type="submit" value="Submit" class="btn btn-default" />
+            </div>
+        </div>
+
+    </div>
+}
