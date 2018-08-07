@@ -10,12 +10,15 @@ using System.Web.Mvc;
 using Lexicon_LMS.Models;
 using Microsoft.AspNet.Identity;
 
+
+
 namespace Lexicon_LMS.Controllers
 {
     [Authorize]
     public class ActivitiesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private FileHandler fileHandler = new FileHandler();
 
         // GET: Activities
         public ActionResult Index()
@@ -63,18 +66,49 @@ namespace Lexicon_LMS.Controllers
 
             if (ModelState.IsValid)
             {
+                var file = fileHandler.UploadFile(upload);
+                if (file != null)
+                {
+                    var user = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
+                    file.ActivityID = activity.ID;
+                    file.User = user;
+
+                    activity.Documents = new List<Document>();
+                    activity.Documents.Add(file);
+                }
+
+
                 Module targetModule = db.Modules.Where(module => module.ID == activity.ModuleID).FirstOrDefault();
                 activity.Module = targetModule;
 
 
-                if (upload != null && upload.ContentLength > 0)
-                {
-                    Document file = Upload(upload, activity.ID);
+                //if (upload != null && upload.ContentLength > 0)
+                //{
+                //    var originalFilename = Path.GetFileName(upload.FileName);
+                //    var user = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
 
-                    activity.Documents = new List<Document>();
-                    activity.Documents.Add(file);
+                //    string fileId = Guid.NewGuid().ToString().Replace("-", "");
 
-                }
+                //    var fileName = user.Forename + "_" + user.Surname + "_" + fileId + "_" + originalFilename;
+
+                //    var path = Path.Combine(Server.MapPath("~/Uploads"));
+                //    var save = Path.Combine(Server.MapPath("~/Uploads"), fileName);
+                //    upload.SaveAs(save);
+
+                //    var file = new Document
+                //    {
+                //        FileName = fileName,
+                //        DisplayName = originalFilename,
+                //        UploadDate = DateTime.Now,
+                //        ActivityID = activity.ID,
+                //        Filepath = path,
+                //        User = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault()
+                //    };
+
+                //    activity.Documents = new List<Document>();
+                //    activity.Documents.Add(file);
+
+                //}
 
                 if (Request["notify"] != null)
                 {
@@ -115,42 +149,46 @@ namespace Lexicon_LMS.Controllers
             return View(activity);
         }
 
-        public Document Upload (HttpPostedFileBase upload, int activityID)
+        [Authorize]
+        public ActionResult Download(string filePath, string fileName)
         {
-            var originalFilename = Path.GetFileName(upload.FileName);
-            var user = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
-            var activity = db.Activities.Find(activityID);
-
-            string fileId = Guid.NewGuid().ToString().Replace("-", "");
-
-            var fileName = user.Forename + "_" + user.Surname + "_" + fileId + "_" + originalFilename;
-
-            var path = Path.Combine(Server.MapPath("~/Uploads"),activity.Module.Course.CourseName, activity.Module.ModuleTitle, activity.Name);
-            var save = Path.Combine(Server.MapPath("~/Uploads"), fileName);
-
-            if (!Directory.Exists(path))
+            var file = fileHandler.DownloadFile(filePath, fileName);
+            if (file == null)
             {
-                Directory.CreateDirectory(path);
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "File was not found");
             }
 
-            upload.SaveAs(save);
+            return file;
 
-            var file = new Document
-            {
-                FileName = fileName,
-                DisplayName = originalFilename,
-                UploadDate = DateTime.Now,
-                ActivityID = activityID,
-                Filepath = path,
-                User = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault()
-            };
+            //string fullName = Path.Combine(Assembly.GetExecutingAssembly().CodeBase, filePath, fileName);
 
-            return (file);
+            //if (!System.IO.File.Exists(fullName))
+            //{
+            //    return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "File was not found");
+            //}
+
+            //string contentType = MimeMapping.GetMimeMapping(filePath);
+            //byte[] fileBytes = GetFile(fullName);
+            //var cd = new System.Net.Mime.ContentDisposition
+            //{
+            //    FileName = saveName,
+            //    Inline = false
+            //};
+
+            //Response.AppendHeader("Content-Disposition", cd.ToString());
+            //return File(
+            // fileBytes,
+            // contentType
+
+            // );
         }
 
+
+
         [Authorize]
-        public ActionResult Download(string filePath, string fileName, string saveName)
+        public ActionResult DeleteFile(int activityID, string filePath, string fileName, int documentID)
         {
+            //TODO: maybe filehandler should handle delete?
             string fullName = Path.Combine(System.Reflection.Assembly.GetExecutingAssembly().CodeBase, filePath, fileName);
 
             if (!System.IO.File.Exists(fullName))
@@ -158,36 +196,59 @@ namespace Lexicon_LMS.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "File was not found");
             }
 
-            string contentType = MimeMapping.GetMimeMapping(filePath);
-            byte[] fileBytes = GetFile(fullName);
-            var cd = new System.Net.Mime.ContentDisposition
-            {
-                FileName = saveName,
-                Inline = false
-            };
 
-            Response.AppendHeader("Content-Disposition", cd.ToString());
-            return File(
-             fileBytes,
-             contentType
-             );
+            //Document document = db.Documents.Find(document2);
+
+            Document document = db.Documents.Find(documentID);
+            db.Documents.Remove(document);
+            System.IO.File.Delete(fullName);
+            db.SaveChanges();
+
+            return RedirectToAction("Edit", new { id = activityID });
+
         }
 
-        private byte[] GetFile(string fullName)
-        {
 
-            //is null check filepath
-            //https://stackoverflow.com/questions/3597179/file-download-in-asp-net-mvc-2
+        //[Authorize]
+        //public ActionResult Download(string filePath, string fileName, string saveName)
+        //{
+        //    string fullName = Path.Combine(System.Reflection.Assembly.GetExecutingAssembly().CodeBase, filePath, fileName);
 
-            FileStream fs = System.IO.File.OpenRead(fullName);
+        //    if (!System.IO.File.Exists(fullName))
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "File was not found");
+        //    }
 
-            byte[] data = new byte[fs.Length];
-            int br = fs.Read(data, 0, data.Length);
-            if (br != fs.Length)
-                throw new IOException(fullName);
+        //    string contentType = MimeMapping.GetMimeMapping(filePath);
+        //    byte[] fileBytes = GetFile(fullName);
+        //    var cd = new System.Net.Mime.ContentDisposition
+        //    {
+        //        FileName = saveName,
+        //        Inline = false
+        //    };
 
-            return data;
-        }
+        //    Response.AppendHeader("Content-Disposition", cd.ToString());
+        //    return File(
+        //     fileBytes,
+        //     contentType
+        //     );
+        //}
+
+        //private byte[] GetFile(string fullName)
+        //{
+
+        //    //is null check filepath
+        //    //https://stackoverflow.com/questions/3597179/file-download-in-asp-net-mvc-2
+
+        //    FileStream fs = System.IO.File.OpenRead(fullName);
+
+        //    byte[] data = new byte[fs.Length];
+        //    int br = fs.Read(data, 0, data.Length);
+        //    if (br != fs.Length)
+        //        throw new IOException(fullName);
+
+        //    return data;
+        //}
 
         // GET: Activities/Edit/5
         [Authorize(Roles = "Teacher")]
@@ -242,44 +303,43 @@ namespace Lexicon_LMS.Controllers
         {
             if (upload != null && upload.ContentLength > 0)
             {
+                Type t = typeof(Assignment);
 
+                Module targetModule = db.Modules.Where(module => module.ID == assignment.ModuleID).FirstOrDefault();
                 Assignment targetAssignment = db.Activities.OfType<Assignment>().Where(a => a.ID == assignment.ID).FirstOrDefault();
 
-                var file = Upload(upload, assignment.ID);
+                var originalFilename = Path.GetFileName(upload.FileName);
+                var user = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
 
-                file.UserAssignment = true;
+                string fileId = Guid.NewGuid().ToString().Replace("-", "");
+
+                var fileName = user.Forename + "_" + user.Surname + "_" + fileId + "_" + originalFilename;
+
+                var path = Path.Combine(Server.MapPath("~/Uploads/"), targetModule.Course.CourseName, targetModule.ModuleTitle, assignment.Name);
+
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                    upload.SaveAs(Path.Combine(path, fileName));
+                }
+                
+
+                var file = new Document
+                {
+                    FileName = fileName,
+                    DisplayName = originalFilename,
+                    UploadDate = DateTime.Now,
+                    ActivityID = assignment.ID,
+                    Filepath = path,
+                    User = db.Users.Find(User.Identity.GetUserId()),
+                    UserAssignment = true
+                };
+
                 targetAssignment.Documents.Add(file);
                 db.SaveChanges();
                 return RedirectToAction("Details", new { id = assignment.ID });
             }
             return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        }
-
-        public ActionResult UploadActDoc(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Activity activity = db.Activities.Find(id);
-
-            if (activity == null)
-            {
-                return HttpNotFound();
-            }
-            return PartialView(activity);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult UploadActDoc([Bind(Include = "ID")] Activity activity, HttpPostedFileBase upload)
-        {
-            var file = Upload(upload, activity.ID);
-            Activity targetActiviy = db.Activities.Find(activity.ID);
-
-            targetActiviy.Documents.Add(file);
-            db.SaveChanges();
-            return RedirectToAction("Details", new { activity.ID });
         }
 
         // GET: Activities/Delete/5
