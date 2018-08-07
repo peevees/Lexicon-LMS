@@ -12,7 +12,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.FileName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Filepath)
@@ -25,7 +25,7 @@
     var myModal = "myModal" + item.ID;
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Name)
+            @Html.DisplayFor(modelItem => item.FileName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Filepath)
@@ -57,7 +57,7 @@
                                 <h4 class="modal-title" id="myModalLabel">Confirm Delete</h4>
                             </div>
                             <div class="modal-body">
-                                Are you sure you want to delete: <span><b>@item.Name</b></span>?
+                                Are you sure you want to delete: <span><b>@item.FileName</b></span>?
                             </div>
                             <div class="modal-footer">
 

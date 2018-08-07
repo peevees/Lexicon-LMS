@@ -1,13 +1,12 @@
-﻿using System;
+﻿using Lexicon_LMS.Models;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using Lexicon_LMS.Models;
 
 namespace Lexicon_LMS.Controllers
 {
@@ -66,7 +65,7 @@ namespace Lexicon_LMS.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Teacher")]
-        public ActionResult Create([Bind(Include = "ID,StartDate,EndDate,Description,CourseCode")] Module module, HttpPostedFileBase upload)
+        public ActionResult Create([Bind(Include = "ID,StartDate,EndDate,Description,CourseCode,ModuleTitle")] Module module, HttpPostedFileBase upload)
         {
 
             if (ModelState.IsValid)
