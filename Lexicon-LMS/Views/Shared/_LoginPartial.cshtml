@@ -3,11 +3,11 @@
 @using Lexicon_LMS.Models;
 @if (Request.IsAuthenticated)
 {
-    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    using (Html.BeginForm(@*"LogOff", "Account", FormMethod.Post,*@ new { @*id = "logoutForm",*@ @class = "navbar-right" }))
     {
         @Html.AntiForgeryToken()
         ApplicationUser user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(User.Identity.GetUserId());@*TODO: check if null *@
-        string welcome = "";
+string welcome = "";
 
         var unreadMessages = user.Notifications.Where(n => n.Read == false).Count();
 

@@ -17,6 +17,7 @@
 	<tr>
 		<th class="content">
 			@Html.DisplayNameFor(model => model.ModuleTitle)
+
 		</th>
 		<th>
 			@Html.DisplayNameFor(model => model.StartDate)
@@ -31,19 +32,16 @@
 	{
 		var myModal = "myModal" + item.ID;
 	<tr class="collapsible">
-		<th class="content">
-			@Html.DisplayNameFor(model => model.ModuleTitle)
-		</th>
-		<td >
-			@Html.DisplayFor(modelItem => item.Description)
+		<td class="content">
+			@Html.DisplayFor(modelItem => item.ModuleTitle)
 		</td>
-        <td>
-            @Html.DisplayFor(modelItem => item.StartDate)
-        </td>
+		<td>
+			@Html.DisplayFor(modelItem => item.StartDate)
+		</td>
 		<td>
 			@Html.DisplayFor(modelItem => item.EndDate)
 		</td>
-		<td >
+		<td>
 			<span class="glyphicon glyphicon-circle-arrow-down"></span>
 		</td>
 		<td>
@@ -84,7 +82,6 @@
 	</tr>
 		<tr class="collapse" style="width:auto;">
 			<th class="content2" >
-
                     <div class="col-lg-6">
                         @Html.Partial("_ModuleContent", item)
                     </div>
@@ -111,7 +108,5 @@
 		</tr>
 	}
 </table>
-
-
 @Scripts.Render("~/Scripts/collapse.js")
 @Scripts.Render("~/Scripts/mouseover.js")
