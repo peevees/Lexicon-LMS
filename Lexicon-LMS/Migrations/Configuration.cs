@@ -406,22 +406,7 @@ namespace Lexicon_LMS.Migrations
         #region Utilities
         private ApplicationUser GetRandomTeacher()
         {
-            List<ApplicationUser> Teachers = new List<ApplicationUser>();
-            var Users = db.Users.Include(u => u.Roles);
-            var role = db.Roles.ToList();
-            var usersinRole = role[0].Users;
             ApplicationUser Teacher = null;
-            foreach (var teacher in Users)
-            {
-                foreach (var userin in usersinRole)
-                {
-                    if (teacher.Id == userin.UserId)
-                    {
-                        Teachers.Add(teacher);
-                        break;
-                    }
-                }
-            }
             for (int i = 0; i < Teachers.Count; i++)
             {
                 Teacher = Teachers[Rnd.Next(0, (Teachers.Count))];
@@ -446,21 +431,6 @@ namespace Lexicon_LMS.Migrations
         private ICollection<ApplicationUser> GetRandomStudent()
         {
             ApplicationUser student = null;
-            //foreach (var student in Students)
-            //{
-            //    foreach (var user in Students)
-            //    {
-            //        if (user.IsStudent)
-            //        {
-            //            if (studentInUsers.Email == user.Email)
-            //            {
-            //                Students.Add(studentInUsers);
-            //                break;
-            //            }
-            //        }
-            //    }
-            //}
-
             List<ApplicationUser> StudentsToAdd = new List<ApplicationUser>();
             for (int i = 0; i < 3; i++)
             {
@@ -624,7 +594,10 @@ namespace Lexicon_LMS.Migrations
             {
                 var teacher = GetRandomTeacher();
                 var students = GetRandomStudent();
-                db.Courses.AddOrUpdate(c => c.CourseName, new Course { CourseCode = course.CourseCode, CourseName = course.CourseName, StartDate = course.StartDate, EndDate = course.EndDate, Teacher = teacher, TeacherID = teacher.Id, Description = course.Description, CourseParticipants = students });
+                course.Teacher = teacher;
+                course.TeacherID = teacher.Id;
+                course.CourseParticipants = students;
+                db.Courses.AddOrUpdate(c => c.CourseName, course);
 
                 var teacherToUpdate = Teachers.Where(s => s.UserName == teacher.UserName).FirstOrDefault();
                 if (teacherToUpdate != null)
