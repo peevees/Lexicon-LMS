@@ -120,10 +120,28 @@ namespace Lexicon_LMS.Controllers
                     }
                 }
 
+                if (Request["assignment"] != null)
+                {
+                    Assignment assignment = new Assignment
+                    {
+                        Name = activity.Name,
+                        Module = targetModule,
+                        Deadline = activity.Deadline,
+                        Documents = new List<Document>()
+                };
+
+                    targetModule.ModuleActivities.Add(assignment);
+                    db.Activities.Add(assignment);
+                    db.SaveChanges();
+                }
+                else
+                { 
                 //course.Teacher = db.Users.Where(u => u.Id == course.TeacherID).FirstOrDefault();
                 targetModule.ModuleActivities.Add(activity);
                 db.Activities.Add(activity);
                 db.SaveChanges();
+                }
+
                 return RedirectToAction("Details", "Courses", new { id = targetModule.Course.ID });
             }
 
@@ -264,6 +282,65 @@ namespace Lexicon_LMS.Controllers
                 return RedirectToAction("Index");
             }
             return View(activity);
+        }
+
+        public ActionResult SubmitAssignment(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Activity activity = db.Activities.Find(id);
+            if (activity == null)
+            {
+                return HttpNotFound();
+            }
+            return View(activity);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SubmitAssignment([Bind(Include = "ID,Name,ModuleID")] Assignment assignment, HttpPostedFileBase upload)
+        {
+            if (upload != null && upload.ContentLength > 0)
+            {
+                Type t = typeof(Assignment);
+
+                Module targetModule = db.Modules.Where(module => module.ID == assignment.ModuleID).FirstOrDefault();
+                Assignment targetAssignment = db.Activities.OfType<Assignment>().Where(a => a.ID == assignment.ID).FirstOrDefault();
+
+                var originalFilename = Path.GetFileName(upload.FileName);
+                var user = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
+
+                string fileId = Guid.NewGuid().ToString().Replace("-", "");
+
+                var fileName = user.Forename + "_" + user.Surname + "_" + fileId + "_" + originalFilename;
+
+                var path = Path.Combine(Server.MapPath("~/Uploads/"), targetModule.Course.CourseName, targetModule.ModuleTitle, assignment.Name);
+
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                    upload.SaveAs(Path.Combine(path, fileName));
+                }
+                
+
+                var file = new Document
+                {
+                    FileName = fileName,
+                    DisplayName = originalFilename,
+                    UploadDate = DateTime.Now,
+                    ActivityID = assignment.ID,
+                    Filepath = path,
+                    User = db.Users.Find(User.Identity.GetUserId()),
+                    UserAssignment = true
+                };
+
+                targetAssignment.Documents.Add(file);
+                db.SaveChanges();
+                return RedirectToAction("Details", new { id = assignment.ID });
+            }
+            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
         }
 
         // GET: Activities/Delete/5
