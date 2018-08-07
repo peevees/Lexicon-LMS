@@ -174,7 +174,8 @@ namespace Lexicon_LMS.Migrations
                 m => m.Description,
                 new Module
                 {
-                    Description = "C# Basics",
+                    ModuleTitle = "C# Basics",
+                    Description = "We learn the basics of C#",
                     StartDate = new DateTime(2018, 7, 19),
                     EndDate = new DateTime(2018, 7, 31),
                     Course = seededCourse,
@@ -185,6 +186,7 @@ namespace Lexicon_LMS.Migrations
                 m => m.Description,
                 new Module
                 {
+                    ModuleTitle = "Java Measuring",
                     Description = "Measuring the right amount of Java",
                     StartDate = new DateTime(2018, 8, 19),
                     EndDate = new DateTime(2018, 8, 31),
@@ -196,6 +198,7 @@ namespace Lexicon_LMS.Migrations
                 m => m.Description,
                 new Module
                 {
+                    ModuleTitle = "Word of words",
                     Description = "Predicting words in Word",
                     StartDate = new DateTime(2019, 8, 19),
                     EndDate = new DateTime(2019, 8, 31),

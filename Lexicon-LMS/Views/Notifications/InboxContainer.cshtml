@@ -16,9 +16,9 @@
 
 <div id="inbox-controls">
     <a id="new-notif" onclick="compose()">
-        <span class="glyphicon glyphicon-plus"></span><span>Compose new message</span>
-    </a>
-</div>
+        <span class="glyphicon glyphicon-plus btn btn-default" style="font-family: Helvetica Neue, Helvetica, Arial, sans-serif"> Compose new message</span>
+</a>
+</div> 
 <br />
 <div id="inbox-container"></div>
 <input id="hiddenControl" type="hidden" runat="server" />
@@ -46,13 +46,6 @@
         disable();
         activate(pageindex);
     });
-
-    function getQueryString(field, url) {
-        var href = url ? url : window.location.href;
-        var reg = new RegExp('[?&]' + field + '=([^&#]*)', 'i');
-        var string = reg.exec(href);
-        return string ? string[1] : 1;
-    };
 
     function nextpage() {
 

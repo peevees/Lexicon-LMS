@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Lexicon_LMS.Models;
+using Microsoft.AspNet.Identity;
 
 namespace Lexicon_LMS.Controllers
 {
@@ -46,7 +47,6 @@ namespace Lexicon_LMS.Controllers
             Activity model = new Activity();
             if (id != null)
             {
-                model.Module = targetModule;
                 model.ModuleID = targetModule.ID;
             }
             return View(model);
@@ -64,7 +64,8 @@ namespace Lexicon_LMS.Controllers
             if (ModelState.IsValid)
             {
                 Module targetModule = db.Modules.Where(module => module.ID == activity.ModuleID).FirstOrDefault();
-                targetModule.ModuleActivities.Add(activity);
+                activity.Module = targetModule;
+
 
                 if (upload != null && upload.ContentLength > 0)
                 {
@@ -94,8 +95,18 @@ namespace Lexicon_LMS.Controllers
 
                 }
 
+                if (Request["notify"] != null)
+                {
+                    foreach (ApplicationUser u in activity.Module.Course.CourseParticipants)
+                    {
+                        var alert = NewActivityAlert(activity, db.Users.Find(User.Identity.GetUserId()));
+                        alert.RecipientID = u.Id;
+                        u.Notifications.Add(alert);
+                    }
+                }
 
                 //course.Teacher = db.Users.Where(u => u.Id == course.TeacherID).FirstOrDefault();
+                targetModule.ModuleActivities.Add(activity);
                 db.Activities.Add(activity);
                 db.SaveChanges();
                 return RedirectToAction("Details", "Courses", new { id = targetModule.Course.ID });
@@ -168,7 +179,7 @@ namespace Lexicon_LMS.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Teacher")]
-        public ActionResult Edit([Bind(Include = "ID,Name,Deadline")] Activity activity)
+        public ActionResult Edit([Bind(Include = "ID,Name,Deadline,ModuleID")] Activity activity)
         {
             if (ModelState.IsValid)
             {
@@ -215,5 +226,18 @@ namespace Lexicon_LMS.Controllers
             }
             base.Dispose(disposing);
         }
+
+        public Notification NewActivityAlert(Activity activity, ApplicationUser user)
+        {
+            var notif = new Notification();
+            notif.Subject = user.FullName + " has added a new activity";
+            notif.Body = "A new activity (" + activity.Name + ") has been added to \"" + activity.Module.Description + "\" module in " + activity.Module.Course.CourseName;
+            notif.Sender = user;
+            notif.Recipients = activity.Module.Course.CourseParticipants.ToList();
+            notif.DateSent = DateTime.Now;
+
+            return notif;
+        }
+
     }
 }
