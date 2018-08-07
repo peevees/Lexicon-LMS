@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lexicon_LMS.Models;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -7,7 +8,6 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using Lexicon_LMS.Models;
 
 namespace Lexicon_LMS.Controllers
 {
@@ -66,7 +66,7 @@ namespace Lexicon_LMS.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Teacher")]
-        public ActionResult Create([Bind(Include = "ID,StartDate,EndDate,Description,CourseCode")] Module module, HttpPostedFileBase upload)
+        public ActionResult Create([Bind(Include = "ID,StartDate,EndDate,Description,CourseCode,ModuleTitle")] Module module, HttpPostedFileBase upload)
         {
 
             if (ModelState.IsValid)
@@ -125,6 +125,30 @@ namespace Lexicon_LMS.Controllers
             // fileBytes,
             // contentType
             // );
+        }
+
+
+        [Authorize]
+        public ActionResult DeleteFile(int moduleID, string filePath, string fileName, int documentID)
+        {
+            //TODO: maybe filehandler should handle delete?
+            string fullName = Path.Combine(System.Reflection.Assembly.GetExecutingAssembly().CodeBase, filePath, fileName);
+
+            if (!System.IO.File.Exists(fullName))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "File was not found");
+            }
+
+
+            //Document document = db.Documents.Find(document2);
+
+            Document document = db.Documents.Find(documentID);
+            db.Documents.Remove(document);
+            System.IO.File.Delete(fullName);
+            db.SaveChanges();
+
+            return RedirectToAction("Edit", new { id = moduleID });
+
         }
 
         // GET: Modules/Edit/5

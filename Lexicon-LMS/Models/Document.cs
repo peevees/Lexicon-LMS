@@ -22,6 +22,7 @@ namespace Lexicon_LMS.Models
         public int? CourseID { get; set; }
         public int? ModuleID { get; set; }
         public int? ActivityID { get; set; }
+        public bool UserAssignment { get; set; } = false;
 
         public virtual ApplicationUser User { get; set; }
     }

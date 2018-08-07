@@ -3,61 +3,60 @@
 @using Lexicon_LMS.Models;
 @if (Request.IsAuthenticated)
 {
-    using (Html.BeginForm(@*"LogOff", "Account", FormMethod.Post,*@ new { @*id = "logoutForm",*@ @class = "navbar-right" }))
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
         @Html.AntiForgeryToken()
         ApplicationUser user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(User.Identity.GetUserId());@*TODO: check if null *@
 string welcome = "";
 
-var unreadMessages = user.Notifications.Where(n => n.Read == false).Count();
+        var unreadMessages = user.Notifications.Where(n => n.Read == false).Count();
 
-if (user.Forename != null)
-{
-    welcome = user.Forename;
-}
-else { welcome = User.Identity.GetUserName(); }
+        if (user.Forename != null)
+        {
+            welcome = user.Forename;
+        }
+        else { welcome = User.Identity.GetUserName(); }
 
-<ul class="nav navbar-nav navbar-right">
-	<li>
-		@Html.ActionLink("Greetings " + welcome + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-	</li>
-	@*<li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>*@
-	<li class="btn-group nav" style="color: #e2e1e1; float:right; margin-left:15px">
-		<button type="button" class="btn navbar-btn dropdown-toggle" data-toggle="dropdown">
-			<span class="glyphicon glyphicon-home"></span>
-			<span style="color: #996600"> | </span>
-			<span class="caret"></span>
-		</button>
-		<ul class="dropdown-menu" role="menu">
-			<li>
-				<a href="@Url.Action("Index", "Manage")"><span class="glyphicon glyphicon-user"></span> My Profile</a>
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                @Html.ActionLink("Greetings " + welcome + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+            </li>
+            <li class="btn-group nav" style="color: #e2e1e1; float:right; margin-left:15px">
+                <button type="button" class="btn navbar-btn dropdown-toggle" data-toggle="dropdown">
+                    <span class="glyphicon glyphicon-home"></span>
+                    <span style="color: #996600"> | </span>
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li>
+                        <a href="@Url.Action("Index", "Manage")"><span class="glyphicon glyphicon-user"></span> My Profile</a>
 
-			</li>
-			<li>
-				<a href="@Url.Action("Index", "Manage")?tab=inbox">
-					<span class="glyphicon glyphicon-envelope"></span>
-					Inbox
-					@if (unreadMessages > 0)
-						{<span class="badge">@unreadMessages</span>}
-				</a>
-			</li>
-			@if (User.IsInRole("Teacher"))
-			{
-				<li>
-					<a href="@Url.Action("ListUsers", "Manage")">
-						<span class="glyphicon glyphicon-list-alt"> </span>
-						Manage Profiles
-					</a>
-				</li>
-			}
-			<li>
-				<a href="javascript:document.getElementById('logoutForm').submit()">
-					<span class="glyphicon glyphicon-log-out"></span>
-					Logout
-				</a>
-			</li>
-		</ul>
-	</li>
-</ul>	
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index", "Manage")?tab=inbox">
+                            <span class="glyphicon glyphicon-envelope"></span>
+                            Inbox
+                            @if (unreadMessages > 0)
+                            {<span class="badge">@unreadMessages</span>}
+                        </a>
+                    </li>
+                    @if (User.IsInRole("Teacher"))
+                    {
+                        <li>
+                            <a href="@Url.Action("ListUsers", "Manage")">
+                                <span class="glyphicon glyphicon-list-alt"> </span>
+                                Manage Profiles
+                            </a>
+                        </li>
+                    }
+                    <li>
+                        <a href="javascript:document.getElementById('logoutForm').submit()">
+                            <span class="glyphicon glyphicon-log-out"></span>
+                            Logout
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
     }
 }

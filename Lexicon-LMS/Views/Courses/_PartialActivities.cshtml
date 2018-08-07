@@ -1,0 +1,55 @@
+﻿@model Lexicon_LMS.Models.Module
+@using Lexicon_LMS.Models;
+@{ var myModal = "myModal" + Model.ID; }
+
+<link href="~/Content/collapsestyle.css" rel="stylesheet" />
+
+<div>
+    <p>
+        @if (User.IsInRole("Teacher"))
+        {
+            @Html.ActionLink("Add Activity", "Create", new { Controller = "Activities", action = "Create", id = Model.ID }, new { @class = "btn btn-primary" })
+        }
+    </p>
+</div>
+
+<b>@Html.DisplayNameFor(model => model.ModuleActivities):</b>
+
+@foreach (var activity in Model.ModuleActivities)
+{
+        <p>
+            @Html.ActionLink(activity.Name, "Details", new { Controller = "Activities", action = "Details", id = activity.ID })
+
+            @if (User.IsInRole("Teacher"))
+            {
+        
+                        <button type="button" class="btn btn-danger btn-sm far-right" data-toggle="modal" data-target="#@myModal"
+                                data-whatever="@Model.ID">
+                            <span class="glyphicon glyphicon-remove"></span> Delete
+                        </button>
+                        <div class="modal fade" id="@myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog modal-sm" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" id="myModalLabel">Confirm Delete</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        Are you sure you want to delete: <span><b>@activity.Name</b></span>?
+                                    </div>
+                                    <div class="modal-footer">
+
+                                        @using (Html.BeginForm("Delete", "Activities", new { id = Model.ID }, FormMethod.Post, null))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                            <input type="submit" value="Delete" class="btn btn-danger" />
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+            }
+        </p>
+}
