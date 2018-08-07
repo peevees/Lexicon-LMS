@@ -56,13 +56,13 @@
 				}
 			</dd>
 
-			<dt>@Html.DisplayNameFor(model => model.Documents)</dt>
-			<dd>
-				@foreach (Document document in Model.Documents)
-				{
-					@Html.ActionLink("Download: " + document.DisplayName, "Download", new { filePath = document.Filepath, fileName = document.FileName })
-				}
-			</dd>
+                <dt>@Html.DisplayNameFor(model => model.Documents)</dt>
+                <dd>
+                    @foreach (Document document in Model.Documents)
+                    {
+                        @Html.ActionLink("Download: " + document.DisplayName, "Download", new { filePath = document.Filepath, fileName = document.FileName })
+                    }
+                </dd>
 
 		</dl>
 	<p>
