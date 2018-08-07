@@ -4,6 +4,7 @@
 
 <div>
     <p>
+    <b>Descirption:</b>
     @Html.DisplayFor(modelItem => Model.Description)
     </p>
 </div>
@@ -11,6 +12,15 @@
 <div>
     @foreach (Document document in Model.Documents)
     {
-        @Html.ActionLink("Download: " + document.DisplayName, "Download", new { filePath = document.Filepath, fileName = document.FileName })
+        @Html.ActionLink(document.DisplayName, "Download", new { filePath = document.Filepath, fileName = document.FileName })
     }
+</div>
+
+<div>
+    <p>
+        @if (User.IsInRole("Teacher"))
+        {
+            @Html.ActionLink("Add Activity", "Create", new { Controller = "Activities", action = "Create", id = Model.ID }, new { @class = "btn btn-primary" })
+        }
+    </p>
 </div>

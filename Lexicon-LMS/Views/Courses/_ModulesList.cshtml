@@ -115,7 +115,9 @@
             <div class="panel-heading" role="tab" id="@headCount">
                 <h4 class="panel-title">
                     <a role="button" data-toggle="collapse" data-parent="#accordion" href="#@countId" aria-expanded="true" aria-controls="@countId">
-                        @Html.DisplayFor(model => item.ModuleTitle) @Html.DisplayFor(modelItem => item.StartDate) @Html.DisplayFor(modelItem => item.EndDate)
+                        <b>@Html.DisplayFor(model => item.ModuleTitle)</b>
+                        <b style="margin-left:20%;">Start Date:</b> @Html.DisplayFor(modelItem => item.StartDate) 
+                        <b>End Date:</b> @Html.DisplayFor(modelItem => item.EndDate)
                     </a>
                 </h4>
             </div>
@@ -125,21 +127,8 @@
                         @Html.Partial("_ModuleContent", item)
                     </div>
                     <div class="col-md-7">
-                        <p>
-                            @if (User.IsInRole("Teacher"))
-                            {
-                                @Html.ActionLink("Add Activity", "Create", new { Controller = "Activities", action = "Create", id = item.ID }, new { @class = "btn btn-primary" })
-                            }
-                        </p>
-                        @Html.Partial("_PartialActivities", item)
-                        @Html.DisplayNameFor(model => model.ModuleActivities):
-                        @foreach (var activity in item.ModuleActivities)
-                        {
-                            <p style="border-top:none;">
-                                @Html.ActionLink(activity.Name, "Details", new { Controller = "Activities", action = "Details", id = activity.ID })
-                            </p>
-                        }
 
+                        @Html.Partial("_PartialActivities", item)
                         </div>
                     </div>
                 </div>
@@ -149,5 +138,4 @@
     headCount--;
 }             
 
-    @*@Scripts.Render("~/Scripts/collapse.js")
-    @Scripts.Render("~/Scripts/mouseover.js")*@
+    @Scripts.Render("~/Scripts/mouseover.js")
