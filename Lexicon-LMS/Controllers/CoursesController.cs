@@ -75,8 +75,8 @@ namespace Lexicon_LMS.Controllers
             if (ModelState.IsValid)
             {
 
-                var file = fileHandler.UploadFile(upload);
-                if (file != null)
+                var file = fileHandler.UploadFile(upload);   
+                if(file != null)
                 {
                     var user = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
                     file.CourseID = course.ID;
@@ -85,9 +85,9 @@ namespace Lexicon_LMS.Controllers
                     course.Documents = new List<Document>();
                     course.Documents.Add(file);
                 }
-
+                
                 course.Teacher = db.Users.Where(u => u.Id == course.TeacherID).FirstOrDefault();
-
+                
                 db.Courses.Add(course);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -100,11 +100,11 @@ namespace Lexicon_LMS.Controllers
         public ActionResult Download(string filePath, string fileName)
         {
             var file = fileHandler.DownloadFile(filePath, fileName);
-            if (file == null)
+            if(file == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "File was not found");
             }
-
+            
             return file;
 
             //string fullName = Path.Combine(Assembly.GetExecutingAssembly().CodeBase, filePath, fileName);
@@ -126,11 +126,11 @@ namespace Lexicon_LMS.Controllers
             //return File(
             // fileBytes,
             // contentType
-
+         
             // );
         }
 
-
+       
 
         [Authorize]
         public ActionResult DeleteFile(int courseID, string filePath, string fileName, int documentID)
