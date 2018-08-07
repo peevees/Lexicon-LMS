@@ -14,53 +14,59 @@ namespace Lexicon_LMS.Migrations
         #region Variables
         private DateTime startDate = new DateTime(1990, 01, 01);
         private Random Rnd = new Random();
+        private ApplicationDbContext db;
 
         //UNDONE: Add all properties that a user shall have by default
         private List<ApplicationUser> Teachers = new List<ApplicationUser>();
         private List<ApplicationUser> Students = new List<ApplicationUser>();
+        private List<Course> courses = new List<Course>();
+        private List<Module> modules = new List<Module>();
+        private List<Activity> activities = new List<Activity>();
 
-        private struct Users
-        {
-            public string Email { get; set; }
-            public string Username => Email;
-            public string Password { get; set; }
-            public string Forename { get; set; }
-            public string Surname { get; set; }
-            public DateTime TimeofRegistration { get; set; }
-            public string Street { get; set; }
-            public string Postcode { get; set; }
-            public string City { get; set; }
-            public bool IsStudent { get; set; }
-        }
+        #region structs
+        //private struct Users
+        //{
+        //    public string Email { get; set; }
+        //    public string Username => Email;
+        //    public string Password { get; set; }
+        //    public string Forename { get; set; }
+        //    public string Surname { get; set; }
+        //    public DateTime TimeofRegistration { get; set; }
+        //    public string Street { get; set; }
+        //    public string Postcode { get; set; }
+        //    public string City { get; set; }
+        //    public bool IsStudent { get; set; }
+        //}
 
-        //UNDONE: Add all properties that a courses shall have by default
-        private struct Courses
-        {
-            public string CourseName { get; set; }
-            public DateTime StartDate { get; set; }
-            public DateTime EndDate { get; set; }
-            public string Description { get; set; }
-            public string CourseCode { get; set; }
-            public ApplicationUser Teacher { get; set; }
-            public string TeacherId => Teacher.Id;
-            public ApplicationUser CoursePaticipant { get; set; }
-        }
+        ////UNDONE: Add all properties that a courses shall have by default
+        //private struct Courses
+        //{
+        //    public string CourseName { get; set; }
+        //    public DateTime StartDate { get; set; }
+        //    public DateTime EndDate { get; set; }
+        //    public string Description { get; set; }
+        //    public string CourseCode { get; set; }
+        //    public ApplicationUser Teacher { get; set; }
+        //    public string TeacherId => Teacher.Id;
+        //    public ApplicationUser CoursePaticipant { get; set; }
+        //}
 
-        private struct Modules
-        {
-            public string Description { get; set; }
-            public DateTime StartDate { get; set; }
-            public Course Course { get; set; }
-            public int CourseId => Course.ID;
-        }
+        //private struct Modules
+        //{
+        //    public string Description { get; set; }
+        //    public DateTime StartDate { get; set; }
+        //    public Course Course { get; set; }
+        //    public int CourseId => Course.ID;
+        //}
 
-        private struct Activities
-        {
-            public string Name { get; set; }
-            public DateTime Deadline { get; set; }
-            public Module Module { get; set; }
-            public int ModuleId => Module.ID;
-        }
+        //private struct Activities
+        //{
+        //    public string Name { get; set; }
+        //    public DateTime Deadline { get; set; }
+        //    public Module Module { get; set; }
+        //    public int ModuleId => Module.ID;
+        //}
+        #endregion
 
         #endregion
 
@@ -72,25 +78,34 @@ namespace Lexicon_LMS.Migrations
 
         protected override void Seed(ApplicationDbContext context)
         {
+            #region Explaination
             //  This method will be called after migrating to the latest version.
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method
             //  to avoid creating duplicate seed data.
+            #endregion
 
             //IDEA: instead of struct create array or list of application user, course, modules etc etc easier to work with perhaps?
 
             //HACK: SEED DEBUGGER
             if (!System.Diagnostics.Debugger.IsAttached)
                 System.Diagnostics.Debugger.Launch();
+            db = context;
+            //if (context.Database.Exists())
+            //{
+            //    context.Database.Connection.Close();
+            //    context.Database.Delete();
+            //    throw new Exception("Database has no been purged please rerun with Update-Database -Force");
+            //}
 
-
-            //REMINDER: Add Users here
+            //REMINDER: Add Teachers here!
             Teachers.AddRange(new List<ApplicationUser>
             {
                 new ApplicationUser
                 {
                     Email = "Teacher@shit.se",
-                    Forename = "Mr. ",
+                    UserName = "Teacher@shit.se",
+                    Forename = "Mr.",
                     Surname = "Teacher",
                     TimeOfRegistration = new DateTime(1990, 01, 01),
                     Street = "SomeStreetName 0",
@@ -100,6 +115,7 @@ namespace Lexicon_LMS.Migrations
                 new ApplicationUser
                 {
                     Email = "John.Doe@shit.se",
+                    UserName = "John.Doe@shit.se",
                     Forename = "John",
                     Surname = "Doe",
                     TimeOfRegistration = GetRandomDate(),
@@ -110,6 +126,7 @@ namespace Lexicon_LMS.Migrations
                 new ApplicationUser
                 {
                     Email = "Jane.Doe@shit.se",
+                    UserName = "Jane.Doe@shit.se",
                     Forename = "Jane",
                     Surname = "Doe",
                     TimeOfRegistration = GetRandomDate(),
@@ -120,14 +137,16 @@ namespace Lexicon_LMS.Migrations
 
             });
 
+            //REMINDER: Add Students here!
             Students.AddRange(new List<ApplicationUser>
             {
                 new ApplicationUser
                 {
                     Email = "student@shit.se",
-                    Forename = "Mr. ",
+                    UserName = "student@shit.se",
+                    Forename = "Mr.",
                     Surname = "Student",
-                    TimeOfRegistration = new DateTime(),
+                    TimeOfRegistration = new DateTime(1990, 01, 01),
                     Street = "SomeStreetName 0",
                     Postcode = "00000",
                     City = "SomeCityName"
@@ -135,6 +154,7 @@ namespace Lexicon_LMS.Migrations
                 new ApplicationUser
                 {
                     Email = "Johnny.Roe@shit.se",
+                    UserName = "Johnny.Roe@shit.se",
                     Forename = "Johnny",
                     Surname = "Roe",
                     TimeOfRegistration = GetRandomDate(),
@@ -145,6 +165,7 @@ namespace Lexicon_LMS.Migrations
                 new ApplicationUser
                 {
                     Email = "Janie.Roe@shit.se",
+                    UserName = "Janie.Roe@shit.se",
                     Forename = "Janie",
                     Surname = "Roe",
                     TimeOfRegistration = GetRandomDate(),
@@ -154,117 +175,18 @@ namespace Lexicon_LMS.Migrations
                 }
             });
 
-            var usersToAdd = new[]
+            //REMINDER: Add Courses here!
+            courses.AddRange(new List<Course>
             {
-                #region Teachers
-                new Users
+                new Course
                 {
-                    Email = "Teacher@shit.se",
-                    Password = "P@$$w0rd",
-                    Forename = "Mr. ",
-                    Surname = "Teacher",
-                    TimeofRegistration = new DateTime(1990, 01, 01),
-                    Street = "SomeStreetName 0",
-                    Postcode = "00000",
-                    City = "SomeCityName",
-                    IsStudent = false
-                },
-                new Users
-                {
-                    Email = "John.Doe@shit.se",
-                    Password = "JohnDoe",
-                    Forename = "John",
-                    Surname = "Doe",
-                    TimeofRegistration = GetRandomDate(),
-                    Street = "Primrose Lane 2",
-                    Postcode = GetRandomNumber().ToString(),
-                    City = "Lillsand",
-                    IsStudent = false
-                },
-                new Users
-                {
-                    Email = "Jane.Doe@shit.se",
-                    Password = "JaneDoe",
-                    Forename = "Jane",
-                    Surname = "Doe",
-                    TimeofRegistration = GetRandomDate(),
-                    Street = "Jackson Avenue 3",
-                    Postcode = GetRandomNumber().ToString(),
-                    City = "Sickla",
-                    IsStudent = false
-                },
-                #endregion
-
-                #region Template
-                /*Mock structure
-                new Users
-                {
-                    Email = "",
-                    Password = "",
-                    Forename = "",
-                    Surname = "",
-                    TimeofRegistration = GetRandomDate(),
-                    Street = "",
-                    Postcode = GetRandomNumber().ToString(),
-                    City = "",
-                    IsStudent = false
-                },*/
-#endregion
-
-                //REMINDER: Students below, Teachers above
-                #region Students
-                new Users
-                {
-                    Email = "student@shit.se",
-                    Password = "P@$$w0rd",
-                    Forename = "Mr. ",
-                    Surname = "Student",
-                    TimeofRegistration = new DateTime(),
-                    Street = "SomeStreetName 0",
-                    Postcode = "00000",
-                    City = "SomeCityName",
-                    IsStudent = true
-                },
-                new Users
-                {
-                    Email = "Johnny.Roe@shit.se",
-                    Password = "JohnnyRoe",
-                    Forename = "Johnny",
-                    Surname = "Roe",
-                    TimeofRegistration = GetRandomDate(),
-                    Street = "Howard Street 1",
-                    Postcode = GetRandomNumber().ToString(),
-                    City = "Nocketorp",
-                    IsStudent = true
-                },
-                new Users
-                {
-                    Email = "Janie.Roe@shit.se",
-                    Password = "JanieRoe",
-                    Forename = "Janie",
-                    Surname = "Roe",
-                    TimeofRegistration = GetRandomDate(),
-                    Street = "Roberts Road 1",
-                    Postcode = GetRandomNumber().ToString(),
-                    City = "Medvik",
-                    IsStudent = true
-                }
-#endregion
-            };
-
-            //REMINDER: Add courses here
-            var coursesToAdd = new[]
-            {
-                 new Courses
-                {
+                    CourseCode = "DN-18",
                     CourseName = ".NET Development",
                     StartDate = new DateTime(2018, 7, 19),
                     EndDate = new DateTime(2019, 7, 19),
                     Description = "A course in .NET Development",
-                    CourseCode = "DN-18"
                 },
-
-                 new Courses
+                new Course
                 {
                     CourseName = "Java Development",
                     StartDate = new DateTime(2018, 8, 19),
@@ -272,8 +194,7 @@ namespace Lexicon_LMS.Migrations
                     Description = "Boil coffee",
                     CourseCode = "JD-18"
                 },
-
-                 new Courses
+                new Course
                 {
                     CourseName = "Office 365",
                     StartDate = new DateTime(2019, 8, 19),
@@ -281,17 +202,209 @@ namespace Lexicon_LMS.Migrations
                     Description = "Create Documents, Spreadsheets and Presentations",
                     CourseCode = "MO-19"
                 }
-            };
+            });
+
+            //REMINDER: Add Modules here!
+            modules.AddRange(new List<Module>
+            {
+
+                new Module
+                {
+                    ModuleTitle = "C# Basics",
+                    Description = "We learn the basics of C#",
+                    StartDate = new DateTime(2018, 7, 19),
+                    EndDate = new DateTime(2018, 7, 31),
+                },
+
+                new Module
+                {
+                    ModuleTitle = "Java Measuring",
+                    Description = "Measuring the right amount of Java",
+                    StartDate = new DateTime(2018, 8, 19),
+                    EndDate = new DateTime(2018, 8, 31)
+                },
+
+                new Module
+                {
+                    ModuleTitle = "Word of words",
+                    Description = "Predicting words in Word",
+                    StartDate = new DateTime(2019, 8, 19),
+                    EndDate = new DateTime(2019, 8, 31),
+                },
+
+            });
+
+            //REMINDER: Add Activities here!
+            activities.AddRange(new List<Activity>
+            {
+                new Activity
+                {
+                    Name = "Hello World!",
+                    Deadline = new DateTime(2018, 7, 20),
+                },
+
+                new Activity
+                {
+                    Name = "Java Cup!",
+                    Deadline = new DateTime(2018, 8, 20),
+                },
+
+                new Activity
+                {
+                    Name = "Spreading the Sheets!",
+                    Deadline = new DateTime(2019, 8, 20),
+                },
+            });
+
+
+            #region adding data to structs
+            //            var usersToAdd = new[]
+            //            {
+            //                #region Teachers
+            //                new Users
+            //                {
+            //                    Email = "Teacher@shit.se",
+            //                    Password = "P@$$w0rd",
+            //                    Forename = "Mr. ",
+            //                    Surname = "Teacher",
+            //                    TimeofRegistration = new DateTime(1990, 01, 01),
+            //                    Street = "SomeStreetName 0",
+            //                    Postcode = "00000",
+            //                    City = "SomeCityName",
+            //                    IsStudent = false
+            //                },
+            //                new Users
+            //                {
+            //                    Email = "John.Doe@shit.se",
+            //                    Password = "JohnDoe",
+            //                    Forename = "John",
+            //                    Surname = "Doe",
+            //                    TimeofRegistration = GetRandomDate(),
+            //                    Street = "Primrose Lane 2",
+            //                    Postcode = GetRandomNumber().ToString(),
+            //                    City = "Lillsand",
+            //                    IsStudent = false
+            //                },
+            //                new Users
+            //                {
+            //                    Email = "Jane.Doe@shit.se",
+            //                    Password = "JaneDoe",
+            //                    Forename = "Jane",
+            //                    Surname = "Doe",
+            //                    TimeofRegistration = GetRandomDate(),
+            //                    Street = "Jackson Avenue 3",
+            //                    Postcode = GetRandomNumber().ToString(),
+            //                    City = "Sickla",
+            //                    IsStudent = false
+            //                },
+            //                #endregion
+
+            //                #region Template
+            //                /*Mock structure
+            //                new Users
+            //                {
+            //                    Email = "",
+            //                    Password = "",
+            //                    Forename = "",
+            //                    Surname = "",
+            //                    TimeofRegistration = GetRandomDate(),
+            //                    Street = "",
+            //                    Postcode = GetRandomNumber().ToString(),
+            //                    City = "",
+            //                    IsStudent = false
+            //                },*/
+            //#endregion
+
+            //                //REMINDER: Students below, Teachers above
+            //                #region Students
+            //                new Users
+            //                {
+            //                    Email = "student@shit.se",
+            //                    Password = "P@$$w0rd",
+            //                    Forename = "Mr. ",
+            //                    Surname = "Student",
+            //                    TimeofRegistration = new DateTime(),
+            //                    Street = "SomeStreetName 0",
+            //                    Postcode = "00000",
+            //                    City = "SomeCityName",
+            //                    IsStudent = true
+            //                },
+            //                new Users
+            //                {
+            //                    Email = "Johnny.Roe@shit.se",
+            //                    Password = "JohnnyRoe",
+            //                    Forename = "Johnny",
+            //                    Surname = "Roe",
+            //                    TimeofRegistration = GetRandomDate(),
+            //                    Street = "Howard Street 1",
+            //                    Postcode = GetRandomNumber().ToString(),
+            //                    City = "Nocketorp",
+            //                    IsStudent = true
+            //                },
+            //                new Users
+            //                {
+            //                    Email = "Janie.Roe@shit.se",
+            //                    Password = "JanieRoe",
+            //                    Forename = "Janie",
+            //                    Surname = "Roe",
+            //                    TimeofRegistration = GetRandomDate(),
+            //                    Street = "Roberts Road 1",
+            //                    Postcode = GetRandomNumber().ToString(),
+            //                    City = "Medvik",
+            //                    IsStudent = true
+            //                }
+            //#endregion
+            //            };
+
+            //            //REMINDER: Add courses here
+            //            var coursesToAdd = new[]
+            //            {
+            //                 new Courses
+            //                {
+            //                    CourseName = ".NET Development",
+            //                    StartDate = new DateTime(2018, 7, 19),
+            //                    EndDate = new DateTime(2019, 7, 19),
+            //                    Description = "A course in .NET Development",
+            //                    CourseCode = "DN-18"
+            //                },
+
+            //                 new Courses
+            //                {
+            //                    CourseName = "Java Development",
+            //                    StartDate = new DateTime(2018, 8, 19),
+            //                    EndDate = new DateTime(2019, 8, 19),
+            //                    Description = "Boil coffee",
+            //                    CourseCode = "JD-18"
+            //                },
+
+            //                 new Courses
+            //                {
+            //                    CourseName = "Office 365",
+            //                    StartDate = new DateTime(2019, 8, 19),
+            //                    EndDate = new DateTime(2020, 8, 19),
+            //                    Description = "Create Documents, Spreadsheets and Presentations",
+            //                    CourseCode = "MO-19"
+            //                }
+            //            };
+            #endregion
 
             var roleNames = new[] { "Teacher" };//REMINDER: add roles here!
-            var users = new[] { "teacher@shit.se", "student@shit.se", "student2@shit.se", "teacher2@shit.se", "teacher3@shit.se", "student3@shit.se" };//REMINDER: add users here!
-            AddRoles(context, roleNames);
-            //AddUsers(context, users);
-            AddCourse(context, coursesToAdd, usersToAdd);
+            AddRoles(roleNames);
+
+            //var users = new[] { "teacher@shit.se", "student@shit.se", "student2@shit.se", "teacher2@shit.se", "teacher3@shit.se", "student3@shit.se" };//REMINDER: add users here!
+            AddUsers();
+
+            AddCourse();
+
+            AddModule();
+
+            AddActivity();
         }
 
+
+
         #region Utilities
-        private ApplicationUser GetRandomTeacher(ApplicationDbContext db)
+        private ApplicationUser GetRandomTeacher()
         {
             List<ApplicationUser> Teachers = new List<ApplicationUser>();
             var Users = db.Users.Include(u => u.Roles);
@@ -330,30 +443,23 @@ namespace Lexicon_LMS.Migrations
 
         }
 
-        private ICollection<ApplicationUser> GetRandomStudent(ApplicationDbContext db, Users[] users)
+        private ICollection<ApplicationUser> GetRandomStudent()
         {
-            List<ApplicationUser> Students = new List<ApplicationUser>();
-            var Users = db.Users.Include(u => u.Roles);
-            var role = db.Roles.ToList();
-            var usersinRole = role[0].Users;
             ApplicationUser student = null;
-            foreach (var studentInUsers in Users)
-            {
-                foreach (var user in users)
-                {
-                    if (user.IsStudent)
-                    {
-                        if (studentInUsers.Email == user.Email)
-                        {
-
-                            Students.Add(studentInUsers);
-                            break;
-
-                        }
-                    }
-
-                }
-            }
+            //foreach (var student in Students)
+            //{
+            //    foreach (var user in Students)
+            //    {
+            //        if (user.IsStudent)
+            //        {
+            //            if (studentInUsers.Email == user.Email)
+            //            {
+            //                Students.Add(studentInUsers);
+            //                break;
+            //            }
+            //        }
+            //    }
+            //}
 
             List<ApplicationUser> StudentsToAdd = new List<ApplicationUser>();
             for (int i = 0; i < 3; i++)
@@ -406,7 +512,7 @@ namespace Lexicon_LMS.Migrations
 
         #endregion
 
-        private void AddRoles(ApplicationDbContext db, string[] roles)
+        private void AddRoles(string[] roles)
         {
             var roleStore = new RoleStore<IdentityRole>(db);
             var roleManager = new RoleManager<IdentityRole>(roleStore);
@@ -423,13 +529,14 @@ namespace Lexicon_LMS.Migrations
             }
         }
 
-        private void AddUsers(ApplicationDbContext db, Users[] usersToCreate)
+        private void AddUsers()
         {
             var userStore = new UserStore<ApplicationUser>(db);
             var userManager = new UserManager<ApplicationUser>(userStore);
 
             foreach (var Teacher in Teachers)
             {
+                /*
                 #region check existing users
                 if (db.Users.Any(u => u.UserName == Teacher.UserName))
                 {
@@ -445,27 +552,58 @@ namespace Lexicon_LMS.Migrations
                     continue;
                 }
                 #endregion
-
+                  */
                 //var createdUser = new ApplicationUser { Forename = Teacher.Forename, Surname = Teacher.Surname, UserName = Teacher.Username, Email = Teacher.Email, TimeOfRegistration = Teacher.TimeofRegistration, City = Teacher.City, Street = Teacher.Street, Postcode = Teacher.Postcode };
                 //var user = new ApplicationUser { Forename = "Mr", Surname = "JohnDoe", UserName = userEmail, Email = userEmail, TimeOfRegistration = new DateTime(2000, 01, 01, 00, 00, 00) };
-                CreateUser(db, userManager, Teacher);
+                CreateUser(userManager, Teacher);
                 userManager.AddToRole(Teacher.Id, "Teacher");
             }
             foreach (var Student in Students)
             {
-                CreateUser(db, userManager, Student);
+                CreateUser(userManager, Student);
             }
         }
-        private void CreateUser(ApplicationDbContext db, UserManager<ApplicationUser> userManager, ApplicationUser user)
+        private void CreateUser(UserManager<ApplicationUser> userManager, ApplicationUser user)
         {
-            var password = user.Forename +  user.Surname;
+            var password = user.Forename + user.Surname;
+            if (db.Users.Any(u => u.Email == user.Email))
+            {
+
+                //throw new Exception("User already exist, tried deleting your database?");
+                return;
+                /*
+                var updateUser = db.Users.Where(u => u.Email == user.Email).First();
+
+                //userManager.Delete(updateUser);
+
+
+                updateUser.Email = user.Email;
+                updateUser.UserName = user.UserName;
+                updateUser.Forename = user.Forename;
+                updateUser.Surname = user.Surname;
+                updateUser.Postcode = user.Postcode;
+                updateUser.Street = user.Street;
+                updateUser.City = user.City;
+                updateUser.PhoneNumber = user.PhoneNumber;
+                updateUser.TimeOfRegistration = user.TimeOfRegistration;
+                updateUser.Id = user.Id;
+
+                userManager.RemovePassword(updateUser.Id);
+                userManager.AddPassword(updateUser.Id, password);
+                userManager.Update(updateUser);
+                db.SaveChanges();
+
+                SetConfirmEmailForSeedUsers(userManager, updateUser);
+                Teachers.Remove(user);
+                Teachers.Add(updateUser);
+                  */
+            }
 
             var result = userManager.Create(user, password);
             if (!result.Succeeded)
             {
-                throw new Exception(string.Join("/n", result.Errors));
+                throw new Exception(string.Join("Failed to create user: " + "/n", result.Errors));
             }
-
             db.SaveChanges();
             SetConfirmEmailForSeedUsers(userManager, user);
         }
@@ -475,19 +613,36 @@ namespace Lexicon_LMS.Migrations
         //var teacherUser2 = userManager.FindByName(usersEmail[3]);
         //var teacherUser3 = userManager.FindByName(usersEmail[4]);
         //userManager.AddToRole(teacherUser.Id, "Teacher");
-            //userManager.AddToRole(teacherUser2.Id, "Teacher");
-            //userManager.AddToRole(teacherUser3.Id, "Teacher");
+        //userManager.AddToRole(teacherUser2.Id, "Teacher");
+        //userManager.AddToRole(teacherUser3.Id, "Teacher");
 
 
-        private void AddCourse(ApplicationDbContext context, Courses[] coursesToCreate, Users[] users)
+        private void AddCourse()
         {
 
-            foreach (var course in coursesToCreate)
+            foreach (var course in courses)
             {
-                var teacher = GetRandomTeacher(context);
-                var students = GetRandomStudent(context, users);
-                context.Courses.AddOrUpdate(c => c.CourseName, new Course { CourseCode = course.CourseCode, CourseName = course.CourseName, StartDate = course.StartDate, EndDate = course.EndDate, Teacher = teacher, TeacherID = teacher.Id, Description = course.Description, CourseParticipants = students });
-                context.SaveChanges();
+                var teacher = GetRandomTeacher();
+                var students = GetRandomStudent();
+                db.Courses.AddOrUpdate(c => c.CourseName, new Course { CourseCode = course.CourseCode, CourseName = course.CourseName, StartDate = course.StartDate, EndDate = course.EndDate, Teacher = teacher, TeacherID = teacher.Id, Description = course.Description, CourseParticipants = students });
+
+                var teacherToUpdate = Teachers.Where(s => s.UserName == teacher.UserName).FirstOrDefault();
+                if (teacherToUpdate != null)
+                {
+                    teacherToUpdate.UserCourse = course;
+                    teacherToUpdate.UserCourseCode = course.CourseCode;
+                }
+
+                foreach (var student in students)
+                {
+                    var studenttoChange = Students.Where(s => s.UserName == student.UserName).FirstOrDefault();
+                    if (studenttoChange != null)
+                    {
+                        studenttoChange.UserCourse = course;
+                        studenttoChange.UserCourseCode = course.CourseCode;
+                    }
+                }
+                db.SaveChanges();
                 teacher = null;
                 students = null;
             }
@@ -543,16 +698,16 @@ namespace Lexicon_LMS.Migrations
 
             context.SaveChanges();
                       */
-            Course seededCourse = context.Courses.Where(c => c.CourseCode == "DN-18").FirstOrDefault();
-            Course seededCoursejava = context.Courses.Where(c => c.CourseCode == "JD-18").FirstOrDefault();
-            Course seededCourseoffice = context.Courses.Where(c => c.CourseCode == "MO-19").FirstOrDefault();
+            Course seededCourse = db.Courses.Where(c => c.CourseCode == "DN-18").FirstOrDefault();
+            Course seededCoursejava = db.Courses.Where(c => c.CourseCode == "JD-18").FirstOrDefault();
+            Course seededCourseoffice = db.Courses.Where(c => c.CourseCode == "MO-19").FirstOrDefault();
             /*
             seededCourse.CourseParticipants.Add(CourseStudent);
             CourseStudent.UserCourse = seededCourse;
             CourseStudent.UserCourseCode = seededCourse.CourseCode;
 
             */
-            context.Modules.AddOrUpdate(
+            db.Modules.AddOrUpdate(
                 m => m.Description,
                 new Module
                 {
@@ -564,7 +719,7 @@ namespace Lexicon_LMS.Migrations
                     CourseCode = seededCourse.CourseCode
                 });
 
-            context.Modules.AddOrUpdate(
+            db.Modules.AddOrUpdate(
                 m => m.Description,
                 new Module
                 {
@@ -576,7 +731,7 @@ namespace Lexicon_LMS.Migrations
                     CourseCode = seededCoursejava.CourseCode
                 });
 
-            context.Modules.AddOrUpdate(
+            db.Modules.AddOrUpdate(
                 m => m.Description,
                 new Module
                 {
@@ -588,16 +743,16 @@ namespace Lexicon_LMS.Migrations
                     CourseCode = seededCourseoffice.CourseCode
                 });
 
-            context.SaveChanges();
-            Module seededModule = context.Modules.Where(c => c.CourseCode == seededCourse.CourseCode).FirstOrDefault();
-            Module seededModulejava = context.Modules.Where(c => c.CourseCode == seededCoursejava.CourseCode).FirstOrDefault();
-            Module seededModuleoffice = context.Modules.Where(c => c.CourseCode == seededCourseoffice.CourseCode).FirstOrDefault();
+            db.SaveChanges();
+            Module seededModule = db.Modules.Where(c => c.CourseCode == seededCourse.CourseCode).FirstOrDefault();
+            Module seededModulejava = db.Modules.Where(c => c.CourseCode == seededCoursejava.CourseCode).FirstOrDefault();
+            Module seededModuleoffice = db.Modules.Where(c => c.CourseCode == seededCourseoffice.CourseCode).FirstOrDefault();
 
             seededCourse.CourseModules.Add(seededModule);
             seededCoursejava.CourseModules.Add(seededModulejava);
             seededCourseoffice.CourseModules.Add(seededModuleoffice);
 
-            context.Activities.AddOrUpdate(
+            db.Activities.AddOrUpdate(
                 a => a.Name,
                 new Activity
                 {
@@ -606,7 +761,7 @@ namespace Lexicon_LMS.Migrations
                     Module = seededModule,
                     ModuleID = seededModule.ID
                 });
-            context.Activities.AddOrUpdate(
+            db.Activities.AddOrUpdate(
                 a => a.Name,
                 new Activity
                 {
@@ -615,7 +770,7 @@ namespace Lexicon_LMS.Migrations
                     Module = seededModulejava,
                     ModuleID = seededModulejava.ID
                 });
-            context.Activities.AddOrUpdate(
+            db.Activities.AddOrUpdate(
                 a => a.Name,
                 new Activity
                 {
@@ -624,14 +779,23 @@ namespace Lexicon_LMS.Migrations
                     Module = seededModuleoffice,
                     ModuleID = seededModuleoffice.ID
                 });
-            context.SaveChanges();
-            Activity seededActivity = context.Activities.Where(c => c.ModuleID == seededModule.ID).FirstOrDefault();
-            Activity seededActivityjava = context.Activities.Where(c => c.ModuleID == seededModulejava.ID).FirstOrDefault();
-            Activity seededActivityoffice = context.Activities.Where(c => c.ModuleID == seededModuleoffice.ID).FirstOrDefault();
+            db.SaveChanges();
+            Activity seededActivity = db.Activities.Where(c => c.ModuleID == seededModule.ID).FirstOrDefault();
+            Activity seededActivityjava = db.Activities.Where(c => c.ModuleID == seededModulejava.ID).FirstOrDefault();
+            Activity seededActivityoffice = db.Activities.Where(c => c.ModuleID == seededModuleoffice.ID).FirstOrDefault();
             seededModule.ModuleActivities.Add(seededActivity);
             seededModulejava.ModuleActivities.Add(seededActivityjava);
             seededModuleoffice.ModuleActivities.Add(seededActivityoffice);
 
+        }
+
+        private void AddModule()
+        {
+            throw new NotImplementedException();
+        }
+        private void AddActivity()
+        {
+            throw new NotImplementedException();
         }
     }
 }

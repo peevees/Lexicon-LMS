@@ -12,6 +12,7 @@ namespace Lexicon_LMS.Models
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit https://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
     {
+        //public override string Id { get; set; }
         [Required(ErrorMessage = "The forename is required")]
         public string Forename { get; set; }
 
@@ -62,7 +63,15 @@ namespace Lexicon_LMS.Models
         {
             return new ApplicationDbContext();
         }
-
+        /*
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<ApplicationUser>()
+                .HasRequired(a => a.Id)
+                .WithOptional()
+                .WillCascadeOnDelete(true);
+        }
+        */
         public System.Data.Entity.DbSet<Lexicon_LMS.Models.Course> Courses { get; set; }
 
         public System.Data.Entity.DbSet<Lexicon_LMS.Models.Module> Modules { get; set; }
