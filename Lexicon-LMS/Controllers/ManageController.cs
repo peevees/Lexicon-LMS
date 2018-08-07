@@ -180,7 +180,7 @@ namespace Lexicon_LMS.Controllers
             }
             return RedirectToAction("ManageLogins", new { Message = message });
         }
-
+        //GET:
         public ActionResult EditProfile(string userName)
         {
             ApplicationUser model = null;
@@ -206,9 +206,10 @@ namespace Lexicon_LMS.Controllers
             return View(model);
         }
 
+        //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditProfile([Bind(Include = "Id,Forename,Surname,Street,Postcode,City,Email,UserCourseCode")] ApplicationUser user)
+        public ActionResult EditProfile([Bind(Include = "Id,Forename,Surname,Street,Postcode,City,Email,UserCourseCode")] ApplicationUser user, Uri returnUrl)
         {
             if (ModelState.IsValid)
             {
@@ -243,9 +244,17 @@ namespace Lexicon_LMS.Controllers
                 db.SaveChanges();
                 //UserManager.Update(targetUser);
 
-                return RedirectToAction("Index");
+                //return RedirectToAction("Index");
+               
+                return Redirect(returnUrl.ToString());
             }
-            return RedirectToAction("Index", "Manage");
+           
+            
+
+            //return RedirectToAction("EditProfile", new { userName = user.Email, returnUrl = Request.UrlReferrer });
+            return Redirect("Index");
+
+           
         }
 
         //
