@@ -17,8 +17,8 @@
 	{
 		@Html.AntiForgeryToken()
 
-		<div class="form-horizontal">
-			<hr />
+    <div class="form-horizontal">
+        <hr />
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
@@ -38,9 +38,16 @@
         </div>
 
         <div class="form-group">
+            <label class="col-md-2 control-label">Assignment</label>
+            <div class="col-md-10">
+                <input type="checkbox" id="assignment" name="assignment" value="@Request["assignment"]" />
+            </div>
+        </div>
+
+        <div class="form-group">
             @Html.LabelFor(model => model.Deadline, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Deadline, new { htmlAttributes = new { @class = "form-control", type = "date" } })
+                @Html.EditorFor(model => model.Deadline, new { htmlAttributes = new { @class = "form-control", type = "date", @Value = "" } })
                 @Html.ValidationMessageFor(model => model.Deadline, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -62,20 +69,20 @@
         <div class="form-group">
             <label class="col-md-2 control-label">Notify course participants</label>
             <div class="col-md-10">
-                <input type="checkbox" id="notify" name="notify" value="@Request["teacher"]" />
+                <input type="checkbox" id="notify" name="notify" value="@Request["notify"]" />
             </div>
         </div>
 
-			<div class="form-group">
-				<div class="col-md-offset-2 col-md-10">
-					<input type="submit" value="Create" class="btn btn-success" />
-					<span> | </span>
-					@Html.ActionLink("Cancel", "Details", "Courses", new { id = module.Course.ID }, new { @class = "btn btn-danger" })
-				</div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-success" />
+                <span> | </span>
+                @Html.ActionLink("Cancel", "Details", "Courses", new { id = module.Course.ID }, new { @class = "btn btn-danger" })
+            </div>
 
-			</div>
+        </div>
 
-		</div>
+    </div>
 	}
 </div>
 
