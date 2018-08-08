@@ -19,16 +19,16 @@
 @foreach (var item in Model)
 {
     var myModal = "myModal" + item.ID;
-    
+
     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
         <div class="panel panel-default">
             <div class="panel-heading" role="tab" id="@headCount">
                 <h4 class="panel-title">
                     <a role="button" data-toggle="collapse" data-parent="#accordion" href="#@countId" aria-expanded="true" aria-controls="@countId">
-                       <b>@Html.DisplayFor(model => item.ModuleTitle)</b>
-                       <span class="far-right"> <b>End Date:</b> @Html.DisplayFor(modelItem => item.EndDate) </span>
-                       <span class="far-right">&emsp;</span>
-                       <span class="far-right"> <b>Start Date: </b>@Html.DisplayFor(modelItem => item.StartDate)</span>
+                        <b>@Html.DisplayFor(model => item.ModuleTitle)</b>
+                        <span class="far-right"> <b>End Date:</b> @Html.DisplayFor(modelItem => item.EndDate) </span>
+                        <span class="far-right">&emsp;</span>
+                        <span class="far-right"> <b>Start Date: </b>@Html.DisplayFor(modelItem => item.StartDate)</span>
                     </a>
                 </h4>
             </div>
@@ -40,13 +40,16 @@
                     <div class="col-md-7">
 
                         @Html.Partial("_PartialActivities", item)
-                        </div>
                     </div>
                 </div>
+            </div>
         </div>
     </div>
     countId++;
     headCount--;
-}             
+}
 
-    @Scripts.Render("~/Scripts/mouseover.js")
+
+@*@Scripts.Render("~/Scripts/activetab.js")*@
+
+@Scripts.Render("~/Scripts/mouseover.js")
