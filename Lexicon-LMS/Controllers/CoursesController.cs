@@ -10,6 +10,8 @@ using System.Web.Security;
 using System.Web;
 using System.IO;
 using System.Reflection;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Lexicon_LMS.Controllers
 {
@@ -75,7 +77,7 @@ namespace Lexicon_LMS.Controllers
             if (ModelState.IsValid)
             {
 
-                var file = fileHandler.UploadFile(upload);   
+                var file = fileHandler.UploadFile(upload);
                 if(file != null)
                 {
                     var user = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
@@ -85,9 +87,9 @@ namespace Lexicon_LMS.Controllers
                     course.Documents = new List<Document>();
                     course.Documents.Add(file);
                 }
-                
+
                 course.Teacher = db.Users.Where(u => u.Id == course.TeacherID).FirstOrDefault();
-                
+
                 db.Courses.Add(course);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -104,7 +106,7 @@ namespace Lexicon_LMS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "File was not found");
             }
-            
+
             return file;
 
             //string fullName = Path.Combine(Assembly.GetExecutingAssembly().CodeBase, filePath, fileName);
@@ -126,11 +128,11 @@ namespace Lexicon_LMS.Controllers
             //return File(
             // fileBytes,
             // contentType
-         
+
             // );
         }
 
-       
+
 
         [Authorize]
         public ActionResult DeleteFile(int courseID, string filePath, string fileName, int documentID)
@@ -238,7 +240,65 @@ namespace Lexicon_LMS.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Course course = db.Courses.Find(id);
-            db.Courses.Remove(course);
+            List<object> listTest = new List<object>();
+            foreach (var document in course.Documents)
+            {
+                listTest.Add(document);
+            }
+            foreach (var module in course.CourseModules)
+            {
+                listTest.Add(module);
+                //db.Entry(module).State = EntityState.Deleted;
+                foreach (var document in module.Documents)
+                {
+                    listTest.Add(document);
+                    //db.Entry(document).State = EntityState.Deleted;
+                }
+                foreach (var activity in module.ModuleActivities)
+                {
+                    listTest.Add(activity);
+                    //db.Entry(activity).State = EntityState.Deleted;
+                    foreach (var document in activity.Documents)
+                    {
+                        listTest.Add(document);
+                        //db.Entry(document).State = EntityState.Deleted;
+                    }
+                }
+            }
+            foreach (var user in course.CourseParticipants)
+            {
+                listTest.Add(user);
+                //db.Entry(user).State = EntityState.Deleted;
+                foreach (var notification in user.Notifications)
+                {
+                    listTest.Add(notification);
+                    //db.Entry(notification).State = EntityState.Deleted;
+                }
+            }
+
+
+
+            foreach (var item in listTest)
+            {
+                db.Entry(item).State = EntityState.Deleted;
+
+            }
+
+            var userStore = new UserStore<ApplicationUser>(db);
+            UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(userStore);
+            List<ApplicationUser> users = new List<ApplicationUser>();
+            users.AddRange(db.Users.Where(u => u.UserCourse.ID == course.ID));
+            foreach (var item in users)
+            {
+                item.UserCourseCode = null;
+                item.UserCourse = null;
+                //userManager.RemoveFromRoleAsync(item.Id, "Teacher");
+                //userManager.DeleteAsync(item);
+            }
+
+
+            //db.Courses.Remove(course);
+            db.Entry(course).State = EntityState.Deleted;
             db.SaveChanges();
             return RedirectToAction("Index");
         }
