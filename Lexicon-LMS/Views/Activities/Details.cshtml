@@ -14,53 +14,67 @@
 <link href="~/Content/Site.css" rel="stylesheet" />
 
 <div class="main-div">
-<h2 class="h2-override">@ViewBag.Title</h2>
-	<hr />
-	<dl class="dl-horizontal">
-		<dt>
-			@Html.DisplayNameFor(model => model.Name)
-		</dt>
+    <h2 class="h2-override">@ViewBag.Title</h2>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
 
-		<dd>
-			@Html.DisplayFor(model => model.Name)
-		</dd>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
 
-		<dt>
-			@Html.DisplayNameFor(model => model.Deadline)
-		</dt>
+        <dt>
+            @Html.DisplayNameFor(model => model.Deadline)
+        </dt>
 
-		<dd>
-			@Html.DisplayFor(model => model.Deadline)
-		</dd>
+        <dd>
+            @Html.DisplayFor(model => model.Deadline)
+        </dd>
 
-		<dt>@Html.DisplayNameFor(model => model.Documents)</dt>
-		<dd>
-			@foreach (Document document in Model.Documents.Where(d=>d.UserAssignment == false))
-			{
+        <dt>@Html.DisplayNameFor(model => model.Documents)</dt>
 
-				@Html.ActionLink("Download: " + document.DisplayName, "Download", new { filePath = document.Filepath, fileName = document.FileName, saveName = document.DisplayName })
+        @if (User.IsInRole("Teacher"))
+        {
+            <dd>@Html.Partial("UploadActDoc", Model)</dd>
+            <dd><span>@ViewBag.UploadError</span></dd>
+        }
+        <dd>
 
-			}
-		</dd>
-        @if(Model is Lexicon_LMS.Models.Assignment)
+        <dd>
+            @foreach (Document document in Model.Documents.Where(d => d.UserAssignment == false))
+            {
+
+                @Html.ActionLink("Download: " + document.DisplayName, "Download", new { filePath = document.Filepath, fileName = document.FileName, saveName = document.DisplayName }) if (User.IsInRole("Teacher")) {<span> | </span>@Html.ActionLink("Delete", "DeleteDoc", new { id = document.ID })}<br />
+
+            }
+        </dd>
+        @if (Model is Lexicon_LMS.Models.Assignment)
         {
             <dt>Submit assignment</dt>
-            if(Model.Deadline>=DateTime.Now)
+            if (Model.Deadline >= DateTime.Now)
             {
-                if (hasSubmitted) { <dd>You have submitted this assignment</dd> }
-                else { 
-                    @*<dd>Submit your assignment @Html.ActionLink("here", "SubmitAssignment", new { id = Model.ID })</dd>*@
-                                    <dd>@Html.Partial("SubmitAssignment", Model)</dd>
+                if (hasSubmitted)
+                {
+                    <dd>You have submitted this assignment</dd> }
+                else
+                {
+                    <dd>@Html.Partial("SubmitAssignment", Model)</dd>
                 }
             }
             else
             {
-                if (hasSubmitted) { <dd>You have submitted this assignment</dd>}
-                else {  <dd>Deadline for this assignment has ended</dd>}
+                if (hasSubmitted)
+                {
+                    <dd>You have submitted this assignment</dd>}
+                else
+                {
+                    <dd>Deadline for this assignment has ended</dd>}
             }
         }
 
-	</dl>
+    </dl>
     <p>
         <a href="@Url.Action("Details", "Courses", new { id = Model.Module.Course.ID })" class="btn btn-default">
             <span class="glyphicon glyphicon-arrow-left " aria-hidden="true"></span>

@@ -403,6 +403,8 @@
     <Content Include="Views\Courses\_ModuleContent.cshtml" />
     <Content Include="Views\Courses\_PartialActivities.cshtml" />
     <Content Include="Views\Activities\SubmitAssignment.cshtml" />
+    <Content Include="Views\Courses\UploadCourseDoc.cshtml" />
+    <Content Include="Views\Activities\UploadActDoc.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
