@@ -9,6 +9,7 @@ namespace Lexicon_LMS.Models
 {
     public class Module
     {
+        [Key]
         public int ID { get; set; }
 
         [Required]
@@ -16,6 +17,7 @@ namespace Lexicon_LMS.Models
         public string ModuleTitle { get; set; }
 
         [Display(Name = "Module description")]
+        [DataType(DataType.MultilineText)]
         public string Description { get; set; }
 
         [Required]
@@ -38,6 +40,7 @@ namespace Lexicon_LMS.Models
 
         [Display(Name = "Course code")]
         public string CourseCode { get; set; }
+
 
         public virtual Course Course { get; set; }
     }

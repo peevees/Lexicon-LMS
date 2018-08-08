@@ -9,6 +9,7 @@ namespace Lexicon_LMS.Models
 {
     public class Document
     {
+        [Key]
         public int ID { get; set; }
         public string FileName { get; set; }
         public string DisplayName { get; set; }
