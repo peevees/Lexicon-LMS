@@ -54,7 +54,7 @@
                             </div>
                             <div class="modal-footer">
 
-                                @using (Html.BeginForm("Delete", null, new { id = item.ID }, FormMethod.Post, null))
+                                @using (Html.BeginForm("Delete", null, new { id = item.ID, page = Model.PageNumber }, FormMethod.Post, null))
                                 {
                                     @Html.AntiForgeryToken()
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
