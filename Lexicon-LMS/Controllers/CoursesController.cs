@@ -10,6 +10,7 @@ using System.Web.Security;
 using System.Web;
 using System.IO;
 using System.Reflection;
+using Microsoft.AspNet.Identity;
 
 namespace Lexicon_LMS.Controllers
 {
@@ -261,5 +262,48 @@ namespace Lexicon_LMS.Controllers
             base.Dispose(disposing);
         }
 
+        public ActionResult UploadCourseDoc(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Course course = db.Courses.Find(id);
+
+            if (course == null)
+            {
+                return HttpNotFound();
+            }
+            return PartialView(course);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UploadCourseDoc([Bind(Include = "ID,CourseCode")] Course course, HttpPostedFileBase upload)
+        {
+            if (upload != null && upload.ContentLength > 0)
+            {
+                fileHandler.UploadFile(upload, course);
+               
+                ViewBag.UploadStatus = "File uploaded successfully.";
+                return RedirectToAction("Details", new { id = course.ID });
+            }
+            ViewBag.UploadStatus = "No file selected";
+            return RedirectToAction("Details", new { id = course.ID });
+        }
+
+        public ActionResult DeleteDoc(int id)
+        {
+            Document doc = db.Documents.Find(id);
+            var tgtCourse = db.Courses.Find(doc.CourseID);
+            string fullPath = doc.Filepath + "/"+doc.FileName;
+
+            tgtCourse.Documents.Remove(doc);
+            System.IO.File.Delete(fullPath);
+            db.Documents.Remove(doc);
+            db.SaveChanges();
+
+            return RedirectToAction("Details", new { id = tgtCourse.ID });
+        }
     }
 }

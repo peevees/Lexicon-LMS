@@ -25,7 +25,7 @@ namespace Lexicon_LMS.Controllers
 
         public ActionResult InboxContainer()
         {
-            return View();
+            return PartialView();
         }
 
         public ActionResult Inbox(int? page)
@@ -143,7 +143,7 @@ namespace Lexicon_LMS.Controllers
         }
 
         // GET: Notifications/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int? id, int? page)
         {
             if (id == null)
             {
@@ -161,7 +161,7 @@ namespace Lexicon_LMS.Controllers
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Teacher")]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int id, int? page)
         {
             Notification notification = db.Notifications.Find(id);
             foreach(var rec in notification.Recipients)
@@ -170,7 +170,7 @@ namespace Lexicon_LMS.Controllers
             }
             db.Notifications.Remove(notification);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index","Manage", new {tab = "inbox", p = page });
         }
 
         protected override void Dispose(bool disposing)

@@ -92,18 +92,18 @@
 		</div>
 		<div class="tab-pane fade" id="inbox" role="tabpanel" aria-labelledby="inbox-tab" style="padding: 10px">
 			<br />
-			@{Html.RenderAction("InboxContainer", "Notifications", new { p = 1 });}
+            <div id="user-inbox">
+                @{Html.RenderAction("InboxContainer", "Notifications", new { p = 1 });}
+            </div>
+
 			<br />
 		</div>
 	</div>
 	<script>
-		function getQueryString(field, url) {
-			var href = url ? url : window.location.href;
-			var reg = new RegExp('[?&]' + field + '=([^&#]*)', 'i');
-			var string = reg.exec(href);
-			return string ? string[1] : 1;
-		};
-		$(document).ready(function () {
+        
+
+        $(document).ready(function () {
+            
 
 			if (getQueryString('tab') == "inbox") {
 				$('#inbox-tab').click();
