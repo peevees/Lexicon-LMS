@@ -7,15 +7,22 @@
 <link href="~/Content/icecreamstyle.css" rel="stylesheet" />
 <link href="~/Content/Site.css" rel="stylesheet" />
 @*jquery and the dropdown doesn't not work together*@
-@*@Scripts.Render("~/Scripts/jquery-3.3.1.min.js")
-    @Scripts.Render("~/Scripts/bootstrap.min.js")*@
+@Scripts.Render("~/Scripts/jquery-3.3.1.min.js")
+ 
 
 <script>
-    $(document).ready(function () {
-        if (getQueryString('tab') == "coursemembers") {
-            $('#members-tab').click();
+    window.onload = function () {
+        switch (getQueryString("tab")) {
+            case "modules":
+                document.getElementById("modules-tab").click();
+                break;
+            case "coursemembers":
+                document.getElementById("members-tab").click();
+                break;
+            default:
+                break;
         }
-    });
+    };
 </script>
 
 <p class="text-success">@ViewBag.StatusMessage</p>
@@ -96,10 +103,15 @@
                 <dd>@Html.DisplayFor(model => model.Teacher.FullName)</dd>
 
                 <dt>@Html.DisplayNameFor(model => model.Documents)</dt>
+                @if (User.IsInRole("Teacher"))
+                {
+                    <dd>@Html.Partial("UploadCourseDoc", Model)</dd>
+                    <dd>@ViewBag.UploadStatus</dd>
+                }
                 <dd>
                     @foreach (Document document in Model.Documents)
                     {
-                        @Html.ActionLink("Download: " + document.DisplayName, "Download", new { filePath = document.Filepath, fileName = document.FileName })
+                        @Html.ActionLink("Download: " + document.DisplayName, "Download", new { filePath = document.Filepath, fileName = document.FileName }) if (User.IsInRole("Teacher")) {<span> | </span>@Html.ActionLink("Delete", "DeleteDoc", new { id = document.ID })}<br />
                     }
                 </dd>
             </dl>
@@ -130,4 +142,5 @@
         </div>
     </div>
 </div>
-@*@Scripts.Render("~/Scripts/activetab.js")*@
+
+@Scripts.Render("~/Scripts/activetab.js")
