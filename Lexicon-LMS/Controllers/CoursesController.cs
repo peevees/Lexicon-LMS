@@ -98,38 +98,6 @@ namespace Lexicon_LMS.Controllers
         }
 
         [Authorize]
-        public Document Upload(HttpPostedFileBase upload, int courseID)
-        {
-            Course targetCourse = db.Courses.Where(c => c.ID == courseID).FirstOrDefault();
-
-            var originalFilename = Path.GetFileName(upload.FileName);
-            var user = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
-            string fileId = Guid.NewGuid().ToString().Replace("-", "");
-            var fileName = user.Forename + "_" + user.Surname + "_" + fileId + "_" + originalFilename;
-            var path = Path.Combine(Server.MapPath("~/Uploads/"), targetCourse.CourseName);
-
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
-
-            var file = new Document
-            {
-                FileName = fileName,
-                DisplayName = originalFilename,
-                UploadDate = DateTime.Now,
-                CourseID = courseID,
-                Filepath = path,
-                User = db.Users.Find(User.Identity.GetUserId())
-            };
-
-            upload.SaveAs(Path.Combine(path, fileName));
-            targetCourse.Documents.Add(file);
-
-            return (file);
-        }
-
-        [Authorize]
         public ActionResult Download(string filePath, string fileName)
         {
             var file = fileHandler.DownloadFile(filePath, fileName);
@@ -311,18 +279,16 @@ namespace Lexicon_LMS.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult UploadCourseDoc([Bind(Include = "ID")] Course course, HttpPostedFileBase upload)
+        public ActionResult UploadCourseDoc([Bind(Include = "ID,CourseCode")] Course course, HttpPostedFileBase upload)
         {
             if (upload != null && upload.ContentLength > 0)
             {
-
-                Upload(upload, course.ID);
-                
-                db.SaveChanges();
+                fileHandler.UploadFile(upload, course);
+               
                 ViewBag.UploadStatus = "File uploaded successfully.";
                 return RedirectToAction("Details", new { id = course.ID });
             }
-            ModelState.AddModelError("", "No file uploaded");
+            ViewBag.UploadStatus = "No file selected";
             return RedirectToAction("Details", new { id = course.ID });
         }
 

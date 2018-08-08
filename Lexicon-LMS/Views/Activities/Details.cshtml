@@ -38,6 +38,7 @@
         @if (User.IsInRole("Teacher"))
         {
             <dd>@Html.Partial("UploadActDoc", Model)</dd>
+            <dd><span>@ViewBag.UploadError</span></dd>
         }
         <dd>
 

@@ -106,6 +106,7 @@
                 @if (User.IsInRole("Teacher"))
                 {
                     <dd>@Html.Partial("UploadCourseDoc", Model)</dd>
+                    <dd>@ViewBag.UploadStatus</dd>
                 }
                 <dd>
                     @foreach (Document document in Model.Documents)
