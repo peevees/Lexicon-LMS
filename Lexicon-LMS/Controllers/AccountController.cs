@@ -192,7 +192,7 @@ namespace Lexicon_LMS.Controllers
                 Course userCourse = db.Courses.Where(c => c.CourseCode == user.UserCourseCode).FirstOrDefault();
                 
 
-                var result = UserManager.Create(user, model.Password);
+                var result = UserManager.Create(user, model.Password);//ERROR!
                 if (result.Succeeded)
                 {
                     if(Request["teacher"]!= null)
