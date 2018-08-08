@@ -36,7 +36,7 @@ namespace Lexicon_LMS.Models
         public string City { get; set; }
 
         [DataType(DataType.PhoneNumber)]
-        [DisplayFormat(DataFormatString = "{#########}", ApplyFormatInEditMode = true)]//regex example: ([0-9]){3}-([0-9]){3} ([0-9]){2} ([0-9]){2}  (can be simplified?)
+        //[DisplayFormat(DataFormatString = "{###-### ## ##}", ApplyFormatInEditMode = true)]//regex example: ([0-9]){3}-([0-9]){3} ([0-9]){2} ([0-9]){2}  (can be simplified?)
         [Display(Name = "Phone number")]
         public override string PhoneNumber { get; set; }
 
