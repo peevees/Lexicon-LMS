@@ -160,7 +160,7 @@ namespace Lexicon_LMS.Controllers
         // POST: Notifications/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Teacher")]
+        [Authorize]
         public ActionResult DeleteConfirmed(int id, int? page)
         {
             Notification notification = db.Notifications.Find(id);
