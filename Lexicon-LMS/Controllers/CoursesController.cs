@@ -343,7 +343,7 @@ namespace Lexicon_LMS.Controllers
             if (upload != null && upload.ContentLength > 0)
             {
                 fileHandler.UploadFile(upload, course);
-
+               
                 ViewBag.UploadStatus = "File uploaded successfully.";
                 return RedirectToAction("Details", new { id = course.ID });
             }

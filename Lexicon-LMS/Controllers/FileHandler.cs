@@ -98,6 +98,8 @@ namespace Lexicon_LMS.Controllers
             {
                 var originalFilename = Path.GetFileName(upload.FileName);
                 var user = db.Users.Find(System.Web.HttpContext.Current.User.Identity.GetUserId());
+                var teacher = db.Users.Find(user.UserCourse.TeacherID);
+                
                 Models.Module tgtModule = db.Modules.Find(assignment.ModuleID);
                 Assignment tgtAssignment = db.Activities.OfType<Assignment>().Where(a => a.ID == assignment.ID).FirstOrDefault();
 
@@ -127,6 +129,9 @@ namespace Lexicon_LMS.Controllers
                     User = user
                 };
                 tgtAssignment.Documents.Add(file);
+                var alert = NewActivityAlert(assignment, user, file);
+
+                teacher.Notifications.Add(alert);
                 db.SaveChanges();
 
                 return file;
@@ -216,6 +221,24 @@ namespace Lexicon_LMS.Controllers
                 throw new IOException(fullName);
 
             return data;
+        }
+
+        public Notification NewActivityAlert(Assignment assignment, ApplicationUser user, Document doc)
+        {
+            var tgtModule = db.Modules.Find(assignment.ModuleID);
+            ApplicationUser recip = db.Users.Find(doc.User.UserCourse.TeacherID);
+
+            var notif = new Notification();
+            notif.Subject = user.FullName + " has submitted an assignment";
+            notif.Body = user.FullName + " has submitted an assignment to \"" + assignment.Name + "\" activity in" + tgtModule.ModuleTitle + "(" + tgtModule.Course.CourseName + "(" + tgtModule.Course.CourseCode + "))";
+            notif.Attachment = doc;
+            notif.Sender = user;
+            notif.Recipients = new List<ApplicationUser> { recip };
+            notif.RecipientID = recip.Id;
+            notif.DateSent = DateTime.Now;
+
+
+            return notif;
         }
     }
 
