@@ -12,11 +12,15 @@ namespace Lexicon_LMS.Models
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit https://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
     {
-        //public override string Id { get; set; }
-        [Required(ErrorMessage = "The forename is required")]
+        /*                           
+            Why to not validate names, however they should probably be required but then a validation method is needed
+        https://stackoverflow.com/questions/6999772/how-to-validate-names-in-asp-net-mvc-so-accents-are-allowed-%C3%A9-%C3%A1
+            */
+
+        //[Required(ErrorMessage = "The forename is required")]
         public string Forename { get; set; }
 
-        [Required(ErrorMessage = "The surname is required")]
+        //[Required(ErrorMessage = "The surname is required")]
         public string Surname { get; set; }
 
         [Display(Name = "Full name")]
@@ -37,7 +41,7 @@ namespace Lexicon_LMS.Models
         public string City { get; set; }
 
         [DataType(DataType.PhoneNumber)]
-        [DisplayFormat(DataFormatString = "{#########}", ApplyFormatInEditMode = true)]//regex example: ([0-9]){3}-([0-9]){3} ([0-9]){2} ([0-9]){2}  (can be simplified?)
+        //[DisplayFormat(DataFormatString = "{#########}", ApplyFormatInEditMode = true)]//regex example: ([0-9]){3}-([0-9]){3} ([0-9]){2} ([0-9]){2}  (can be simplified?)
         [Display(Name = "Phone number")]
         public override string PhoneNumber { get; set; }
 

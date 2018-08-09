@@ -14,7 +14,7 @@ namespace Lexicon_LMS.Migrations
         #region Variables
         private DateTime startDate = new DateTime(1990, 01, 01);
         private Random Rnd = new Random();
-        private ApplicationDbContext db;
+        internal ApplicationDbContext db;
 
         //UNDONE: Add all properties that a user shall have by default
         private List<ApplicationUser> Teachers = new List<ApplicationUser>();
