@@ -103,8 +103,8 @@ namespace Lexicon_LMS.Migrations
             {
                 new ApplicationUser
                 {
-                    Email = "Teacher@shit.se",
-                    UserName = "Teacher@shit.se",
+                    Email = "teacher@shit.se",
+                    UserName = "teacher@shit.se",
                     Forename = "Mr.",
                     Surname = "Teacher",
                     TimeOfRegistration = new DateTime(1990, 01, 01),
@@ -114,8 +114,8 @@ namespace Lexicon_LMS.Migrations
                 },
                 new ApplicationUser
                 {
-                    Email = "John.Doe@shit.se",
-                    UserName = "John.Doe@shit.se",
+                    Email = "john.doe@shit.se",
+                    UserName = "john.doe@shit.se",
                     Forename = "John",
                     Surname = "Doe",
                     TimeOfRegistration = GetRandomDate(),
@@ -125,14 +125,25 @@ namespace Lexicon_LMS.Migrations
                 },
                 new ApplicationUser
                 {
-                    Email = "Jane.Doe@shit.se",
-                    UserName = "Jane.Doe@shit.se",
+                    Email = "jane.doe@shit.se",
+                    UserName = "jane.doe@shit.se",
                     Forename = "Jane",
                     Surname = "Doe",
                     TimeOfRegistration = GetRandomDate(),
                     Street = "Jackson Avenue 3",
                     Postcode = GetRandomNumber().ToString(),
                     City = "Sickla"
+                },
+                new ApplicationUser
+                {
+                    Email = "keith.dudemeister@shit.se",
+                    UserName = "keith.dudemeister@shit.se",
+                    Forename = "Keith",
+                    Surname = "Dudemeister",
+                    TimeOfRegistration = GetRandomDate(),
+                    Street = "Sacredstreet 3",
+                    Postcode = GetRandomNumber().ToString(),
+                    City = "Göteborg"
                 }
 
             });
@@ -153,8 +164,8 @@ namespace Lexicon_LMS.Migrations
                 },
                 new ApplicationUser
                 {
-                    Email = "Johnny.Roe@shit.se",
-                    UserName = "Johnny.Roe@shit.se",
+                    Email = "johnny.roe@shit.se",
+                    UserName = "johnny.roe@shit.se",
                     Forename = "Johnny",
                     Surname = "Roe",
                     TimeOfRegistration = GetRandomDate(),
@@ -164,15 +175,70 @@ namespace Lexicon_LMS.Migrations
                 },
                 new ApplicationUser
                 {
-                    Email = "Janie.Roe@shit.se",
-                    UserName = "Janie.Roe@shit.se",
+                    Email = "janie.roe@shit.se",
+                    UserName = "janie.roe@shit.se",
                     Forename = "Janie",
                     Surname = "Roe",
                     TimeOfRegistration = GetRandomDate(),
                     Street = "Roberts Road 1",
                     Postcode = GetRandomNumber().ToString(),
                     City = "Medvik"
-                }
+                },
+                new ApplicationUser
+                {
+                    Email = "karl.karlsson@shit.se",
+                    UserName = "karl.karlsson@shit.se",
+                    Forename = "Karl",
+                    Surname = "Karlsson",
+                    TimeOfRegistration = GetRandomDate(),
+                    Street = "Vasagatan 10",
+                    Postcode = GetRandomNumber().ToString(),
+                    City = "Stockholm"
+                },
+                new ApplicationUser
+                {
+                    Email = "jennifer.aniston@shit.se",
+                    UserName = "jennifer.aniston@shit.se",
+                    Forename = "Jennifer",
+                    Surname = "Aniston",
+                    TimeOfRegistration = GetRandomDate(),
+                    Street = "Sveavägen 19",
+                    Postcode = GetRandomNumber().ToString(),
+                    City = "Stockholm"
+                },
+                new ApplicationUser
+                {
+                    Email = "ronny.broddeson@shit.se",
+                    UserName = "ronny.broddeson@shit.se",
+                    Forename = "Ronny",
+                    Surname = "Broddeson",
+                    TimeOfRegistration = GetRandomDate(),
+                    Street = "Årstaängsvägen 9",
+                    Postcode = GetRandomNumber().ToString(),
+                    City = "Årsta"
+                },
+                new ApplicationUser
+                {
+                    Email = "thomas.svensson@shit.se",
+                    UserName = "thomas.svensson@shit.se",
+                    Forename = "Thomas",
+                    Surname = "Svensson",
+                    TimeOfRegistration = GetRandomDate(),
+                    Street = "Årstaängsvägen 9",
+                    Postcode = GetRandomNumber().ToString(),
+                    City = "Stockholm"
+                },
+                new ApplicationUser
+                {
+                    Email = "anders.edstam@shit.se",
+                    UserName = "anders.edstam@shit.se",
+                    Forename = "Anders",
+                    Surname = "Edstam",
+                    TimeOfRegistration = GetRandomDate(),
+                    Street = "Månvägen 7",
+                    Postcode = GetRandomNumber().ToString(),
+                    City = "Västerås"
+                },
             });
 
             //REMINDER: Add Courses here!
@@ -201,6 +267,14 @@ namespace Lexicon_LMS.Migrations
                     EndDate = new DateTime(2020, 8, 19),
                     Description = "Create Documents, Spreadsheets and Presentations",
                     CourseCode = "MO-19"
+                },
+                new Course
+                {
+                    CourseName = "Microsoft Azure",
+                    StartDate = new DateTime(2017, 8, 19),
+                    EndDate = new DateTime(2018, 8, 19),
+                    Description = "Upload websites, Machine Learning and AI",
+                    CourseCode = "MA-17"
                 }
             });
 
@@ -215,7 +289,6 @@ namespace Lexicon_LMS.Migrations
                     StartDate = new DateTime(2018, 7, 19),
                     EndDate = new DateTime(2018, 7, 31),
                 },
-
                 new Module
                 {
                     ModuleTitle = "Java Measuring",
@@ -223,13 +296,19 @@ namespace Lexicon_LMS.Migrations
                     StartDate = new DateTime(2018, 8, 19),
                     EndDate = new DateTime(2018, 8, 31)
                 },
-
                 new Module
                 {
                     ModuleTitle = "Word of words",
                     Description = "Predicting words in Word",
                     StartDate = new DateTime(2019, 8, 19),
                     EndDate = new DateTime(2019, 8, 31),
+                },
+                new Module
+                {
+                    ModuleTitle = "Fall of the humans",
+                    Description = "Predicting the future with AI's",
+                    StartDate = new DateTime(2017, 8, 19),
+                    EndDate = new DateTime(2018, 1, 31),
                 },
 
             });
@@ -242,17 +321,20 @@ namespace Lexicon_LMS.Migrations
                     Name = "Hello World!",
                     Deadline = new DateTime(2018, 7, 20),
                 },
-
                 new Activity
                 {
                     Name = "Java Cup!",
                     Deadline = new DateTime(2018, 8, 20),
                 },
-
                 new Activity
                 {
                     Name = "Spreading the Sheets!",
                     Deadline = new DateTime(2019, 8, 20),
+                },
+                new Activity
+                {
+                    Name = "Create Ragnarök!",
+                    Deadline = new DateTime(2017, 8, 20),
                 },
             });
 
@@ -396,9 +478,10 @@ namespace Lexicon_LMS.Migrations
 
             AddCourse();
 
-            AddModule();
+            //AddModule();
 
-            AddActivity();
+            //AddActivity();
+
         }
 
 
@@ -407,6 +490,16 @@ namespace Lexicon_LMS.Migrations
         private ApplicationUser GetRandomTeacher()
         {
             ApplicationUser Teacher = null;
+            while (true)
+            {
+                Teacher = Teachers[Rnd.Next(0, (Teachers.Count))];
+                if (Teacher.UserCourse == null)
+                {
+                    break;
+                }
+                Teacher = null;
+            }
+            /*
             for (int i = 0; i < Teachers.Count; i++)
             {
                 Teacher = Teachers[Rnd.Next(0, (Teachers.Count))];
@@ -416,23 +509,22 @@ namespace Lexicon_LMS.Migrations
                 }
                 Teacher = null;
             }
-
+            */
             if (Teacher == null)
             {
-                return null;//no teachers left to add?
+                throw new Exception("Teacher wasn't set");//no teachers left to add?
             }
             else
             {
                 return Teacher;
             }
-
         }
 
         private ICollection<ApplicationUser> GetRandomStudent()
         {
             ApplicationUser student = null;
             List<ApplicationUser> StudentsToAdd = new List<ApplicationUser>();
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i <= 1; i++)//change amount of students here
             {
                 student = Students[Rnd.Next(0, (Students.Count))];
                 if (student.UserCourse == null)
@@ -629,7 +721,7 @@ namespace Lexicon_LMS.Migrations
             var CourseStudent2 = context.Users.Where(u => u.Email == "student2@shit.se").FirstOrDefault();
             var CourseStudent3 = context.Users.Where(u => u.Email == "student3@shit.se").FirstOrDefault();
 
-
+               /*
             context.Courses.AddOrUpdate(
                 c => c.CourseName,
                 new Course
@@ -674,6 +766,7 @@ namespace Lexicon_LMS.Migrations
             Course seededCourse = db.Courses.Where(c => c.CourseCode == "DN-18").FirstOrDefault();
             Course seededCoursejava = db.Courses.Where(c => c.CourseCode == "JD-18").FirstOrDefault();
             Course seededCourseoffice = db.Courses.Where(c => c.CourseCode == "MO-19").FirstOrDefault();
+            Course seededCourseazure = db.Courses.Where(c => c.CourseCode == "MA-17").FirstOrDefault();
             /*
             seededCourse.CourseParticipants.Add(CourseStudent);
             CourseStudent.UserCourse = seededCourse;
@@ -716,14 +809,29 @@ namespace Lexicon_LMS.Migrations
                     CourseCode = seededCourseoffice.CourseCode
                 });
 
+            db.Modules.AddOrUpdate(
+                m => m.Description,
+                new Module
+                {
+                    ModuleTitle = "Fall of the humans",
+                    Description = "Predicting the future with AI's",
+                    StartDate = new DateTime(2017, 8, 19),
+                    EndDate = new DateTime(2018, 1, 31),
+                    Course = seededCourseazure,
+                    CourseCode = seededCourseazure.CourseCode
+                });
+
             db.SaveChanges();
             Module seededModule = db.Modules.Where(c => c.CourseCode == seededCourse.CourseCode).FirstOrDefault();
             Module seededModulejava = db.Modules.Where(c => c.CourseCode == seededCoursejava.CourseCode).FirstOrDefault();
             Module seededModuleoffice = db.Modules.Where(c => c.CourseCode == seededCourseoffice.CourseCode).FirstOrDefault();
+            Module seededModuleazure = db.Modules.Where(c => c.CourseCode == seededCourseazure.CourseCode).FirstOrDefault();
+
 
             seededCourse.CourseModules.Add(seededModule);
             seededCoursejava.CourseModules.Add(seededModulejava);
             seededCourseoffice.CourseModules.Add(seededModuleoffice);
+            seededCourseazure.CourseModules.Add(seededModuleazure);
 
             db.Activities.AddOrUpdate(
                 a => a.Name,
@@ -752,13 +860,29 @@ namespace Lexicon_LMS.Migrations
                     Module = seededModuleoffice,
                     ModuleID = seededModuleoffice.ID
                 });
+
+
+            db.Activities.AddOrUpdate(
+                a => a.Name,
+                new Activity
+                {
+                    Name = "Create Ragnarök!",
+                    Deadline = new DateTime(2017, 8, 20),
+                    Module = seededModuleazure,
+                    ModuleID = seededModuleazure.ID
+                });
+
             db.SaveChanges();
             Activity seededActivity = db.Activities.Where(c => c.ModuleID == seededModule.ID).FirstOrDefault();
             Activity seededActivityjava = db.Activities.Where(c => c.ModuleID == seededModulejava.ID).FirstOrDefault();
             Activity seededActivityoffice = db.Activities.Where(c => c.ModuleID == seededModuleoffice.ID).FirstOrDefault();
+            Activity seededActivityazure = db.Activities.Where(c => c.ModuleID == seededModuleoffice.ID).FirstOrDefault();
+
             seededModule.ModuleActivities.Add(seededActivity);
             seededModulejava.ModuleActivities.Add(seededActivityjava);
             seededModuleoffice.ModuleActivities.Add(seededActivityoffice);
+            seededModuleazure.ModuleActivities.Add(seededActivityazure);
+
 
         }
 
