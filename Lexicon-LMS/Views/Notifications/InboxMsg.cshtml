@@ -44,7 +44,7 @@
             ">
         <dt>From:</dt>
         <dd>
-            @Html.ActionLink(Model.Sender.FullName, "UserProfile", new { Controller = "Manage", action = "UserProfile", id = Model.Sender.Id })
+            @Html.ActionLink(Model.Sender.FullName, "ShowProfile", new { Controller = "Manage", action = "ShowProfile", UserName = Model.Sender.Email })
         </dd>
         <dt>To:</dt>
         @if (Model.Recipients.Count == 0)
@@ -55,7 +55,7 @@
         {
             foreach (var recipient in Model.Recipients)
             {
-                <dd>@Html.ActionLink(recipient.FullName, "UserProfile", new { Controller = "Manage", action = "UserProfile", id = recipient.Id })</dd>
+                <dd>@Html.ActionLink(recipient.FullName, "ShowProfile", new { Controller = "Manage", action = "ShowProfile", UserName = recipient.Email })</dd>
             }
         }
 

@@ -322,7 +322,8 @@ namespace Lexicon_LMS.Controllers
             }
             return PartialView();
         }
-
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult UploadActDoc([Bind(Include = "ID,Name,ModuleID")] Activity activity, HttpPostedFileBase upload)
         {
             if (upload != null && upload.ContentLength > 0)
