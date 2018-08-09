@@ -30,7 +30,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Recipients, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <input id="Recipients" />
+                <input id="Recipients" class="form-control" />
                 @Html.ValidationMessageFor(model => model.RecipientID, "", new { @class = "text-danger" })
                 @Html.HiddenFor(model => model.RecipientID)
             </div>
@@ -47,7 +47,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Body, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextAreaFor(model => model.Body, new { htmlAttributes = new { @class = "form-control", @rows = "5" } })
+                @Html.TextAreaFor(model => model.Body, htmlAttributes : new { @class = "form-control", @rows = "5", style = "width: 285px" })
                 @Html.ValidationMessageFor(model => model.Body, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -127,5 +127,19 @@
             }
         }
     </script>
+
+    <style>
+        #body{
+            width:285px;
+        }
+        .token-input-list {
+            border: 1px solid #ccc !important;
+            border-radius: 4px;
+            padding: 3px 4px !important;
+            font-size: 14px !important;
+            line-height: 1.42857143 !important;
+            color: #555;
+        }
+    </style>
 
 }
