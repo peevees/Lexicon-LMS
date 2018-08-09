@@ -79,7 +79,7 @@ namespace Lexicon_LMS.Controllers
         }
 
         // POST: Notifications/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -126,7 +126,7 @@ namespace Lexicon_LMS.Controllers
         }
 
         // POST: Notifications/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -196,7 +196,7 @@ namespace Lexicon_LMS.Controllers
                 ApplicationUser student = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
                 return Json(users.Where(c=>c.UserCourseCode == student.UserCourseCode).Select(a => new { id = a.Id, name = a.Forename + " " + a.Surname }), JsonRequestBehavior.AllowGet);
             }
-            
+
         }
     }
 }

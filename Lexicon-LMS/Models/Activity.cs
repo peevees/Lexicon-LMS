@@ -8,6 +8,7 @@ namespace Lexicon_LMS.Models
 {
     public class Activity
     {
+        [Key]
         public int ID { get; set; }
 
         [Required]
@@ -19,9 +20,9 @@ namespace Lexicon_LMS.Models
 
         //[Required]
         [Display(Name = "Module ID")]
-        public int ModuleID { get; set; }
-
+        public int? ModuleID { get; set; }
         public virtual Module Module { get; set; }
+
         public virtual ICollection<Document> Documents { get; set; }
     }
 
