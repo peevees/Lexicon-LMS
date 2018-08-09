@@ -50,7 +50,17 @@
 
             }
         </dd>
-        @if (Model is Lexicon_LMS.Models.Assignment)
+
+        @if (User.IsInRole("Teacher"))
+        {
+            <dt>Assignments</dt>
+            foreach(var a in Model.Documents.Where(d=> d.UserAssignment == true))
+            {
+            <dd>@a.User.FullName - @Html.ActionLink("Download: " + a.DisplayName, "Download", new { filePath = a.Filepath, fileName = a.FileName, saveName = a.DisplayName })<span> | </span>@Html.ActionLink("Delete", "DeleteDoc", new { id = a.ID })}<br /></dd>
+            }
+        }
+
+        @if (Model is Lexicon_LMS.Models.Assignment && !User.IsInRole("Teacher"))
         {
             <dt>Submit assignment</dt>
             if (Model.Deadline >= DateTime.Now)

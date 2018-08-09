@@ -128,18 +128,18 @@ namespace Lexicon_LMS.Controllers
                         Module = targetModule,
                         Deadline = activity.Deadline,
                         Documents = new List<Document>()
-                };
+                    };
 
                     targetModule.ModuleActivities.Add(assignment);
                     db.Activities.Add(assignment);
                     db.SaveChanges();
                 }
                 else
-                { 
-                //course.Teacher = db.Users.Where(u => u.Id == course.TeacherID).FirstOrDefault();
-                targetModule.ModuleActivities.Add(activity);
-                db.Activities.Add(activity);
-                db.SaveChanges();
+                {
+                    //course.Teacher = db.Users.Where(u => u.Id == course.TeacherID).FirstOrDefault();
+                    targetModule.ModuleActivities.Add(activity);
+                    db.Activities.Add(activity);
+                    db.SaveChanges();
                 }
 
                 return RedirectToAction("Details", "Courses", new { id = targetModule.Course.ID });
@@ -303,8 +303,7 @@ namespace Lexicon_LMS.Controllers
         {
             if (upload != null && upload.ContentLength > 0)
             {
-                fileHandler.UploadFile(upload, assignment);
-
+                var file = fileHandler.UploadFile(upload, assignment);
                 return RedirectToAction("Details", new { id = assignment.ID });
             }
             return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -359,7 +358,25 @@ namespace Lexicon_LMS.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Activity activity = db.Activities.Find(id);
+            Module module = db.Modules.Find(activity.Module.ID);
+            module.ModuleActivities.Remove(activity);
             db.Activities.Remove(activity);
+            if (activity.Documents != null)
+            {
+                foreach (var doc in activity.Documents)
+                {
+                    DeleteDoc(doc.ID);
+                    activity.Documents.Remove(doc);
+                }
+
+                if (activity.Documents.Count == 0)
+                {
+                    var path = Path.Combine(System.Web.HttpContext.Current.Server.MapPath("~/Uploads"), activity.Module.Course.CourseCode, activity.Module.ModuleTitle, activity.Name);
+                    Directory.Delete(path);
+                }
+            }
+            
+
             db.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -379,9 +396,15 @@ namespace Lexicon_LMS.Controllers
             var tgtActivity = db.Activities.Find(doc.ActivityID);
             string fullPath = doc.Filepath + "/" + doc.FileName;
 
+
             tgtActivity.Documents.Remove(doc);
-            System.IO.File.Delete(fullPath);
             db.Documents.Remove(doc);
+            System.IO.File.Delete(fullPath);
+            var notif = db.Notifications.Where(n => n.Attachment.ID == id).FirstOrDefault();
+            if (notif != null)
+            {
+                notif.Attachment = null;
+            }
             db.SaveChanges();
 
             return RedirectToAction("Details", new { id = tgtActivity.ID });
@@ -393,7 +416,6 @@ namespace Lexicon_LMS.Controllers
             notif.Subject = user.FullName + " has added a new activity";
             notif.Body = "A new activity (" + activity.Name + ") has been added to \"" + activity.Module.Description + "\" module in " + activity.Module.Course.CourseName;
             notif.Sender = user;
-            notif.Recipients = activity.Module.Course.CourseParticipants.ToList();
             notif.DateSent = DateTime.Now;
 
             return notif;

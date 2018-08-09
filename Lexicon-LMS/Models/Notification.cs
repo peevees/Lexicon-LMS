@@ -16,7 +16,7 @@ namespace Lexicon_LMS.Models
         [Required]
         public string RecipientID { get; set; }
         public virtual ApplicationUser Sender { get; set; }
-        public Document Attachment { get; set; }
+        public virtual Document Attachment { get; set; }
 
         [DataType(DataType.Date)]
         public DateTime DateSent { get; set; }

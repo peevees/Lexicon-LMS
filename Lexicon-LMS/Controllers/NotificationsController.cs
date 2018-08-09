@@ -194,7 +194,7 @@ namespace Lexicon_LMS.Controllers
             else
             {
                 ApplicationUser student = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
-                return Json(users.Where(c=>c.UserCourse == student.UserCourse).Select(a => new { id = a.Id, name = a.Forename + " " + a.Surname }), JsonRequestBehavior.AllowGet);
+                return Json(users.Where(c=>c.UserCourseCode == student.UserCourseCode).Select(a => new { id = a.Id, name = a.Forename + " " + a.Surname }), JsonRequestBehavior.AllowGet);
             }
             
         }

@@ -23,11 +23,11 @@
             @if (User.IsInRole("Teacher"))
             {
         
-                        <button type="button" class="btn btn-danger btn-sm far-right" data-toggle="modal" data-target="#@myModal"
-                                data-whatever="@Model.ID">
+                        <button type="button" class="btn btn-danger btn-sm far-right" data-toggle="modal" data-target="#@myModal@activity.ID"
+                                data-whatever="@activity.ID">
                             <span class="glyphicon glyphicon-remove"></span> Delete
                         </button>
-                        <div class="modal fade" id="@myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                        <div class="modal fade" id="@myModal@activity.ID" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                             <div class="modal-dialog modal-sm" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -39,7 +39,7 @@
                                     </div>
                                     <div class="modal-footer">
 
-                                        @using (Html.BeginForm("Delete", "Activities", new { id = Model.ID }, FormMethod.Post, null))
+                                        @using (Html.BeginForm("Delete", "Activities", new { id = activity.ID }, FormMethod.Post, null))
                                         {
                                             @Html.AntiForgeryToken()
                                             <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>

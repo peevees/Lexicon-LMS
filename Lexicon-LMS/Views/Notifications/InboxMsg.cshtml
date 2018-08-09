@@ -1,10 +1,11 @@
 ﻿@model Lexicon_LMS.Models.Notification
+@using Lexicon_LMS.Models;
 @using Microsoft.AspNet.Identity;
+@using Microsoft.AspNet.Identity.Owin;
 
 
-@{ 
-
-
+@{
+    ApplicationUser user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(User.Identity.GetUserId());
     string source = Model.Body;
     String[] stringSeparators = new string[] { ">>>" };
     string[] result = null;
@@ -15,7 +16,7 @@
         result = source.Split(stringSeparators, StringSplitOptions.None);
         populateReply = "";
 
-        for (int i = 0; i < result.Length-1; i++)
+        for (int i = 0; i < result.Length - 1; i++)
         {
             populateReply += result[i] + ">>>";
         }
@@ -34,23 +35,30 @@
 <div>
     <h4>Notification</h4>
     <hr />
-    <dl class="dl-horizontal" 
+    <dl class="dl-horizontal"
         style="
             width: 50%;
             margin: auto;
             outline: 1px solid;
             padding: 20px;
-            "
-        >
+            ">
         <dt>From:</dt>
         <dd>
             @Html.ActionLink(Model.Sender.FullName, "UserProfile", new { Controller = "Manage", action = "UserProfile", id = Model.Sender.Id })
         </dd>
         <dt>To:</dt>
-        @foreach (var recipient in Model.Recipients)
+        @if (Model.Recipients.Count == 0)
         {
-            <dd>@Html.ActionLink(recipient.FullName, "UserProfile", new { Controller = "Manage", action = "UserProfile", id = recipient.Id })</dd>
+            <dd>@user.UserCourse.CourseName (@user.UserCourseCode)</dd>
         }
+        else
+        {
+            foreach (var recipient in Model.Recipients)
+            {
+                <dd>@Html.ActionLink(recipient.FullName, "UserProfile", new { Controller = "Manage", action = "UserProfile", id = recipient.Id })</dd>
+            }
+        }
+
         <dt>
             @Html.DisplayNameFor(model => model.Subject)
         </dt>
@@ -63,31 +71,38 @@
                     padding: 10px 0px 0px;
                     margin: 10px;
                     border-top: 1px solid;
-                    min-height: 200px;  
-                    
+                    min-height: 200px;
+
                     ">
-           @if (result != null)
-           {
-               for (int i = 0; i < result.Length-1; i++)
-               {
-                   <p style="color:lightgray">@result[i]</p>
-               }
-               <p>@result.Last()</p>
-           }
-           else
-           {
-               <p>@Model.Body</p>
-           }
+            @if (result != null)
+            {
+                for (int i = 0; i < result.Length - 1; i++)
+                {
+                    <p style="color:lightgray">@result[i]</p>
+                }
+                <p>@result.Last()</p>
+            }
+            else
+            {
+                <p>@Model.Body</p>
+            }
 
         </dd>
-
+        @if(Model.Attachment!=null)
+        {
+        <dt>Attachment</dt>
+        <dd>@Html.ActionLink("Download: " + Model.Attachment.DisplayName, "Download", new { filePath = Model.Attachment.Filepath, fileName = Model.Attachment.FileName, saveName = Model.Attachment.DisplayName })</dd>
+        }
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Reply","Create", new { Controller = "Notifications",
-    action = "Create",
-    uid = Model.Sender.Id,
-    subject = "re: " + Model.Subject,
-    body = populateReply}) |
+    @Html.ActionLink("Reply", "Create", new
+    {
+        Controller = "Notifications",
+        action = "Create",
+        uid = Model.Sender.Id,
+        subject = "re: " + Model.Subject,
+        body = populateReply
+    }) |
     <a href="#&p=@TempData["page"]" onclick="$('#inbox').load(url),{page : @TempData["page"] }">Back to Inbox</a>
 </p>
