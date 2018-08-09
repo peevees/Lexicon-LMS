@@ -190,9 +190,9 @@ namespace Lexicon_LMS.Controllers
                     UserCourse = model.UserCourse
                 };
                 Course userCourse = db.Courses.Where(c => c.CourseCode == user.UserCourseCode).FirstOrDefault();
-                
 
-                var result = UserManager.Create(user, model.Password);
+
+                var result = UserManager.Create(user, model.Password);//TODO: if student then make sure course is selected?
                 if (result.Succeeded)
                 {
                     if(Request["teacher"]!= null)
@@ -217,7 +217,7 @@ namespace Lexicon_LMS.Controllers
                     {
                         return RedirectToAction("ListUsers", "Manage");
                     }
-                    
+
                 }
                 AddErrors(result);
             }

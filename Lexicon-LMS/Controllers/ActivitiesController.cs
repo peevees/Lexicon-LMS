@@ -149,7 +149,6 @@ namespace Lexicon_LMS.Controllers
             return View(activity);
         }
 
-
         [Authorize]
         public ActionResult Download(string filePath, string fileName)
         {
@@ -304,43 +303,37 @@ namespace Lexicon_LMS.Controllers
         {
             if (upload != null && upload.ContentLength > 0)
             {
-                Type t = typeof(Assignment);
+                fileHandler.UploadFile(upload, assignment);
 
-                Module targetModule = db.Modules.Where(module => module.ID == assignment.ModuleID).FirstOrDefault();
-                Assignment targetAssignment = db.Activities.OfType<Assignment>().Where(a => a.ID == assignment.ID).FirstOrDefault();
-
-                var originalFilename = Path.GetFileName(upload.FileName);
-                var user = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
-
-                string fileId = Guid.NewGuid().ToString().Replace("-", "");
-
-                var fileName = user.Forename + "_" + user.Surname + "_" + fileId + "_" + originalFilename;
-
-                var path = Path.Combine(Server.MapPath("~/Uploads/"), targetModule.Course.CourseName, targetModule.ModuleTitle, assignment.Name);
-
-                if (!Directory.Exists(path))
-                {
-                    Directory.CreateDirectory(path);
-                    upload.SaveAs(Path.Combine(path, fileName));
-                }
-                
-
-                var file = new Document
-                {
-                    FileName = fileName,
-                    DisplayName = originalFilename,
-                    UploadDate = DateTime.Now,
-                    ActivityID = assignment.ID,
-                    Filepath = path,
-                    User = db.Users.Find(User.Identity.GetUserId()),
-                    UserAssignment = true
-                };
-
-                targetAssignment.Documents.Add(file);
-                db.SaveChanges();
                 return RedirectToAction("Details", new { id = assignment.ID });
             }
             return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        }
+
+        public ActionResult UploadActDoc(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Activity activity = db.Activities.Find(id);
+            if (activity == null)
+            {
+                return HttpNotFound();
+            }
+            return PartialView();
+        }
+
+        public ActionResult UploadActDoc([Bind(Include = "ID,Name,ModuleID")] Activity activity, HttpPostedFileBase upload)
+        {
+            if (upload != null && upload.ContentLength > 0)
+            {
+                fileHandler.UploadFile(upload, activity);
+                ViewBag.UploadError = "File successfully uploaded";
+                return RedirectToAction("Details", new { id = activity.ID });
+            }
+            ViewBag.UploadError = "No file selected";
+            return RedirectToAction("Details", new { id = activity.ID });
         }
 
         // GET: Activities/Delete/5
@@ -378,6 +371,20 @@ namespace Lexicon_LMS.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public ActionResult DeleteDoc(int id)
+        {
+            Document doc = db.Documents.Find(id);
+            var tgtActivity = db.Activities.Find(doc.ActivityID);
+            string fullPath = doc.Filepath + "/" + doc.FileName;
+
+            tgtActivity.Documents.Remove(doc);
+            System.IO.File.Delete(fullPath);
+            db.Documents.Remove(doc);
+            db.SaveChanges();
+
+            return RedirectToAction("Details", new { id = tgtActivity.ID });
         }
 
         public Notification NewActivityAlert(Activity activity, ApplicationUser user)
