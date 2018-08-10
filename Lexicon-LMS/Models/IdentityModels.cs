@@ -31,6 +31,8 @@ namespace Lexicon_LMS.Models
         [Display(Name = "Registered since")]
         public DateTime TimeOfRegistration { get; set; }
 
+
+        public int? UserCourseId { get; set; }
         [Display(Name = "User course")]
         public virtual Course UserCourse { get; set; }
 

@@ -209,7 +209,7 @@ namespace Lexicon_LMS.Controllers
         //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditProfile([Bind(Include = "Id,Forename,Surname,Street,Postcode,City,Email,UserCourseCode")] ApplicationUser user, Uri returnUrl)
+        public ActionResult EditProfile([Bind(Include = "Id,Forename,Surname,Street,Postcode,City,Email,UserCourseCode,PhoneNumber")] ApplicationUser user, Uri returnUrl)
         {
             if (ModelState.IsValid)
             {
@@ -220,17 +220,21 @@ namespace Lexicon_LMS.Controllers
                 string courseCode;
                 Course oldCourse;
 
-                if (TempData["PreviousCourse"] != null && TempData["PreviousCourse"].ToString() != newCourse.CourseCode)
-                {
-                    courseCode = TempData["PreviousCourse"].ToString();
-                    oldCourse = db.Courses.Where(c => c.CourseCode == courseCode).FirstOrDefault();
-                    oldCourse.CourseParticipants.Remove(targetUser);
-                }
                 if (newCourse != null && TempData["PreviousCourse"].ToString() != newCourse.CourseCode)
                 { newCourse.CourseParticipants.Add(targetUser);
                     targetUser.UserCourseCode = newCourse.CourseCode;
                     targetUser.UserCourse = newCourse;
                 }
+                if (newCourse != null)
+                {
+                    if (TempData["PreviousCourse"] != null && TempData["PreviousCourse"].ToString() != newCourse.CourseCode)
+                    {
+                        courseCode = TempData["PreviousCourse"].ToString();
+                        oldCourse = db.Courses.Where(c => c.CourseCode == courseCode).FirstOrDefault();
+                        oldCourse.CourseParticipants.Remove(targetUser);
+                    }
+                }
+                
                 
                 targetUser.Forename = user.Forename;
                 targetUser.Surname = user.Surname;
@@ -239,6 +243,7 @@ namespace Lexicon_LMS.Controllers
                 targetUser.City = user.City;
                 targetUser.Email = user.Email;
                 targetUser.UserName = user.Email;
+                targetUser.PhoneNumber = user.PhoneNumber;
                 
                 db.Users.AddOrUpdate(targetUser);
                 db.SaveChanges();

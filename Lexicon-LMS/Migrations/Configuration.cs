@@ -272,7 +272,7 @@ namespace Lexicon_LMS.Migrations
                 {
                     CourseName = "Microsoft Azure",
                     StartDate = new DateTime(2017, 8, 19),
-                    EndDate = new DateTime(2018, 8, 19),
+                    EndDate = new DateTime(2018, 8, 1),
                     Description = "Upload websites, Machine Learning and AI",
                     CourseCode = "MA-17"
                 }

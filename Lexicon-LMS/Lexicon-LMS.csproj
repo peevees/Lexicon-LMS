@@ -263,6 +263,10 @@
     <Compile Include="Migrations\201808060921109_addModuleTitle.Designer.cs">
       <DependentUpon>201808060921109_addModuleTitle.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201808100713525_courseId.cs" />
+    <Compile Include="Migrations\201808100713525_courseId.Designer.cs">
+      <DependentUpon>201808100713525_courseId.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Controllers\FileHandler.cs" />
     <Compile Include="ViewModel\AccountViewModels.cs" />
@@ -455,6 +459,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201808060921109_addModuleTitle.resx">
       <DependentUpon>201808060921109_addModuleTitle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808100713525_courseId.resx">
+      <DependentUpon>201808100713525_courseId.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
