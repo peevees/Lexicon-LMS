@@ -8,6 +8,7 @@ namespace Lexicon_LMS.Models
 {
     public class Notification
     {
+        [Key]
         public int ID { get; set; }
         [Required]
         public string Subject { get; set; }

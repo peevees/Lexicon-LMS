@@ -9,6 +9,7 @@ namespace Lexicon_LMS.Models
 {
     public class Course
     {
+        [Key]
         public int ID { get; set; }
 
         [Required(ErrorMessage ="Course code is required")]
@@ -41,8 +42,10 @@ namespace Lexicon_LMS.Models
         [Display(Name = "Course document")]
         public virtual ICollection<Document> Documents { get; set; }
 
-        public virtual ApplicationUser Teacher { get; set; }
+
         public string TeacherID { get; set; }
+
+        public virtual ApplicationUser Teacher { get; set; }
 
         [Display(Name = "Course participants")]
         public virtual ICollection<ApplicationUser> CourseParticipants { get; set; }

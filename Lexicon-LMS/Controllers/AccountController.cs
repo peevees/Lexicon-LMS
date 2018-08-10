@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 
 namespace Lexicon_LMS.Controllers
 {
@@ -173,10 +174,9 @@ namespace Lexicon_LMS.Controllers
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
-            {
-
+            {  
                 var user = new ApplicationUser
-                {
+                {   
                     Forename = model.Forename,
                     Surname = model.Surname,
                     PhoneNumber = model.PhoneNumber,
@@ -188,11 +188,27 @@ namespace Lexicon_LMS.Controllers
                     TimeOfRegistration = DateTime.Now,
                     UserCourseCode = model.UserCourseCode,
                     UserCourse = model.UserCourse
-                };
-                Course userCourse = db.Courses.Where(c => c.CourseCode == user.UserCourseCode).FirstOrDefault();
+                };                                                                                              
+                IdentityResult result = null;
 
+                try
+                {
+                    result = await UserManager.CreateAsync(user, model.Password);//TODO: if student then make sure course is selected?
+                }          
+                catch (DbEntityValidationException e)
+                {
 
-                var result = UserManager.Create(user, model.Password);//TODO: if student then make sure course is selected?
+                    foreach (var eve in e.EntityValidationErrors)
+                    {
+                        Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                            eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                        foreach (var ve in eve.ValidationErrors)
+                        {
+                            Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                                ve.PropertyName, ve.ErrorMessage);
+                        }
+                    }     
+                }
                 if (result.Succeeded)
                 {
                     if(Request["teacher"]!= null)
@@ -207,7 +223,12 @@ namespace Lexicon_LMS.Controllers
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                    if(userCourse!=null)
+
+                    //can't not be before UserManager as it will collide with the db requests
+                    Course userCourse = db.Courses.Where(c => c.CourseCode == model.UserCourseCode).FirstOrDefault();
+
+
+                    if (userCourse!=null)
                     {
                         userCourse.CourseParticipants.Add(db.Users.Find(user.Id));
                         db.SaveChanges();
