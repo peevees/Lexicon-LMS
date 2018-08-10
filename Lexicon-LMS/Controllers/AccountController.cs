@@ -231,6 +231,9 @@ namespace Lexicon_LMS.Controllers
                     if (userCourse!=null)
                     {
                         userCourse.CourseParticipants.Add(db.Users.Find(user.Id));
+                        var userToAdd = db.Users.Where(u => u.UserName == user.UserName).First();
+                        userToAdd.UserCourse = userCourse;
+                        userToAdd.UserCourseId = userCourse.ID;
                         db.SaveChanges();
                         return RedirectToAction("Details", "Courses", new {id=userCourse.ID, tab="coursemembers" });
                     }
